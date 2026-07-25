@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client XR — Admin, Meridian House</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --navy: #101d30;
+  --navy-soft: #1a2b45;
+  --copper: #b3702f;
+  --copper-soft: #c98a4c;
+  --linen: #f5f2ec;
+  --paper: #fbfaf7;
+  --stone: #dfd8cc;
+  --stone-mid: #cdc4b4;
+  --ink: #2b2620;
+  --dusk: #7d7466;
+  --dusk-soft: #a39a8c;
+  --line: #b9ae9a;
+  --good: #3f6e50;
+  --shadow-sm: 0 1px 2px rgba(20,15,5,.06);
+  --shadow-md: 0 6px 20px -6px rgba(20,15,5,.16);
+  --shadow-lg: 0 24px 60px -18px rgba(16,29,48,.35);
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --navy: #0b1420; --navy-soft: #14233a; --copper: #d99c5c; --copper-soft: #e6b17e;
+    --linen: #191510; --paper: #1f1a14; --stone: #3a3226; --stone-mid: #4a4030;
+    --ink: #ece5d8; --dusk: #b3a894; --dusk-soft: #8c8272; --line: #5c5240;
+    --good: #6bad84;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4); --shadow-md: 0 6px 20px -6px rgba(0,0,0,.5); --shadow-lg: 0 24px 60px -18px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="light"] {
+  --navy: #101d30; --navy-soft: #1a2b45; --copper: #b3702f; --copper-soft: #c98a4c;
+  --linen: #f5f2ec; --paper: #fbfaf7; --stone: #dfd8cc; --stone-mid: #cdc4b4;
+  --ink: #2b2620; --dusk: #7d7466; --dusk-soft: #a39a8c; --line: #b9ae9a; --good: #3f6e50;
+}
+:root[data-theme="dark"] {
+  --navy: #0b1420; --navy-soft: #14233a; --copper: #d99c5c; --copper-soft: #e6b17e;
+  --linen: #191510; --paper: #1f1a14; --stone: #3a3226; --stone-mid: #4a4030;
+  --ink: #ece5d8; --dusk: #b3a894; --dusk-soft: #8c8272; --line: #5c5240; --good: #6bad84;
+}
+
+body {
+  font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  background: var(--linen);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+.mono { font-family: 'IBM Plex Mono', 'SF Mono', Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+/* ── Topbar ── */
+.topbar {
+  background: var(--navy);
+  color: #f2ede1;
+  padding: 14px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-left { display:flex; align-items:baseline; gap: 20px; }
+.brand { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 23px; letter-spacing: .01em; }
+.brand b { color: var(--copper-soft); font-weight: 600; }
+.brand-sub { font-size: 10.5px; text-transform: uppercase; letter-spacing: .14em; color: #9aa5b8; }
+.topbar-right { display:flex; align-items:center; gap: 22px; font-size: 12.5px; color: #c3cadb; }
+.topbar-right .dot { width:6px; height:6px; border-radius:50%; background: var(--copper-soft); display:inline-block; margin-right:6px; }
+.topbar-btn { background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:#f2ede1; padding:7px 14px; border-radius: var(--r-sm); font-size:12px; cursor:pointer; }
+
+/* ── Layout ── */
+.shell { display:grid; grid-template-columns: 216px 1fr; min-height: calc(100vh - 53px); }
+.rail { background: var(--paper); border-right:1px solid var(--stone); padding: 26px 18px; }
+.rail-group { margin-bottom: 28px; }
+.rail-label { font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; color: var(--dusk-soft); display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.rail-label .swatch { width:7px; height:7px; border-radius:50%; }
+.rail-item { padding:9px 12px; border-radius: var(--r-sm); font-size:13px; color: var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:space-between; }
+.rail-item.active { background: var(--navy); color:#f5f1e8; }
+.rail-item .count { font-size:11px; color: var(--dusk-soft); }
+.rail-item.active .count { color:#b9c2d6; }
+
+.main { padding: 30px 36px 80px; max-width: 1180px; }
+
+/* ── Project header card with elevation line-art ── */
+.proj-card {
+  background: var(--navy);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 28px;
+  position: relative;
+}
+.proj-art { height: 132px; position:relative; overflow:hidden; }
+.proj-art svg { width:100%; height:100%; display:block; }
+.proj-meta {
+  padding: 20px 28px 22px;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.proj-title-eyebrow { font-size:10.5px; text-transform:uppercase; letter-spacing:.16em; color: var(--copper-soft); margin-bottom:6px; }
+.proj-title { font-family:'Cormorant Garamond', Georgia, serif; font-style:italic; font-size:30px; color:#f7f3e8; line-height:1; }
+.proj-sub { font-size:12.5px; color:#aab4c6; margin-top:6px; }
+.proj-status { display:flex; align-items:center; gap:8px; font-size:12px; color:#cfe8d7; background: rgba(63,110,80,.28); border:1px solid rgba(63,110,80,.5); padding:6px 12px; border-radius: 20px; }
+.proj-status .dot { width:6px; height:6px; border-radius:50%; background:#6bd18a; }
+
+/* ── Sub-sections ── */
+.sub { background: var(--paper); border:1px solid var(--stone); border-radius: var(--r-md); margin-bottom: 18px; box-shadow: var(--shadow-sm); overflow:hidden; }
+.sub-head { display:flex; align-items:center; justify-content:space-between; padding: 16px 22px; cursor:pointer; user-select:none; }
+.sub-head-left { display:flex; align-items:center; gap:12px; }
+.sub-num { font-family:'IBM Plex Mono', monospace; font-size:11px; color: var(--dusk-soft); border:1px solid var(--stone-mid); width:22px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; }
+.sub-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color: var(--ink); }
+.sub-hint { font-size:11.5px; color: var(--dusk-soft); }
+.chev { font-size:11px; color: var(--dusk-soft); transition: transform .25s ease; }
+.sub.collapsed .chev { transform: rotate(-90deg); }
+.sub-body { max-height: 900px; opacity:1; transition: max-height .3s ease, opacity .25s ease; overflow:hidden; }
+.sub.collapsed .sub-body { max-height:0; opacity:0; }
+.sub-body-in { padding: 0 22px 22px; border-top: 1px solid var(--stone); padding-top: 18px; }
+
+/* ── Info rows ── */
+.info-row { display:grid; grid-template-columns: 130px 1fr auto; gap:14px; align-items:center; padding: 11px 0; border-bottom:1px solid var(--stone); font-size:13px; }
+.info-row:last-child { border-bottom:none; }
+.info-label { color: var(--dusk); font-weight:500; }
+.info-val { font-family:'IBM Plex Mono', monospace; font-size:12px; color: var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.copy-btn { background:transparent; border:1px solid var(--stone-mid); padding:5px 11px; border-radius: var(--r-sm); font-size:11.5px; color: var(--dusk); cursor:pointer; white-space:nowrap; }
+.copy-btn:hover { border-color: var(--copper); color: var(--copper); }
+
+.access-block { margin-top:6px; padding-top:16px; border-top:1px solid var(--stone); }
+.access-block-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color: var(--dusk-soft); margin-bottom:4px; }
+.access-block-sub { font-size:12px; color: var(--dusk-soft); margin-bottom:12px; max-width: 520px; }
+.access-code-row { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background: var(--linen); border-radius: var(--r-sm); margin-bottom:8px; font-size:12.5px; }
+.access-code-name { font-weight:500; }
+.access-code-val { font-family:'IBM Plex Mono', monospace; color: var(--dusk); letter-spacing:.04em; }
+
+/* ── Scene rows ── */
+.scene-row { display:grid; grid-template-columns: 68px 1fr auto auto; gap:14px; align-items:center; padding:10px; border-radius: var(--r-sm); margin-bottom:8px; transition: background .15s; }
+.scene-row:hover { background: var(--linen); }
+.scene-thumb { width:68px; height:44px; border-radius:5px; overflow:hidden; border:1px solid var(--stone-mid); }
+.scene-name { font-size:13px; font-weight:500; }
+.scene-order { font-size:11px; color: var(--dusk-soft); font-family:'IBM Plex Mono',monospace; }
+.drag-handle { color: var(--dusk-soft); cursor:grab; font-size:14px; padding:0 4px; }
+
+/* ── Tiles list ── */
+.tile-row { display:grid; grid-template-columns: 44px 1fr auto auto; gap:14px; align-items:center; padding:12px; border-radius: var(--r-sm); margin-bottom:8px; border:1px solid transparent; transition: all .15s; }
+.tile-row:hover { background: var(--linen); border-color: var(--stone); }
+.tile-icon { width:44px; height:44px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; }
+.tile-icon svg { width:20px; height:20px; }
+.ti-panorama { background:#e4efe4; } .ti-panorama svg { stroke:#3f6e50; }
+.ti-video { background:#f3e6d8; } .ti-video svg { stroke:#8a4e26; }
+.ti-gallery { background:#ece1f2; } .ti-gallery svg { stroke:#6b3f8c; }
+.ti-walkthrough { background:#f2ecd8; } .ti-walkthrough svg { stroke:#93711f; }
+@media (prefers-color-scheme: dark) {
+  .ti-panorama { background:#1c2a20; } .ti-video { background:#2a2018; } .ti-gallery { background:#251c2c; } .ti-walkthrough { background:#2a2418; }
+}
+.tile-label { font-size:13.5px; font-weight:600; }
+.tile-type { font-size:11.5px; color: var(--dusk-soft); margin-top:1px; }
+.tile-badge { font-size:11px; color: var(--good); display:flex; align-items:center; gap:5px; }
+.tile-badge .dot { width:6px; height:6px; border-radius:50%; background: var(--good); }
+.tile-drag { color: var(--dusk-soft); cursor:grab; }
+
+.add-row { display:flex; gap:9px; flex-wrap:wrap; margin-top:18px; padding-top:16px; border-top:1px dashed var(--stone-mid); }
+.add-btn { display:flex; align-items:center; gap:7px; padding:9px 15px; border:1px solid var(--stone-mid); background: var(--paper); border-radius: var(--r-sm); font-size:12.5px; color: var(--ink); cursor:pointer; transition: all .15s; }
+.add-btn:hover { border-color: var(--copper); color: var(--copper); background: var(--linen); }
+.add-btn svg { width:13px; height:13px; }
+
+/* ── Modal ── */
+.overlay { display:none; position:fixed; inset:0; background: rgba(16,20,12,.55); backdrop-filter: blur(3px); z-index:1000; align-items:center; justify-content:center; padding: 30px; }
+.overlay.active { display:flex; }
+.modal { background: var(--paper); border-radius: var(--r-lg); width: 100%; max-width: 640px; max-height: 86vh; overflow-y:auto; box-shadow: var(--shadow-lg); }
+.modal-head { padding: 26px 28px 20px; border-bottom:1px solid var(--stone); display:flex; align-items:center; justify-content:space-between; }
+.modal-eyebrow { font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; color: var(--copper); margin-bottom:5px; }
+.modal-title { font-family:'Cormorant Garamond', Georgia, serif; font-style:italic; font-size:24px; }
+.modal-close { background:transparent; border:none; font-size:18px; color: var(--dusk-soft); cursor:pointer; width:32px; height:32px; }
+.modal-body { padding: 24px 28px 4px; }
+
+.f-row2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
+.f-group label { display:block; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.09em; color: var(--dusk); margin-bottom:7px; }
+.f-group input { width:100%; padding:10px 12px; border:1px solid var(--stone-mid); border-radius: var(--r-sm); font-size:13px; background: var(--linen); color: var(--ink); font-family:inherit; }
+.f-group input:focus { outline:none; border-color: var(--copper); background: var(--paper); }
+
+.preview-wrap { border:1px solid var(--stone); border-radius: var(--r-md); overflow:hidden; margin-bottom:20px; background: var(--navy); }
+.preview-art { height: 150px; }
+.preview-art svg { width:100%; height:100%; display:block; }
+.preview-scrub { padding:9px 14px; background: var(--navy-soft); color:#c3cadb; font-size:11px; font-family:'IBM Plex Mono',monospace; display:flex; justify-content:space-between; }
+
+.cap-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding-top:6px; border-top:1px solid var(--stone); padding-top: 16px;}
+.cap-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color: var(--dusk); }
+.cap-count { font-size:11.5px; color: var(--dusk-soft); }
+.cap-cols { display:grid; grid-template-columns: 24px 56px 1fr 1fr 28px; gap:8px; margin-bottom:9px; font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color: var(--dusk-soft); font-weight:600; }
+.cap-row { display:grid; grid-template-columns: 24px 56px 1fr 1fr 28px; gap:8px; align-items:center; margin-bottom:8px; }
+.cap-row input[type=text], .cap-row input[type=number] { padding:8px 9px; font-size:12px; border:1px solid var(--stone-mid); border-radius:5px; background: var(--linen); color: var(--ink); font-family:inherit; width:100%; }
+.cap-row input:focus { outline:none; border-color: var(--copper); background: var(--paper); }
+.cap-time-wrap { position:relative; }
+.cap-capture { width:24px; height:24px; border:1px solid var(--stone-mid); background: var(--paper); border-radius:5px; cursor:pointer; font-size:11px; color: var(--dusk); flex-shrink:0; }
+.cap-capture:hover { border-color: var(--copper); color: var(--copper); }
+.cap-del { background:transparent; border:none; color: var(--dusk-soft); cursor:pointer; font-size:13px; }
+.cap-del:hover { color:#b4553f; }
+.add-cap { margin-top:10px; margin-bottom:22px; padding:10px; width:100%; border:1px dashed var(--stone-mid); background:transparent; border-radius: var(--r-sm); color: var(--dusk); font-size:12.5px; cursor:pointer; }
+.add-cap:hover { border-color: var(--copper); color: var(--copper); }
+
+.modal-actions { display:flex; gap:10px; padding: 18px 28px 26px; border-top:1px solid var(--stone); }
+.btn-primary { flex:1; background: var(--copper); color:#fff; border:none; padding:12px; border-radius: var(--r-sm); font-weight:600; font-size:13px; cursor:pointer; }
+.btn-primary:hover { background: #9c5f27; }
+.btn-cancel { padding:12px 20px; background:transparent; border:1px solid var(--stone-mid); border-radius: var(--r-sm); font-weight:600; font-size:13px; color: var(--ink); cursor:pointer; }
+.btn-cancel:hover { background: var(--linen); }
+
+/* ── Theme toggle + credit ── */
+.theme-toggle { position:fixed; bottom:22px; right:22px; background: var(--navy); color:#f5f1e8; border:none; width:44px; height:44px; border-radius:50%; cursor:pointer; box-shadow: var(--shadow-md); display:flex; align-items:center; justify-content:center; font-size:17px; z-index:80; }
+.credit { position:fixed; bottom:22px; left:22px; font-size:10.5px; color: var(--dusk-soft); background: var(--paper); border:1px solid var(--stone); padding:7px 11px; border-radius:5px; z-index:80; }
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { display:none; }
+  .main { padding:20px; }
+  .f-row2 { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="brand"><b>AS</b> Client XR</span>
+    <span class="brand-sub">Admin</span>
+  </div>
+  <div class="topbar-right">
+    <span><span class="dot"></span>anirudh.sood@aukettswanke.com</span>
+    <span>Security</span>
+    <button class="topbar-btn">Sign out</button>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="rail">
+    <div class="rail-group">
+      <div class="rail-label"><span class="swatch" style="background:#4a6b98"></span>Projects</div>
+      <div class="rail-item active">Ongoing <span class="count">4</span></div>
+      <div class="rail-item">Archive <span class="count">11</span></div>
+    </div>
+    <div class="rail-group">
+      <div class="rail-label"><span class="swatch" style="background:var(--copper)"></span>Practice</div>
+      <div class="rail-item">Settings</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- Project header -->
+    <div class="proj-card">
+      <div class="proj-art">
+        <svg viewBox="0 0 1200 220" preserveAspectRatio="none">
+          <rect width="1200" height="220" fill="#101d30"/>
+          <g stroke="#3a4a63" stroke-width="1" fill="none" opacity="0.9">
+            <!-- ground line -->
+            <line x1="0" y1="190" x2="1200" y2="190"/>
+            <!-- main massing: riverside apartment block elevation -->
+            <rect x="120" y="70" width="340" height="120"/>
+            <line x1="120" y1="95" x2="460" y2="95"/>
+            <line x1="120" y1="120" x2="460" y2="120"/>
+            <line x1="120" y1="145" x2="460" y2="145"/>
+            <line x1="120" y1="170" x2="460" y2="170"/>
+            <line x1="165" y1="70" x2="165" y2="190"/>
+            <line x1="210" y1="70" x2="210" y2="190"/>
+            <line x1="255" y1="70" x2="255" y2="190"/>
+            <line x1="300" y1="70" x2="300" y2="190"/>
+            <line x1="345" y1="70" x2="345" y2="190"/>
+            <line x1="390" y1="70" x2="390" y2="190"/>
+            <line x1="435" y1="70" x2="435" y2="190"/>
+            <!-- lower wing -->
+            <rect x="460" y="120" width="220" height="70"/>
+            <line x1="460" y1="145" x2="680" y2="145"/>
+            <line x1="500" y1="120" x2="500" y2="190"/>
+            <line x1="545" y1="120" x2="545" y2="190"/>
+            <line x1="590" y1="120" x2="590" y2="190"/>
+            <line x1="635" y1="120" x2="635" y2="190"/>
+            <!-- tower -->
+            <rect x="700" y="30" width="150" height="160"/>
+            <line x1="700" y1="55" x2="850" y2="55"/>
+            <line x1="700" y1="80" x2="850" y2="80"/>
+            <line x1="700" y1="105" x2="850" y2="105"/>
+            <line x1="700" y1="130" x2="850" y2="130"/>
+            <line x1="700" y1="155" x2="850" y2="155"/>
+            <line x1="737" y1="30" x2="737" y2="190"/>
+            <line x1="775" y1="30" x2="775" y2="190"/>
+            <line x1="812" y1="30" x2="812" y2="190"/>
+            <!-- canopy / colonnade -->
+            <line x1="880" y1="170" x2="1080" y2="170"/>
+            <line x1="880" y1="170" x2="880" y2="190"/>
+            <line x1="915" y1="170" x2="915" y2="190"/>
+            <line x1="950" y1="170" x2="950" y2="190"/>
+            <line x1="985" y1="170" x2="985" y2="190"/>
+            <line x1="1020" y1="170" x2="1020" y2="190"/>
+            <line x1="1055" y1="170" x2="1055" y2="190"/>
+            <line x1="1080" y1="170" x2="1080" y2="190"/>
+            <!-- river ripple lines -->
+            <path d="M0 205 Q 30 200 60 205 T 120 205 T 180 205 T 240 205 T 300 205 T 360 205 T 420 205 T 480 205 T 540 205 T 600 205 T 660 205 T 720 205 T 780 205 T 840 205 T 900 205 T 960 205 T 1020 205 T 1080 205 T 1140 205 T 1200 205" opacity="0.55"/>
+          </g>
+          <g opacity="0.5" stroke="#c98a4c" stroke-width="1" font-family="IBM Plex Mono, monospace">
+            <line x1="120" y1="205" x2="460" y2="205"/>
+            <line x1="120" y1="200" x2="120" y2="210"/>
+            <line x1="460" y1="200" x2="460" y2="210"/>
+          </g>
+        </svg>
+      </div>
+      <div class="proj-meta">
+        <div>
+          <div class="proj-title-eyebrow">Riverside Quarter · London SE1</div>
+          <div class="proj-title">Meridian House</div>
+          <div class="proj-sub">Client: Thornfield Residential &nbsp;·&nbsp; Expires 14 Mar 2026</div>
+        </div>
+        <div class="proj-status"><span class="dot"></span>Published</div>
+      </div>
+    </div>
+
+    <!-- Project info -->
+    <div class="sub" id="s1">
+      <div class="sub-head" onclick="toggle('s1')">
+        <div class="sub-head-left">
+          <span class="sub-num">01</span>
+          <span class="sub-title">Project info</span>
+        </div>
+        <span class="chev">▾</span>
+      </div>
+      <div class="sub-body"><div class="sub-body-in">
+        <div class="info-row">
+          <span class="info-label">Share URL</span>
+          <span class="info-val">auk-client-viewer.pages.dev/?project=meridian-house-9f2a</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Password</span>
+          <span class="info-val">••••••••••</span>
+          <button class="copy-btn">Reveal</button>
+        </div>
+        <div class="access-block">
+          <div class="access-block-title">Access codes <span style="text-transform:none;font-weight:400;color:var(--dusk-soft);">— SMTP-free second factor</span></div>
+          <div class="access-block-sub">Share a code via Teams, phone, or document. Valid until it expires or is removed.</div>
+          <div class="access-code-row"><span class="access-code-name">Sarah Whitfield, Thornfield</span><span class="access-code-val">7K4M‑QT2X‑B9WR‑DL6H</span></div>
+          <div class="access-code-row"><span class="access-code-name">Planning committee (shared)</span><span class="access-code-val">Expires 1 Feb 2026</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Scenes -->
+    <div class="sub" id="s2">
+      <div class="sub-head" onclick="toggle('s2')">
+        <div class="sub-head-left">
+          <span class="sub-num">02</span>
+          <span class="sub-title">360° Scenes</span>
+          <span class="sub-hint">4 uploaded</span>
+        </div>
+        <span class="chev">▾</span>
+      </div>
+      <div class="sub-body"><div class="sub-body-in">
+
+        <div class="scene-row">
+          <div class="scene-thumb"><svg viewBox="0 0 68 44" width="68" height="44"><rect width="68" height="44" fill="#2a2016"/><rect y="26" width="68" height="18" fill="#171310"/><path d="M8 26 L18 10 L28 26 Z" fill="#3a2c1c"/><path d="M22 26 L34 6 L46 26 Z" fill="#4a3824"/><circle cx="52" cy="12" r="4" fill="#d99c5c"/></svg></div>
+          <div><div class="scene-name">Ground Floor Lobby</div><div class="scene-order">SORT 01</div></div>
+          <span class="drag-handle">⠿</span>
+          <span style="color:var(--dusk-soft);font-size:14px;cursor:pointer;">✕</span>
+        </div>
+        <div class="scene-row">
+          <div class="scene-thumb"><svg viewBox="0 0 68 44" width="68" height="44"><rect width="68" height="44" fill="#1c2a24"/><rect y="30" width="68" height="14" fill="#111814"/><rect x="4" y="8" width="60" height="22" fill="#28382f"/><line x1="4" y1="16" x2="64" y2="16" stroke="#3a4a3f"/><line x1="20" y1="8" x2="20" y2="30" stroke="#3a4a3f"/><line x1="40" y1="8" x2="40" y2="30" stroke="#3a4a3f"/></svg></div>
+          <div><div class="scene-name">North Atrium</div><div class="scene-order">SORT 02</div></div>
+          <span class="drag-handle">⠿</span>
+          <span style="color:var(--dusk-soft);font-size:14px;cursor:pointer;">✕</span>
+        </div>
+        <div class="scene-row">
+          <div class="scene-thumb"><svg viewBox="0 0 68 44" width="68" height="44"><rect width="68" height="44" fill="#1a2536"/><rect y="34" width="68" height="10" fill="#0f1520"/><circle cx="50" cy="12" r="6" fill="#e6b17e" opacity="0.8"/><rect x="6" y="20" width="30" height="14" fill="#24344a"/></svg></div>
+          <div><div class="scene-name">Rooftop Terrace</div><div class="scene-order">SORT 03</div></div>
+          <span class="drag-handle">⠿</span>
+          <span style="color:var(--dusk-soft);font-size:14px;cursor:pointer;">✕</span>
+        </div>
+        <div class="scene-row">
+          <div class="scene-thumb"><svg viewBox="0 0 68 44" width="68" height="44"><rect width="68" height="44" fill="#241c2c"/><rect x="6" y="8" width="56" height="28" fill="#2f2438"/><rect x="12" y="14" width="16" height="16" fill="#3a2c46"/><rect x="34" y="14" width="16" height="16" fill="#3a2c46"/></svg></div>
+          <div><div class="scene-name">Residents&rsquo; Lounge</div><div class="scene-order">SORT 04</div></div>
+          <span class="drag-handle">⠿</span>
+          <span style="color:var(--dusk-soft);font-size:14px;cursor:pointer;">✕</span>
+        </div>
+
+      </div></div>
+    </div>
+
+    <!-- Landing tiles -->
+    <div class="sub" id="s3">
+      <div class="sub-head" onclick="toggle('s3')">
+        <div class="sub-head-left">
+          <span class="sub-num">03</span>
+          <span class="sub-title">Landing tiles</span>
+          <span class="sub-hint">4 live</span>
+        </div>
+        <span class="chev">▾</span>
+      </div>
+      <div class="sub-body"><div class="sub-body-in">
+
+        <div class="tile-row">
+          <div class="tile-icon ti-panorama"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/></svg></div>
+          <div><div class="tile-label">Interior Views</div><div class="tile-type">Panorama · 4 scenes</div></div>
+          <span class="tile-badge"><span class="dot"></span>Enabled</span>
+          <span class="tile-drag">⠿</span>
+        </div>
+        <div class="tile-row">
+          <div class="tile-icon ti-video"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l10 6-10 6V6z"/></svg></div>
+          <div><div class="tile-label">Design Narrative</div><div class="tile-type">Video · 3:40</div></div>
+          <span class="tile-badge"><span class="dot"></span>Enabled</span>
+          <span class="tile-drag">⠿</span>
+        </div>
+        <div class="tile-row">
+          <div class="tile-icon ti-gallery"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="13" height="13" rx="1"/><path d="M8 21h13V8"/></svg></div>
+          <div><div class="tile-label">Material Palette</div><div class="tile-type">Gallery · 18 images</div></div>
+          <span class="tile-badge"><span class="dot"></span>Enabled</span>
+          <span class="tile-drag">⠿</span>
+        </div>
+        <div class="tile-row" style="background:var(--linen);border-color:var(--stone);">
+          <div class="tile-icon ti-walkthrough"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c4-8 12-8 16 0" stroke-dasharray="1 3.4"/><path d="M15 12l5 5-5 5"/></svg></div>
+          <div><div class="tile-label">Riverside Approach</div><div class="tile-type">Walkthrough · 6 captions</div></div>
+          <span class="tile-badge"><span class="dot"></span>Enabled</span>
+          <span class="tile-drag">⠿</span>
+        </div>
+
+        <div class="add-row">
+          <button class="add-btn" onclick="openModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Panorama</button>
+          <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Video</button>
+          <button class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Gallery</button>
+          <button class="add-btn" style="border-color:var(--copper);color:var(--copper);" onclick="openModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Walkthrough</button>
+        </div>
+
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-eyebrow">Landing tile</div>
+        <div class="modal-title">Add Walkthrough</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="f-row2">
+        <div class="f-group"><label>Label</label><input type="text" value="Riverside Approach"></div>
+        <div class="f-group"><label>Description</label><input type="text" value="Scroll to walk the arrival sequence"></div>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-art">
+          <svg viewBox="0 0 600 150" preserveAspectRatio="xMidYMid slice">
+            <rect width="600" height="150" fill="#0e1a14"/>
+            <g stroke="#3a5a44" stroke-width="1" fill="none">
+              <line x1="0" y1="120" x2="600" y2="120"/>
+              <path d="M40 120 L120 40 L200 120 Z"/>
+              <path d="M180 120 L260 20 L340 120 Z"/>
+              <path d="M320 120 L400 55 L480 120 Z"/>
+              <line x1="0" y1="132" x2="600" y2="132" opacity="0.5"/>
+              <line x1="0" y1="140" x2="600" y2="140" opacity="0.3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="preview-scrub"><span>PLAYHEAD 00:18.4</span><span>DURATION 01:04.0</span></div>
+      </div>
+
+      <div class="cap-head">
+        <span class="cap-title">Captions</span>
+        <span class="cap-count">6 added</span>
+      </div>
+      <div class="cap-cols"><span></span><span>Time</span><span>Eyebrow</span><span>Title</span><span></span></div>
+
+      <div class="cap-row">
+        <button class="cap-capture" title="Capture playhead">◎</button>
+        <input type="number" value="0">
+        <input type="text" value="Arrival">
+        <input type="text" value="Riverside Approach">
+        <button class="cap-del">✕</button>
+      </div>
+      <div class="cap-row">
+        <button class="cap-capture" title="Capture playhead">◎</button>
+        <input type="number" value="8">
+        <input type="text" value="Threshold">
+        <input type="text" value="The Entrance Colonnade">
+        <button class="cap-del">✕</button>
+      </div>
+      <div class="cap-row">
+        <button class="cap-capture" title="Capture playhead">◎</button>
+        <input type="number" value="18">
+        <input type="text" value="Ascent">
+        <input type="text" value="Atrium &amp; Stair">
+        <button class="cap-del">✕</button>
+      </div>
+      <div class="cap-row">
+        <button class="cap-capture" title="Capture playhead">◎</button>
+        <input type="number" value="30">
+        <input type="text" value="Pause">
+        <input type="text" value="Residents&rsquo; Lounge">
+        <button class="cap-del">✕</button>
+      </div>
+
+      <button class="add-cap">+ Add caption</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="closeModal()">Save tile</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">◐</button>
+<div class="credit">Portfolio mockup · Designed with Claude</div>
+
+<script>
+function toggle(id){ document.getElementById(id).classList.toggle('collapsed'); }
+function openModal(){ document.getElementById('overlay').classList.add('active'); }
+function closeModal(){ document.getElementById('overlay').classList.remove('active'); }
+function toggleTheme(){
+  const html=document.documentElement;
+  const cur=html.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('xr-theme', next);
+}
+const saved=localStorage.getItem('xr-theme');
+if(saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>

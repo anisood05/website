@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anirudh Sood — Blueprint (Signal Red &amp; Ink)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#161616;--blue-line:#c9c2ae;--paper:#f4f1ea;--white:#161616;--signal:#e2001a}
+body{background:var(--paper);color:var(--white);font-family:'Space Grotesk',sans-serif;position:relative;overflow-x:hidden}
+.wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 48px}
+.mono{font-family:'JetBrains Mono',monospace}
+.crosshair{position:fixed;width:20px;height:20px;pointer-events:none;z-index:5}
+.crosshair::before,.crosshair::after{content:"";position:absolute;background:var(--signal)}
+.crosshair::before{width:20px;height:1.5px;top:50%;left:0;transform:translateY(-50%)}
+.crosshair::after{width:1.5px;height:20px;left:50%;top:0;transform:translateX(-50%)}
+.c1{top:24px;left:24px}.c2{top:24px;right:24px}.c3{bottom:24px;left:24px}.c4{bottom:24px;right:24px}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0;border-bottom:1px solid var(--blue-line)}
+.brand{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--white)}
+.brand b{color:var(--signal)}
+.nav-links{display:flex;gap:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#666}
+.nav-links a{color:inherit;text-decoration:none}
+
+/* hero */
+.hero{padding:90px 0 70px;position:relative}
+.dim-line{position:absolute;font-family:'JetBrains Mono',monospace;font-size:10px;color:#5b85ae;letter-spacing:.05em}
+.dim-top{top:0;left:0;right:0;display:flex;justify-content:space-between;border-bottom:1px solid var(--blue-line);padding-bottom:6px}
+.tag-callout{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;border:1px solid var(--signal);padding:6px 12px;margin-top:34px}
+.tag-callout::before{content:"◎"}
+h1.big{font-size:clamp(64px,10vw,152px);font-weight:700;line-height:.88;letter-spacing:-.02em;margin-top:28px;text-transform:uppercase}
+h1.big .outline{-webkit-text-stroke:2px var(--white);color:transparent}
+.spec-row{display:flex;gap:0;margin-top:40px;border-top:1px solid var(--blue-line);border-bottom:1px solid var(--blue-line)}
+.spec{flex:1;padding:18px 20px;border-right:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace}
+.spec:last-child{border-right:none}
+.spec .k{font-size:10px;color:#666;letter-spacing:.08em;text-transform:uppercase}
+.spec .v{font-size:15px;color:var(--white);margin-top:6px}
+.tagline{font-size:19px;line-height:1.6;color:#333;max-width:56ch;margin-top:36px}
+.actions{display:flex;gap:0;margin-top:44px}
+.btn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:18px 32px;border:1px solid var(--white);cursor:pointer}
+.btn-p{background:var(--signal);border-color:var(--signal);color:#f4f1ea;font-weight:700}
+.btn-g{background:transparent;color:var(--white);border-left:none}
+
+/* section markers */
+.section{padding:76px 0;border-bottom:1px solid var(--blue-line);position:relative}
+.sec-marker{position:absolute;top:76px;right:0;font-family:'JetBrains Mono',monospace;font-size:120px;font-weight:700;color:var(--blue-line);opacity:.25;line-height:1;pointer-events:none}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin-bottom:16px}
+.sec-title{font-size:clamp(32px,4.5vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:-.01em;max-width:16ch}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:.9fr 1.3fr;gap:56px;margin-top:56px}
+.ph{border:1px solid var(--blue-line);aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.08em;position:relative;overflow:hidden;max-width:280px}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.body-txt{font-size:16px;line-height:1.8;color:#333}
+.body-txt p{margin-bottom:18px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border:1px solid var(--blue-line)}
+.metric{padding:20px;border-right:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace}
+.metric:last-child{border-right:none}
+.mn{font-size:32px;font-weight:700;color:var(--signal)}
+.mc{font-size:10px;color:#666;margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+
+/* experience */
+.xp-row{display:grid;grid-template-columns:200px 1fr;gap:36px;padding:28px 0;border-top:1px solid var(--blue-line)}
+.xp-row:first-of-type{border-top:none;margin-top:56px}
+.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666}
+.role{font-size:24px;font-weight:700;text-transform:uppercase}
+.org{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--signal);margin-top:6px}
+.xp-row ul{margin-top:14px;padding-left:0;list-style:none}
+.xp-row li{font-size:14.5px;color:#333;line-height:1.6;padding-left:20px;position:relative;margin-bottom:6px}
+.xp-row li::before{content:"→";position:absolute;left:0;color:var(--signal)}
+
+/* downloads */
+.dl-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--blue-line);margin-top:56px;border:1px solid var(--blue-line)}
+.dl-card{background:#e8e4d8;padding:40px;position:relative}
+.dl-card .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;text-transform:uppercase}
+.dl-card h3{font-size:30px;font-weight:700;text-transform:uppercase;margin-top:14px}
+.dl-card p{font-size:14px;color:#333;margin-top:14px;line-height:1.6}
+.go{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--white);margin-top:28px;display:inline-block;text-decoration:none}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;margin-top:56px}
+.contact-grid h2{font-size:clamp(36px,5vw,58px);font-weight:700;text-transform:uppercase;line-height:1.02}
+.crow{display:flex;justify-content:space-between;padding:18px 0;border-top:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace;font-size:14px}
+.crow span:first-child{color:#666;text-transform:uppercase;font-size:11px;letter-spacing:.08em}
+
+/* writing */
+.writing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--blue-line);margin-top:56px;border:1px solid var(--blue-line)}
+.post-card{background:#e8e4d8;padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:22px;text-decoration:none;color:var(--white)}
+.post-card .pk{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--signal);letter-spacing:.08em;text-transform:uppercase}
+.post-card h3{font-size:19px;font-weight:700;line-height:1.25;margin-top:10px}
+.post-card .pd{font-size:13.5px;color:#333;line-height:1.55;margin-top:10px}
+.post-card .pgo{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--white)}
+
+footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="crosshair c1"></div><div class="crosshair c2"></div><div class="crosshair c3"></div><div class="crosshair c4"></div>
+<div class="wrap">
+  <nav>
+    <div class="brand">SOOD<b>_</b>A / DIGITAL LEAD</div>
+    <div class="nav-links"><a href="#about">01_ABOUT</a><a href="#xp">02_EXP</a><a href="#writing">03_WRITING</a><a href="#dl">04_DOCS</a><a href="#contact">05_CONTACT</a></div>
+  </nav>
+
+  <section class="hero">
+    <h1 class="big">ANIRUDH<br><span class="outline">SOOD</span></h1>
+    <div class="spec-row">
+      <div class="spec"><div class="k">Role</div><div class="v">Head of Digital</div></div>
+      <div class="spec"><div class="k">Domain</div><div class="v">BIM / Data / AI</div></div>
+      <div class="spec"><div class="k">Reg.</div><div class="v">ARB Architect</div></div>
+      <div class="spec"><div class="k">Base</div><div class="v">London, UK</div></div>
+    </div>
+    <p class="tagline">ARB-qualified architect and digital transformation leader, building the BIM, data and AI systems that let practices design with precision, accountability and speed.</p>
+    <div class="actions"><a class="btn btn-p" href="cv/cv.html" target="_blank">VIEW_CV.PDF</a><a class="btn btn-g" href="#contact">CONTACT →</a></div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="sec-marker">01</div>
+    <div class="sec-label">PROFILE</div>
+    <div class="sec-title">DIGITAL LEADER</div>
+    <div class="about-grid">
+      <div class="ph"><img src="assets/portrait-signal-red.png" alt="Anirudh Sood"></div>
+      <div>
+        <div class="body-txt">
+          <p>Anirudh is an ARB-registered architect operating with one foot in practice and one in digital delivery, translating what studios actually need into BIM, data and AI systems they can run at scale.</p>
+          <p>Since joining Aukett Swanke, he has progressed from BIM Specialist to Head of Digital in under three years, building the practice's internal tools, capability framework and AI governance from the ground up rather than importing them off the shelf.</p>
+          <p>He believes the next decade's real gains for the built environment will come not from software alone, but from architects and digital specialists working the problem together, on live projects, inside real practice constraints.</p>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="mn">10+</div><div class="mc">Yrs Built Env.</div></div>
+          <div class="metric"><div class="mn">1–6</div><div class="mc">RIBA Stages</div></div>
+          <div class="metric"><div class="mn">05</div><div class="mc">Domains Led</div></div>
+          <div class="metric"><div class="mn">ARB</div><div class="mc">Registered</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="xp">
+    <div class="sec-marker">02</div>
+    <div class="sec-label">LOG</div>
+    <div class="sec-title">CAREER HISTORY</div>
+    <div class="xp-row"><div class="when">2022 to<br>PRESENT<br>LONDON</div><div><div class="role">Head of Digital</div><div class="org">AUKETT SWANKE LIMITED</div><ul><li>Three-step progression to practice-wide digital leadership in under three years.</li><li>Owns BIM, data, automation, visualisation and AI strategy.</li></ul></div></div>
+    <div class="xp-row"><div class="when">2015 to<br>2022<br>LONDON</div><div><div class="role">ARCHITECT &amp; BIM SPECIALIST</div><div class="org">POLLARD THOMAS EDWARDS</div><ul><li>Managed BIM coordination for mixed-use schemes; authored BIM Execution Plans.</li></ul></div></div>
+  </section>
+
+  <section class="section" id="writing">
+    <div class="sec-marker">03</div>
+    <div class="sec-label">WRITING</div>
+    <div class="sec-title">RECENT POSTS &amp; ARTICLES</div>
+    <div class="writing-grid" id="writing-grid"></div>
+  </section>
+
+  <section class="section" id="dl">
+    <div class="sec-marker">04</div>
+    <div class="sec-label">DOWNLOADS</div>
+    <div class="sec-title">CURRICULUM VITÆ</div>
+    <div class="dl-grid">
+      <div class="dl-card"><div class="k">DOC · A4</div><h3>Curriculum Vitæ</h3><p>A two-page, data-led CV: capability system, experience and technical stack.</p><a class="go" href="cv/cv.html" target="_blank">OPEN_CV.HTML →</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" style="border-bottom:none">
+    <div class="sec-marker">05</div>
+    <div class="sec-label">CONTACT</div>
+    <div class="contact-grid">
+      <div><h2>GET IN<br>TOUCH.</h2></div>
+      <div>
+        <div class="crow"><span>Email</span><span>anirudh.sood@proton.me</span></div>
+        <div class="crow"><span>LinkedIn</span><span>/anirudh-sood</span></div>
+        <div class="crow"><span>Location</span><span>London, UK</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>© ANIRUDH SOOD, REV.2026</span><span>COORD: 51.5074° N, 0.1278° W</span></footer>
+</div>
+<script src="writing/posts.js"></script>
+<script>
+(function(){
+  var grid = document.getElementById('writing-grid');
+  (window.WRITING_POSTS || []).slice(0, 3).forEach(function(p){
+    var a = document.createElement('a');
+    a.className = 'post-card';
+    a.href = p.url; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = '<div><div class="pk">' + (p.kind || 'LINKEDIN') + ' · ' + (p.date || '') + '</div><h3>' + p.title + '</h3><div class="pd">' + (p.summary || '') + '</div></div><div class="pgo">READ →</div>';
+    grid.appendChild(a);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--blue-line:#c9c2ae;--paper:#f4f1ea;--ink:#161616;--signal:#e2001a}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif;padding:48px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:28px;font-weight:700;text-transform:uppercase;letter-spacing:-.01em}
+.hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666;margin-top:10px;line-height:1.6;max-width:70ch}
+.hint b{color:var(--ink)}
+.card{background:#e8e4d8;border:1px solid var(--blue-line);padding:24px;margin-top:24px;display:grid;grid-template-columns:160px 1fr;gap:24px}
+.drop{position:relative;aspect-ratio:4/5;border:1px dashed var(--blue-line);background:var(--paper);display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;overflow:hidden}
+.drop.has-image{border-style:solid}
+.drop img{width:100%;height:100%;object-fit:cover;display:block}
+.drop .dt{font-family:'JetBrains Mono',monospace;font-size:10px;color:#999;letter-spacing:.05em;text-transform:uppercase;padding:10px}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.fields{display:flex;flex-direction:column;gap:12px}
+label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#666;display:block;margin-bottom:5px}
+input[type=text]{width:100%;font-family:'Space Grotesk',sans-serif;font-size:14px;padding:10px 12px;border:1px solid var(--blue-line);background:var(--paper);color:var(--ink)}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.idrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:#999}
+.card-actions{display:flex;justify-content:flex-end;gap:10px;grid-column:1/-1}
+button{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:12px 20px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button.danger{border-color:var(--signal);color:var(--signal)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:36px;gap:12px;flex-wrap:wrap}
+button.primary{background:var(--signal);border-color:var(--signal);color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Gallery editor</h1>
+  <p class="hint">Manage everything here: drop or click each frame to upload an artwork photo, edit its caption, reorder or remove pieces. Nothing renders until you click <b>Generate pieces.js</b> — save the download over <b>gallery/pieces.js</b> and refresh <b>gallery.html</b> to see it live. The gallery page itself is view-only.</p>
+
+  <div id="cards"></div>
+
+  <div class="toolbar">
+    <button id="add">+ Add piece</button>
+    <button class="primary" id="generate">Generate pieces.js →</button>
+  </div>
+</div>
+
+<script src="pieces.js"></script>
+<script>
+let pieces = (window.GALLERY_PIECES || []).map(p => ({...p}));
+
+function nextId(){
+  let n = 1;
+  const ids = new Set(pieces.map(p => p.id));
+  while (ids.has('art-' + String(n).padStart(2,'0'))) n++;
+  return 'art-' + String(n).padStart(2,'0');
+}
+
+function render(){
+  const c = document.getElementById('cards');
+  c.innerHTML = '';
+  pieces.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div class="drop ${p.image ? 'has-image' : ''}" data-i="${i}">
+        ${p.image ? `<img src="${p.image}">` : `<div class="dt">Click or drop<br>image</div>`}
+        <input type="file" accept="image/*" data-i="${i}">
+      </div>
+      <div class="fields">
+        <div class="idrow">ID: ${p.id}</div>
+        <div class="row3">
+          <div><label>Title</label><input type="text" data-i="${i}" data-k="title" value="${(p.title||'').replace(/"/g,'&quot;')}"></div>
+          <div><label>Medium</label><input type="text" data-i="${i}" data-k="medium" value="${(p.medium||'').replace(/"/g,'&quot;')}"></div>
+          <div><label>Year</label><input type="text" data-i="${i}" data-k="year" value="${(p.year||'').replace(/"/g,'&quot;')}"></div>
+        </div>
+        <div class="card-actions" style="justify-content:flex-start;padding:0">
+          <button data-i="${i}" data-act="up">↑ Move up</button>
+          <button data-i="${i}" data-act="down">↓ Move down</button>
+          <button class="danger" data-i="${i}" data-act="del">Remove</button>
+        </div>
+      </div>
+    `;
+    c.appendChild(el);
+  });
+}
+
+function loadFile(i, file){
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = () => { pieces[i].image = reader.result; render(); };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('cards').addEventListener('input', e => {
+  const i = +e.target.dataset.i, k = e.target.dataset.k;
+  if (k) pieces[i][k] = e.target.value;
+});
+document.getElementById('cards').addEventListener('change', e => {
+  if (e.target.type === 'file') loadFile(+e.target.dataset.i, e.target.files[0]);
+});
+document.getElementById('cards').addEventListener('dragover', e => {
+  if (e.target.closest('.drop')) e.preventDefault();
+});
+document.getElementById('cards').addEventListener('drop', e => {
+  const dropEl = e.target.closest('.drop');
+  if (!dropEl) return;
+  e.preventDefault();
+  loadFile(+dropEl.dataset.i, e.dataTransfer.files[0]);
+});
+document.getElementById('cards').addEventListener('click', e => {
+  const act = e.target.dataset.act;
+  if (!act) return;
+  const i = +e.target.dataset.i;
+  if (act === 'del') pieces.splice(i, 1);
+  if (act === 'up' && i > 0) [pieces[i-1], pieces[i]] = [pieces[i], pieces[i-1]];
+  if (act === 'down' && i < pieces.length-1) [pieces[i+1], pieces[i]] = [pieces[i], pieces[i+1]];
+  render();
+});
+document.getElementById('add').addEventListener('click', () => {
+  pieces.push({ id: nextId(), title:'Untitled', medium:'', year:'', image:'' });
+  render();
+});
+document.getElementById('generate').addEventListener('click', () => {
+  const body = pieces.map(p => `  { id: ${JSON.stringify(p.id)}, title: ${JSON.stringify(p.title)}, medium: ${JSON.stringify(p.medium)}, year: ${JSON.stringify(p.year)}, image: ${JSON.stringify(p.image || '')} }`).join(',\n');
+  const out = `// Your gallery pieces — order shown is order on the page.\n// Manage everything (including images) from editor.html — this file is generated, don't hand-edit the image field.\nwindow.GALLERY_PIECES = [\n${body}\n];\n`;
+  const blob = new Blob([out], {type:'text/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pieces.js';
+  a.click();
+});
+
+render();
+</script>
+</body>
+</html>

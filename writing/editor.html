@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--blue-line:#c9c2ae;--paper:#f4f1ea;--ink:#161616;--signal:#e2001a}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif;padding:48px}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-size:28px;font-weight:700;text-transform:uppercase;letter-spacing:-.01em}
+.hint{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666;margin-top:10px;line-height:1.6;max-width:70ch}
+.card{background:#e8e4d8;border:1px solid var(--blue-line);padding:24px;margin-top:24px;display:flex;flex-direction:column;gap:12px}
+label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#666;display:block;margin-bottom:5px}
+input,textarea{width:100%;font-family:'Space Grotesk',sans-serif;font-size:14px;padding:10px 12px;border:1px solid var(--blue-line);background:var(--paper);color:var(--ink)}
+textarea{resize:vertical;min-height:60px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card-actions{display:flex;justify-content:flex-end;gap:10px}
+button{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:12px 20px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button.danger{border-color:var(--signal);color:var(--signal)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:36px;gap:12px;flex-wrap:wrap}
+button.primary{background:var(--signal);border-color:var(--signal);color:#fff;font-weight:700}
+#out{margin-top:24px;background:#161616;color:#e8e4d8;font-family:'JetBrains Mono',monospace;font-size:11px;padding:20px;white-space:pre-wrap;display:none;max-height:340px;overflow:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Writing section editor</h1>
+  <p class="hint">Add, edit, reorder or remove posts below (most recent first — only the first 3 show on the landing page). When done, click "Generate posts.js" and save the output over <b>writing/posts.js</b>, then re-deploy.</p>
+
+  <div id="cards"></div>
+
+  <div class="toolbar">
+    <button id="add">+ Add post</button>
+    <button class="primary" id="generate">Generate posts.js →</button>
+  </div>
+
+  <pre id="out"></pre>
+</div>
+
+<script src="posts.js"></script>
+<script>
+let posts = (window.WRITING_POSTS || []).map(p => ({...p}));
+
+function render(){
+  const c = document.getElementById('cards');
+  c.innerHTML = '';
+  posts.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div class="row2">
+        <div><label>Title</label><input data-i="${i}" data-k="title" value="${(p.title||'').replace(/"/g,'&quot;')}"></div>
+        <div><label>URL</label><input data-i="${i}" data-k="url" value="${(p.url||'').replace(/"/g,'&quot;')}"></div>
+      </div>
+      <div class="row2">
+        <div><label>Date (e.g. Jul 2026)</label><input data-i="${i}" data-k="date" value="${(p.date||'').replace(/"/g,'&quot;')}"></div>
+        <div><label>Kind</label><input data-i="${i}" data-k="kind" value="${(p.kind||'POST').replace(/"/g,'&quot;')}"></div>
+      </div>
+      <div><label>Summary</label><textarea data-i="${i}" data-k="summary">${(p.summary||'')}</textarea></div>
+      <div class="card-actions">
+        <button data-i="${i}" data-act="up">↑ Move up</button>
+        <button data-i="${i}" data-act="down">↓ Move down</button>
+        <button class="danger" data-i="${i}" data-act="del">Remove</button>
+      </div>
+    `;
+    c.appendChild(el);
+  });
+}
+
+document.getElementById('cards').addEventListener('input', e => {
+  const i = +e.target.dataset.i, k = e.target.dataset.k;
+  if (k) posts[i][k] = e.target.value;
+});
+document.getElementById('cards').addEventListener('click', e => {
+  const act = e.target.dataset.act;
+  if (!act) return;
+  const i = +e.target.dataset.i;
+  if (act === 'del') posts.splice(i, 1);
+  if (act === 'up' && i > 0) [posts[i-1], posts[i]] = [posts[i], posts[i-1]];
+  if (act === 'down' && i < posts.length-1) [posts[i+1], posts[i]] = [posts[i], posts[i+1]];
+  render();
+});
+document.getElementById('add').addEventListener('click', () => {
+  posts.unshift({ title:'', date:'', kind:'POST', summary:'', url:'https://www.linkedin.com/in/anirudh-sood-07076972/' });
+  render();
+});
+document.getElementById('generate').addEventListener('click', () => {
+  const body = posts.map(p => `  {\n    title: ${JSON.stringify(p.title)},\n    date: ${JSON.stringify(p.date)},\n    kind: ${JSON.stringify(p.kind)},\n    summary: ${JSON.stringify(p.summary)},\n    url: ${JSON.stringify(p.url)}\n  }`).join(',\n');
+  const out = `// Add your latest LinkedIn posts/articles here — most recent first.\n// Only the first 3 are shown on the landing page.\nwindow.WRITING_POSTS = [\n${body}\n];\n`;
+  const pre = document.getElementById('out');
+  pre.style.display = 'block';
+  pre.textContent = out;
+  const blob = new Blob([out], {type:'text/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'posts.js';
+  a.click();
+});
+
+render();
+</script>
+</body>
+</html>

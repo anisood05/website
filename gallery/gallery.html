@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anirudh Sood — Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--blue-line:#c9c2ae;--paper:#f4f1ea;--ink:#161616;--signal:#e2001a}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif}
+.wrap{max-width:1400px;margin:0 auto;padding:0 48px}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0;border-bottom:1px solid var(--blue-line)}
+.brand{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em}
+.brand b{color:var(--signal)}
+.back{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+
+header{padding:64px 0 48px;border-bottom:1px solid var(--blue-line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal)}
+h1{font-size:clamp(40px,6vw,72px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase;margin-top:16px}
+.sub{font-size:16px;color:#333;max-width:56ch;margin-top:18px;line-height:1.6}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;padding:64px 0}
+.piece{display:flex;flex-direction:column;gap:14px}
+.frame{width:100%;aspect-ratio:4/5;background:#e8e4d8;border:1px solid var(--blue-line);overflow:hidden}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.frame.empty{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#999;text-align:center;padding:20px}
+.cap{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666;letter-spacing:.02em;line-height:1.5}
+.cap b{color:var(--ink);font-weight:700}
+
+footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;letter-spacing:.05em;border-top:1px solid var(--blue-line)}
+
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand">SOOD<b>_</b>A / DIGITAL LEAD</div>
+    <a class="back" href="../index.html">← BACK</a>
+  </nav>
+
+  <header>
+    <div class="eyebrow">Gallery</div>
+    <h1>Paintings</h1>
+    <p class="sub">A small, occasional practice outside architecture and digital work. Mostly oil and acrylic, worked on and off over evenings and weekends.</p>
+  </header>
+
+  <div class="grid" id="gallery-grid"></div>
+
+  <footer><span>© ANIRUDH SOOD, REV.2026</span><span>GALLERY</span></footer>
+</div>
+<script src="pieces.js"></script>
+<script>
+(function(){
+  var grid = document.getElementById('gallery-grid');
+  (window.GALLERY_PIECES || []).forEach(function(p, i){
+    var el = document.createElement('div');
+    el.className = 'piece';
+    var frame = p.image
+      ? '<div class="frame"><img src="' + p.image + '" alt="' + p.title + '"></div>'
+      : '<div class="frame empty">No image yet</div>';
+    el.innerHTML = frame + '<div class="cap"><b>' + p.title + '</b> · ' + p.medium + ' · ' + p.year + '</div>';
+    grid.appendChild(el);
+  });
+})();
+</script>
+</body>
+</html>

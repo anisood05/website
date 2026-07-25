@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian House — Client Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink: #100e0a;
+  --ink-mid: #38342c;
+  --ink-faint: #8c8477;
+  --stone: #f3efe6;
+  --stone-mid: #e6e0d2;
+  --stone-dark: #d2c9b6;
+  --copper: #b3702f;
+  --copper-soft: #c98a4c;
+  --white: #ffffff;
+  --good: #3f6e50;
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 7px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ece5d8; --ink-mid: #cfc7b8; --ink-faint: #8c8272;
+    --stone: #191510; --stone-mid: #211b14; --stone-dark: #3a3226;
+    --copper: #d99c5c; --copper-soft: #e6b17e; --white: #14100c; --good: #6bad84;
+  }
+}
+:root[data-theme="light"] {
+  --ink: #100e0a; --ink-mid: #38342c; --ink-faint: #8c8477;
+  --stone: #f3efe6; --stone-mid: #e6e0d2; --stone-dark: #d2c9b6;
+  --copper: #b3702f; --copper-soft: #c98a4c; --white: #ffffff; --good: #3f6e50;
+}
+:root[data-theme="dark"] {
+  --ink: #ece5d8; --ink-mid: #cfc7b8; --ink-faint: #8c8272;
+  --stone: #191510; --stone-mid: #211b14; --stone-dark: #3a3226;
+  --copper: #d99c5c; --copper-soft: #e6b17e; --white: #14100c; --good: #6bad84;
+}
+
+html, body { height:100%; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  overflow: hidden;
+}
+.serif { font-family:'Cormorant Garamond', Georgia, serif; font-style:italic; }
+.mono { font-family:'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+
+.screen { position:absolute; inset:0; display:none; flex-direction:column; z-index:1; }
+.screen.active { display:flex; z-index:10; animation: appear .5s ease; }
+@keyframes appear { from{opacity:0} to{opacity:1} }
+
+/* ── Password screen ── */
+.gate {
+  background: var(--ink);
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.gate-art { position:absolute; inset:0; opacity:0.9; }
+.gate-art svg { width:100%; height:100%; }
+.gate-header { position:absolute; top:0; left:0; right:0; padding: 48px 40px 0; text-align:center; z-index:2; }
+.gate-eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:.18em; color: var(--copper-soft); margin-bottom:10px; }
+.gate-title { font-size: 34px; color:#f6f2e6; }
+.gate-address { font-size:12.5px; color:#9aa; opacity:.7; margin-top:6px; letter-spacing:.02em; color:#b8b0a0; }
+
+.gate-panel {
+  position: relative; z-index:3;
+  background: var(--stone);
+  border-radius: 22px 22px 0 0;
+  padding: 40px 36px 30px;
+  box-shadow: 0 -20px 60px rgba(0,0,0,.35);
+  animation: rise .6s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes rise { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+.gate-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color: var(--ink-faint); margin-bottom:10px; }
+.gate-input-wrap { position:relative; margin-bottom:22px; }
+.gate-input-wrap input { width:100%; padding:15px 44px 15px 16px; border:1px solid var(--stone-dark); border-radius: var(--r-sm); font-size:16px; background: var(--white); color: var(--ink); }
+.gate-input-wrap input:focus { outline:none; border-color: var(--copper); }
+.gate-eye { position:absolute; right:14px; top:50%; transform:translateY(-50%); color: var(--ink-faint); cursor:pointer; font-size:15px; }
+.gate-actions { display:flex; gap:10px; }
+.btn { border:none; border-radius: var(--r-sm); font-size:14px; font-weight:600; cursor:pointer; padding:15px; }
+.btn-primary { flex:1; background: var(--copper); color:#fff; }
+.btn-primary:hover { background:#9c5f27; }
+.btn-ghost { padding:15px 20px; background:transparent; border:1px solid var(--stone-dark); color: var(--ink); }
+.gate-foot { text-align:center; font-size:11px; color: var(--ink-faint); margin-top:18px; letter-spacing:.02em; }
+
+/* ── Content screen ── */
+.content { background: var(--stone); overflow-y:auto; }
+.hero { height: 44vh; position:relative; overflow:hidden; flex-shrink:0; }
+.hero svg { width:100%; height:100%; display:block; }
+.hero-overlay { position:absolute; inset:0; display:flex; align-items:flex-end; padding:36px 44px; background: linear-gradient(180deg, rgba(16,14,10,0) 40%, rgba(16,14,10,.55) 100%); }
+.hero-eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:.16em; color: #d8b98d; margin-bottom:8px; }
+.hero-title { font-size:38px; color:#faf6ea; }
+
+.body { flex:1; padding: 34px 44px 10px; max-width:1180px; margin:0 auto; width:100%; }
+.section-label { font-size:11px; text-transform:uppercase; letter-spacing:.14em; color: var(--ink-faint); margin-bottom:16px; }
+
+.grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin-bottom:30px; }
+.tile { background: var(--white); border:1px solid var(--stone-mid); border-radius: var(--r-md); overflow:hidden; cursor:pointer; transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; display:flex; flex-direction:column; position:relative; }
+.tile:hover { transform: translateY(-5px); box-shadow: 0 18px 40px -12px rgba(16,14,10,.22); border-color: var(--copper); }
+.tile-art { height:128px; position:relative; }
+.tile-art svg { width:100%; height:100%; display:block; }
+.tile-body { padding:15px 16px 17px; }
+.tile-label { font-size:14px; font-weight:600; margin-bottom:3px; }
+.tile-desc { font-size:12px; color: var(--ink-faint); }
+.tile-arrow { position:absolute; bottom:14px; right:14px; width:22px; height:22px; border-radius:50%; background: var(--copper); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; opacity:0; transform:translateX(-6px); transition:all .28s ease; }
+.tile:hover .tile-arrow { opacity:1; transform:translateX(0); }
+
+.footer { padding: 20px 44px 84px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--stone-mid); font-size:11.5px; color: var(--ink-faint); }
+.footer-marks { display:flex; align-items:center; gap:20px; font-size:12px; letter-spacing:.02em; }
+
+/* ── Walkthrough overlay ── */
+.wt { background: var(--ink); }
+.wt-hint { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#f0ece0; opacity:.55; z-index:1; pointer-events:none; transition:opacity .4s; }
+.wt-hint-title { font-size:26px; margin-bottom:10px; }
+.wt-hint-sub { font-size:12px; text-transform:uppercase; letter-spacing:.14em; }
+.wt-scroll { position:absolute; inset:0; overflow-y:scroll; z-index:2; scrollbar-width:none; }
+.wt-scroll::-webkit-scrollbar { display:none; }
+.wt-track { position:relative; height: 340vh; }
+.wt-stage { position:sticky; top:0; width:100%; height:100vh; }
+.wt-stage svg { width:100%; height:100%; display:block; }
+.wt-scrim-top { position:absolute; top:0; left:0; right:0; height:120px; background:linear-gradient(180deg, rgba(0,0,0,.5), transparent); z-index:6; }
+.wt-scrim-bot { position:absolute; bottom:0; left:0; right:0; height:180px; background:linear-gradient(0deg, rgba(0,0,0,.6), transparent); z-index:6; }
+.wt-caption { position:absolute; bottom:64px; left:44px; right:44px; color:#faf6ea; z-index:8; opacity:0; transition:opacity .35s ease; }
+.wt-caption.visible { opacity:1; }
+.wt-caption-eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:.16em; color:#d8b98d; margin-bottom:8px; }
+.wt-caption-title { font-size:32px; }
+.wt-close { position:absolute; top:22px; right:22px; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); color:#fff; font-size:16px; cursor:pointer; z-index:20; }
+.wt-progress { position:absolute; left:76px; right:76px; bottom:32px; height:2px; background:rgba(255,255,255,.15); z-index:20; }
+.wt-progress-bar { height:100%; background: var(--copper-soft); width:0%; }
+.wt-title-top { position:absolute; top:26px; left:44px; z-index:8; color:#f0ece0; font-size:12px; text-transform:uppercase; letter-spacing:.14em; opacity:.85; }
+
+/* ── nav / theme ── */
+.nav-btns { position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:none; gap:10px; z-index:50; }
+.nav-btns button { padding:9px 18px; border:1px solid var(--stone-dark); background: var(--white); color: var(--ink); border-radius: var(--r-sm); cursor:pointer; font-size:12.5px; font-weight:600; }
+.theme-toggle { position:fixed; bottom:22px; right:22px; background: var(--ink); color: var(--stone); border:none; width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:16px; z-index:90; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+.credit { position:fixed; bottom:22px; left:22px; font-size:10.5px; color: var(--ink-faint); background: var(--white); border:1px solid var(--stone-mid); padding:7px 11px; border-radius:5px; z-index:90; }
+
+@media (max-width: 860px) {
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .hero-title { font-size:26px; }
+  .body { padding:26px 20px; }
+  .footer { padding:18px 20px 80px; }
+  .wt-caption-title { font-size:24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div class="screen gate active" id="gateScreen">
+  <div class="gate-art">
+    <svg viewBox="0 0 900 700" preserveAspectRatio="xMidYMax slice">
+      <rect width="900" height="700" fill="#100e0a"/>
+      <g stroke="#332c22" stroke-width="1.1" fill="none">
+        <line x1="0" y1="560" x2="900" y2="560"/>
+        <rect x="90" y="300" width="280" height="260"/>
+        <line x1="90" y1="340" x2="370" y2="340"/><line x1="90" y1="380" x2="370" y2="380"/>
+        <line x1="90" y1="420" x2="370" y2="420"/><line x1="90" y1="460" x2="370" y2="460"/><line x1="90" y1="500" x2="370" y2="500"/>
+        <line x1="130" y1="300" x2="130" y2="560"/><line x1="170" y1="300" x2="170" y2="560"/><line x1="210" y1="300" x2="210" y2="560"/>
+        <line x1="250" y1="300" x2="250" y2="560"/><line x1="290" y1="300" x2="290" y2="560"/><line x1="330" y1="300" x2="330" y2="560"/>
+        <rect x="400" y="220" width="230" height="340"/>
+        <line x1="400" y1="260" x2="630" y2="260"/><line x1="400" y1="300" x2="630" y2="300"/><line x1="400" y1="340" x2="630" y2="340"/>
+        <line x1="400" y1="380" x2="630" y2="380"/><line x1="400" y1="420" x2="630" y2="420"/><line x1="400" y1="460" x2="630" y2="460"/><line x1="400" y1="500" x2="630" y2="500"/>
+        <line x1="450" y1="220" x2="450" y2="560"/><line x1="500" y1="220" x2="500" y2="560"/><line x1="550" y1="220" x2="550" y2="560"/><line x1="580" y1="220" x2="580" y2="560"/>
+        <rect x="650" y="380" width="190" height="180"/>
+        <line x1="650" y1="410" x2="840" y2="410"/><line x1="650" y1="440" x2="840" y2="440"/><line x1="650" y1="470" x2="840" y2="470"/><line x1="650" y1="500" x2="840" y2="500"/><line x1="650" y1="530" x2="840" y2="530"/>
+        <line x1="690" y1="380" x2="690" y2="560"/><line x1="730" y1="380" x2="730" y2="560"/><line x1="770" y1="380" x2="770" y2="560"/><line x1="810" y1="380" x2="810" y2="560"/>
+      </g>
+      <g opacity="0.85">
+        <circle cx="520" cy="255" r="4" fill="#e6b17e"/>
+        <circle cx="460" cy="335" r="3.5" fill="#c98a4c" opacity="0.6"/>
+        <circle cx="700" cy="410" r="3.5" fill="#c98a4c" opacity="0.5"/>
+      </g>
+      <path d="M0 600 Q60 590 120 600 T240 600 T360 600 T480 600 T600 600 T720 600 T840 600 T900 600" stroke="#2a241a" fill="none" opacity="0.6"/>
+      <path d="M0 625 Q60 615 120 625 T240 625 T360 625 T480 625 T600 625 T720 625 T840 625 T900 625" stroke="#221d16" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="gate-header">
+    <div class="gate-eyebrow">Private client preview</div>
+    <div class="gate-title serif">Meridian House</div>
+    <div class="gate-address">Riverside Quarter, London SE1</div>
+  </div>
+  <div class="gate-panel">
+    <div class="gate-label">Enter project password</div>
+    <div class="gate-input-wrap">
+      <input type="password" placeholder="Password" value="••••••••">
+      <span class="gate-eye">👁</span>
+    </div>
+    <div class="gate-actions">
+      <button class="btn btn-primary" onclick="show('content')">Continue</button>
+      <button class="btn btn-ghost">Preview</button>
+    </div>
+    <div class="gate-foot">Confidential — authorised recipients only</div>
+  </div>
+</div>
+
+<!-- Content grid -->
+<div class="screen content" id="contentScreen">
+  <div class="hero">
+    <svg viewBox="0 0 1400 500" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a3a52"/>
+          <stop offset="1" stop-color="#c98a4c" stop-opacity="0.35"/>
+        </linearGradient>
+      </defs>
+      <rect width="1400" height="500" fill="url(#skyG)"/>
+      <rect width="1400" height="500" fill="#100e0a" opacity="0.15"/>
+      <g fill="#100e0a" opacity="0.92">
+        <rect x="120" y="200" width="380" height="230"/>
+        <rect x="520" y="120" width="260" height="310"/>
+        <rect x="800" y="240" width="300" height="190"/>
+        <rect x="1120" y="180" width="200" height="250"/>
+      </g>
+      <g fill="#e6b17e" opacity="0.85">
+        <rect x="150" y="230" width="18" height="24"/><rect x="185" y="230" width="18" height="24"/><rect x="220" y="230" width="18" height="24"/>
+        <rect x="150" y="270" width="18" height="24"/><rect x="185" y="270" width="18" height="24"/>
+        <rect x="550" y="160" width="18" height="24"/><rect x="585" y="160" width="18" height="24"/><rect x="620" y="160" width="18" height="24"/>
+        <rect x="550" y="200" width="18" height="24"/><rect x="620" y="200" width="18" height="24"/><rect x="585" y="240" width="18" height="24"/>
+        <rect x="840" y="280" width="18" height="24"/><rect x="880" y="280" width="18" height="24"/>
+      </g>
+      <path d="M0 460 Q 100 450 200 460 T400 460 T600 460 T800 460 T1000 460 T1200 460 T1400 460 V500 H0 Z" fill="#0c0a07"/>
+      <path d="M0 460 Q 100 450 200 460 T400 460 T600 460 T800 460 T1000 460 T1200 460 T1400 460" stroke="#c98a4c" stroke-width="1.5" fill="none" opacity="0.5"/>
+    </svg>
+    <div class="hero-overlay">
+      <div>
+        <div class="hero-eyebrow">Riverside Quarter · London SE1</div>
+        <div class="hero-title serif">Meridian House</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="section-label">Explore the project</div>
+    <div class="grid">
+
+      <div class="tile" onclick="show('wt')">
+        <div class="tile-art">
+          <svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="128" fill="#20241b"/>
+            <g stroke="#4a5540" stroke-width="1" fill="none" opacity="0.9">
+              <path d="M20 128 L70 55 L120 128 Z"/><path d="M100 128 L150 30 L200 128 Z"/><path d="M180 128 L230 65 L280 128 Z"/>
+              <line x1="0" y1="128" x2="300" y2="128"/>
+            </g>
+            <circle cx="230" cy="30" r="8" fill="#e6b17e" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <div class="tile-label">Riverside Approach</div>
+          <div class="tile-desc">Guided walkthrough</div>
+        </div>
+        <div class="tile-arrow">→</div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="128" fill="#182620"/>
+            <ellipse cx="150" cy="64" rx="130" ry="46" fill="none" stroke="#3f6e50" stroke-width="1.2"/>
+            <ellipse cx="150" cy="64" rx="130" ry="46" fill="none" stroke="#3f6e50" stroke-width="0.6" opacity="0.5" transform="rotate(30 150 64)"/>
+            <ellipse cx="150" cy="64" rx="130" ry="46" fill="none" stroke="#3f6e50" stroke-width="0.6" opacity="0.5" transform="rotate(-30 150 64)"/>
+            <circle cx="150" cy="64" r="4" fill="#8fbf9f"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <div class="tile-label">Interior Views</div>
+          <div class="tile-desc">4 panoramic scenes</div>
+        </div>
+        <div class="tile-arrow">→</div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="128" fill="#2a2018"/>
+            <circle cx="150" cy="64" r="34" fill="none" stroke="#8a4e26" stroke-width="1.2"/>
+            <path d="M140 50 L166 64 L140 78 Z" fill="#c98a4c"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <div class="tile-label">Design Narrative</div>
+          <div class="tile-desc">3:40 film</div>
+        </div>
+        <div class="tile-arrow">→</div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="128" fill="#251c2c"/>
+            <rect x="90" y="26" width="90" height="66" fill="#3a2c46" stroke="#6b3f8c" stroke-width="1"/>
+            <rect x="118" y="46" width="90" height="66" fill="#2a2034" stroke="#6b3f8c" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <div class="tile-label">Material Palette</div>
+          <div class="tile-desc">18 renderings</div>
+        </div>
+        <div class="tile-arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Confidential preview · Prepared for Thornfield Residential</span>
+    <span class="footer-marks"><span class="serif">Aukett<span style="color:var(--copper)">.</span></span></span>
+  </div>
+</div>
+
+<!-- Walkthrough -->
+<div class="screen wt" id="wtScreen">
+  <div class="wt-hint" id="wtHint">
+    <div class="wt-hint-title serif">Riverside Approach</div>
+    <div class="wt-hint-sub">Scroll to walk the arrival sequence</div>
+  </div>
+  <div class="wt-scroll" id="wtScroll">
+    <div class="wt-track">
+      <div class="wt-stage">
+        <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" id="wtSvg">
+          <rect width="1400" height="900" fill="#0e1a14"/>
+          <g stroke="#3a5a44" stroke-width="1.4" fill="none">
+            <line x1="0" y1="700" x2="1400" y2="700"/>
+            <path d="M100 700 L340 380 L580 700 Z"/>
+            <path d="M480 700 L720 260 L960 700 Z"/>
+            <path d="M820 700 L1060 420 L1300 700 Z"/>
+            <line x1="0" y1="740" x2="1400" y2="740" opacity="0.5"/>
+            <line x1="0" y1="775" x2="1400" y2="775" opacity="0.3"/>
+          </g>
+          <circle cx="1060" cy="420" r="10" fill="#e6b17e" opacity="0.6"/>
+        </svg>
+        <div class="wt-scrim-top"></div>
+        <div class="wt-scrim-bot"></div>
+        <div class="wt-title-top">Meridian House</div>
+        <div class="wt-caption visible" id="wtCaption">
+          <div class="wt-caption-eyebrow" id="wtEyebrow">Arrival</div>
+          <div class="wt-caption-title serif" id="wtTitle">Riverside Approach</div>
+        </div>
+        <button class="wt-close" onclick="show('content')">✕</button>
+        <div class="wt-progress"><div class="wt-progress-bar" id="wtBar"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-btns" id="navBtns">
+  <button onclick="show('gate')">← Password</button>
+  <button onclick="show('content')">← Grid</button>
+</div>
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">◐</button>
+<div class="credit">Portfolio mockup · Designed with Claude</div>
+
+<script>
+function show(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(name+'Screen').classList.add('active');
+  document.getElementById('navBtns').style.display = name==='wt' ? 'flex' : 'none';
+  if(name==='wt'){ document.getElementById('wtScroll').scrollTop = 0; document.getElementById('wtHint').style.opacity='0.55'; }
+}
+
+const captions = [
+  { min:0,  eyebrow:'Arrival',    title:'Riverside Approach' },
+  { min:22, eyebrow:'Threshold',  title:'The Entrance Colonnade' },
+  { min:45, eyebrow:'Ascent',     title:'Atrium & Stair' },
+  { min:68, eyebrow:'Pause',      title:'Residents’ Lounge' },
+  { min:88, eyebrow:'Outlook',    title:'Rooftop Terrace' }
+];
+
+document.getElementById('wtScroll').addEventListener('scroll', function(){
+  const el = this;
+  const track = el.querySelector('.wt-track');
+  const max = track.offsetHeight - el.offsetHeight;
+  const pct = Math.min(100, Math.max(0, (el.scrollTop / max) * 100));
+  document.getElementById('wtBar').style.width = pct + '%';
+  document.getElementById('wtHint').style.opacity = pct > 3 ? '0' : '0.55';
+
+  let active = captions[0];
+  for (const c of captions) { if (pct >= c.min) active = c; }
+  document.getElementById('wtEyebrow').textContent = active.eyebrow;
+  document.getElementById('wtTitle').textContent = active.title;
+  document.getElementById('wtCaption').classList.add('visible');
+
+  const svg = document.getElementById('wtSvg');
+  svg.style.transform = `scale(${1 + pct/600}) translateY(${-pct*0.4}px)`;
+});
+
+function toggleTheme(){
+  const html=document.documentElement;
+  const cur=html.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('xr-theme', next);
+}
+const saved=localStorage.getItem('xr-theme');
+if(saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>
