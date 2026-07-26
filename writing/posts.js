@@ -2,24 +2,24 @@
 // Only the first 3 are shown on the landing page.
 window.WRITING_POSTS = [
   {
-    title: "Why BIM leadership means owning outcomes, not just models",
-    date: "Jul 2026",
-    kind: "ARTICLE",
-    summary: "On what it actually takes to move a practice from operational BIM delivery to strategic digital leadership.",
-    url: "https://www.linkedin.com/in/anirudh-sood-07076972/"
-  },
-  {
-    title: "Three tools we built in-house, and what they taught us about adoption",
-    date: "Jun 2026",
+    title: "   Peer‑Led Workshops That Accelerate Skills and Confidence",
+    date: "June 2026",
     kind: "POST",
-    summary: "Lessons from piloting, then scaling, five internal apps across a 50-person practice.",
-    url: "https://www.linkedin.com/in/anirudh-sood-07076972/"
+    summary: "Peer‑led lunchtime workshops give people protected time to learn and practical tool skills, and Part 1 leadership accelerates capability because participants learn from peers who’ve faced the same challenges.",
+    url: "https://www.linkedin.com/posts/anirudh-sood-07076972_sessions-like-this-aim-to-close-the-skills-ugcPost-7478462455065686016-21oK/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA9rFxQB20ss5ihtO_5AgjFBJkYepRS4W0k"
   },
   {
-    title: "Responsible AI in architecture practice: a plain-English starting point",
+    title: "AI in Practice: How we're approaching it at Aukett Swanke",
     date: "May 2026",
     kind: "ARTICLE",
-    summary: "A short framework for practices asking where to start with AI governance.",
-    url: "https://www.linkedin.com/in/anirudh-sood-07076972/"
+    summary: "Culture moves faster than strategy. A year of staff survey data on AI adoption in an architecture practice. ",
+    url: "https://www.linkedin.com/pulse/ai-practice-how-were-approaching-aukett-swanke-anirudh-sood-rllhe/"
+  },
+  {
+    title: "Cross‑Practice Hackathon Driving Real Workflow Innovation",
+    date: "Feb 2026",
+    kind: "POST",
+    summary: "We brought Remap and Built Cybernetics together for a cross‑practice hackathon, mixing architects, building‑tech specialists, and digital design teams to prototype solutions to real workflow friction. The groups produced early concepts across BIM automation, data standards, and 3D‑AI, with REMAP.WORKS hosting and supporting the day.",
+    url: "https://www.linkedin.com/posts/aukettswanke_hackathon-architecture-smartbuildings-ugcPost-7429850884693602304-H0yO?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA9rFxQB20ss5ihtO_5AgjFBJkYepRS4W0k"
   }
 ];
