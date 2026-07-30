@@ -2,6 +2,13 @@
 // Only the first 3 are shown on the landing page.
 window.WRITING_POSTS = [
   {
+    title: "AI in Practice: How AI is rewriting the case for in-house tools",
+    date: "July, 2026",
+    kind: "POST",
+    summary: "A look at how small, AI‑assisted automations have reshaped our workflows at Aukett Swanke. This post shares how ASTools has grown organically, why adoption matters more than code, and how focusing on small everyday frictions led to meaningful change across the practice.",
+    url: "https://www.linkedin.com/pulse/ai-practice-how-rewriting-case-in-house-tools-anirudh-sood-228ze/"
+  },
+  {
     title: "   Peer‑Led Workshops That Accelerate Skills and Confidence",
     date: "June 2026",
     kind: "POST",
