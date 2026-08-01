@@ -106,9 +106,8 @@ a:hover{color:var(--signal)}
 .figrow--cover img,.figrow--cover video{object-fit:cover}
 .figrow--light .thumb{background:#fff}
 .figrow--lead{margin-top:48px;flex:0 0 auto}
-.figrow--fill{flex:1;min-height:180px;margin-top:20px}
-.figrow--fill figure{align-self:stretch;min-height:0}
-.figrow--fill .thumb{flex:1;min-height:0;aspect-ratio:auto}
+.figrow--fill{margin-top:20px}
+.figrow--fill .thumb{aspect-ratio:4/3}
 
 .media-full{padding-top:120px}
 
@@ -116,7 +115,7 @@ a:hover{color:var(--signal)}
 .video-page-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--signal);text-transform:uppercase;margin-bottom:24px}
 .video-page-frame{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .video-page-frame video{max-width:100%;max-height:100%;width:auto;height:auto;display:block;box-shadow:0 50px 100px -30px rgba(0,0,0,.6)}
-@media (max-width:900px){.figrow{flex-direction:column}.figrow--fill .thumb{height:220px}}
+@media (max-width:900px){.figrow{flex-direction:column}.figrow--fill .thumb{aspect-ratio:4/3;height:auto}}
 
 .lib-narrative{display:flex;flex-direction:column;justify-content:flex-start;min-height:100vh;padding:120px 160px 56px 64px}
 .lib-narrative h2{margin-bottom:0}
