@@ -3,29 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anirudh Sood — Head of Digital | Architect, BIM &amp; AI Systems</title>
-<meta name="description" content="Anirudh Sood — ARB-qualified architect and Head of Digital at Aukett Swanke, building BIM, data and AI systems for the built environment.">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="Anirudh Sood — Head of Digital | Architect, BIM &amp; AI Systems">
-<meta property="og:description" content="ARB-qualified architect and Head of Digital at Aukett Swanke, building BIM, data and AI systems for the built environment.">
-<meta property="og:url" content="https://www.anirudhsood.co.uk/">
-<meta property="og:image" content="https://www.anirudhsood.co.uk/assets/portrait-signal-red.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Anirudh Sood — Head of Digital">
-<meta name="twitter:description" content="ARB-qualified architect and Head of Digital at Aukett Swanke, building BIM, data and AI systems for the built environment.">
-<meta name="twitter:image" content="https://www.anirudhsood.co.uk/assets/portrait-signal-red.png">
-
+<title>Anirudh Sood — Blueprint (Signal Red &amp; Ink)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--blue:#161616;--blue-line:#c9c2ae;--paper:#f4f1ea;--white:#161616;--signal:#e2001a}
-body{background:var(--paper);color:var(--white);font-family:'Space Grotesk',sans-serif;position:relative;overflow-x:hidden}
+:root{--ink:#161616;--ink-deep:#111;--panel:#1a1a1a;--line:#c9c2ae;--line-dark:#2e2e2e;--paper:#f4f1ea;--card:#e8e4d8;--signal:#e2001a;--signal-dark-bg:oklch(66% 0.19 27);--muted:#666;--body:#333;--muted-dark:#999}
+body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif;position:relative;overflow-x:hidden}
 .wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 48px}
 .mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--signal)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
 .crosshair{position:fixed;width:20px;height:20px;pointer-events:none;z-index:5}
 .crosshair::before,.crosshair::after{content:"";position:absolute;background:var(--signal)}
 .crosshair::before{width:20px;height:1.5px;top:50%;left:0;transform:translateY(-50%)}
@@ -33,82 +23,137 @@ body{background:var(--paper);color:var(--white);font-family:'Space Grotesk',sans
 .c1{top:24px;left:24px}.c2{top:24px;right:24px}.c3{bottom:24px;left:24px}.c4{bottom:24px;right:24px}
 
 /* nav */
-nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0;border-bottom:1px solid var(--blue-line)}
-.brand{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--white)}
+nav{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:28px 0;border-bottom:1px solid var(--line)}
+.brand{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--ink)}
 .brand b{color:var(--signal)}
-.nav-links{display:flex;gap:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#666}
-.nav-links a{color:inherit;text-decoration:none}
+.nav-links{display:flex;flex-wrap:wrap;gap:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav-links a{color:inherit;padding:4px 0;border-bottom:1px solid transparent;transition:color .18s ease,border-color .18s ease}
+.nav-links a:hover{color:var(--signal);border-bottom-color:var(--signal)}
 
 /* hero */
 .hero{padding:90px 0 70px;position:relative}
-.dim-line{position:absolute;font-family:'JetBrains Mono',monospace;font-size:10px;color:#5b85ae;letter-spacing:.05em}
-.dim-top{top:0;left:0;right:0;display:flex;justify-content:space-between;border-bottom:1px solid var(--blue-line);padding-bottom:6px}
 .tag-callout{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;border:1px solid var(--signal);padding:6px 12px;margin-top:34px}
 .tag-callout::before{content:"◎"}
 h1.big{font-size:clamp(64px,10vw,152px);font-weight:700;line-height:.88;letter-spacing:-.02em;margin-top:28px;text-transform:uppercase}
-h1.big .outline{-webkit-text-stroke:2px var(--white);color:transparent}
-.spec-row{display:flex;gap:0;margin-top:40px;border-top:1px solid var(--blue-line);border-bottom:1px solid var(--blue-line)}
-.spec{flex:1;padding:18px 20px;border-right:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace}
+h1.big .outline{-webkit-text-stroke:2px var(--ink);color:transparent}
+.spec-row{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spec{flex:1 1 160px;padding:18px 20px;border-right:1px solid var(--line);font-family:'JetBrains Mono',monospace}
 .spec:last-child{border-right:none}
-.spec .k{font-size:10px;color:#666;letter-spacing:.08em;text-transform:uppercase}
-.spec .v{font-size:15px;color:var(--white);margin-top:6px}
-.tagline{font-size:19px;line-height:1.6;color:#333;max-width:56ch;margin-top:36px}
-.actions{display:flex;gap:0;margin-top:44px}
-.btn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:18px 32px;border:1px solid var(--white);cursor:pointer}
-.btn-p{background:var(--signal);border-color:var(--signal);color:#f4f1ea;font-weight:700}
-.btn-g{background:transparent;color:var(--white);border-left:none}
+.spec .k{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.spec .v{font-size:15px;color:var(--ink);margin-top:6px}
+.tagline{font-size:19px;line-height:1.6;color:var(--body);max-width:56ch;margin-top:36px;text-wrap:pretty}
+.actions{display:flex;flex-wrap:wrap;gap:0;margin-top:44px}
+.btn{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:18px 32px;border:1px solid var(--ink);cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease}
+.btn-p{background:var(--signal);border-color:var(--signal);color:var(--paper);font-weight:700}
+.btn-p:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn-g{background:transparent;color:var(--ink);border-left:none}
+.btn-g:hover{background:var(--ink);color:var(--paper)}
 
 /* section markers */
-.section{padding:76px 0;border-bottom:1px solid var(--blue-line);position:relative}
-.sec-marker{position:absolute;top:76px;right:0;font-family:'JetBrains Mono',monospace;font-size:120px;font-weight:700;color:var(--blue-line);opacity:.25;line-height:1;pointer-events:none}
+.section{padding:76px 0;border-bottom:1px solid var(--line);position:relative}
+.sec-marker{position:absolute;top:64px;right:0;font-family:'JetBrains Mono',monospace;font-size:120px;font-weight:700;color:var(--ink);opacity:.06;line-height:1;pointer-events:none}
 .sec-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin-bottom:16px}
 .sec-title{font-size:clamp(32px,4.5vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:-.01em;max-width:16ch}
 
 /* about */
 .about-grid{display:grid;grid-template-columns:.9fr 1.3fr;gap:56px;margin-top:56px}
-.ph{border:1px solid var(--blue-line);aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.08em;position:relative;overflow:hidden;max-width:280px}
+.ph{border:1px solid var(--line);aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;position:relative;overflow:hidden;max-width:280px}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
-.body-txt{font-size:16px;line-height:1.8;color:#333}
+.body-txt{font-size:16px;line-height:1.8;color:var(--body);text-wrap:pretty}
 .body-txt p{margin-bottom:18px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border:1px solid var(--blue-line)}
-.metric{padding:20px;border-right:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border:1px solid var(--line)}
+.metric{padding:20px;border-right:1px solid var(--line);font-family:'JetBrains Mono',monospace}
 .metric:last-child{border-right:none}
 .mn{font-size:32px;font-weight:700;color:var(--signal)}
-.mc{font-size:10px;color:#666;margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+.mc{font-size:10px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
 
 /* experience */
-.xp-row{display:grid;grid-template-columns:200px 1fr;gap:36px;padding:28px 0;border-top:1px solid var(--blue-line)}
+.xp-row{display:grid;grid-template-columns:200px 1fr;gap:36px;padding:28px 0;border-top:1px solid var(--line)}
 .xp-row:first-of-type{border-top:none;margin-top:56px}
-.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666}
+.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
 .role{font-size:24px;font-weight:700;text-transform:uppercase}
 .org{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--signal);margin-top:6px}
-.xp-row ul{margin-top:14px;padding-left:0;list-style:none}
-.xp-row li{font-size:14.5px;color:#333;line-height:1.6;padding-left:20px;position:relative;margin-bottom:6px}
+.xp-row ul{margin-top:14px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.xp-row li{font-size:14.5px;color:var(--body);line-height:1.6;padding-left:20px;position:relative}
 .xp-row li::before{content:"→";position:absolute;left:0;color:var(--signal)}
 
-/* downloads */
-.dl-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--blue-line);margin-top:56px;border:1px solid var(--blue-line)}
-.dl-card{background:#e8e4d8;padding:40px;position:relative}
-.dl-card .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;text-transform:uppercase}
-.dl-card h3{font-size:30px;font-weight:700;text-transform:uppercase;margin-top:14px}
-.dl-card p{font-size:14px;color:#333;margin-top:14px;line-height:1.6}
-.go{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--white);margin-top:28px;display:inline-block;text-decoration:none}
+.go{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);margin-top:28px;display:inline-block;border-bottom:1px solid transparent;transition:color .18s ease,border-color .18s ease}
+.go:hover{color:var(--signal);border-bottom-color:var(--signal)}
 
 /* contact */
 .contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;margin-top:56px}
 .contact-grid h2{font-size:clamp(36px,5vw,58px);font-weight:700;text-transform:uppercase;line-height:1.02}
-.crow{display:flex;justify-content:space-between;padding:18px 0;border-top:1px solid var(--blue-line);font-family:'JetBrains Mono',monospace;font-size:14px}
-.crow span:first-child{color:#666;text-transform:uppercase;font-size:11px;letter-spacing:.08em}
+.crow{display:flex;justify-content:space-between;gap:24px;padding:18px 0;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:14px}
+.crow span:first-child{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.08em}
+
+/* work */
+#work{background:var(--ink-deep);margin:0 -48px;padding:76px 48px;border-bottom:1px solid #000}
+#work .sec-label{color:var(--signal-dark-bg)}
+#work .sec-title{color:var(--paper)}
+#work .sec-marker{color:var(--paper);opacity:.07}
+.work-wrap{display:grid;grid-template-columns:300px 1fr;margin-top:56px;height:clamp(460px,68vh,640px);box-shadow:0 40px 90px -20px rgba(0,0,0,.7),0 0 0 1px #000;background:var(--panel)}
+.work-list{border-right:1px solid var(--line-dark);overflow-y:auto}
+.work-item{display:block;width:100%;text-align:left;font:inherit;background:none;padding:20px 24px;border:none;border-bottom:1px solid var(--line-dark);cursor:pointer;position:relative;color:var(--muted-dark);transition:background .18s ease}
+.work-item:last-child{border-bottom:none}
+.work-item .n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--signal-dark-bg)}
+.work-item h4{font-size:17px;font-weight:700;text-transform:uppercase;margin-top:6px;color:#e8e5dd;overflow-wrap:anywhere;transition:color .18s ease}
+.work-item .kk{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+.work-item:hover:not(.on){background:#202020}
+.work-item:hover:not(.on) h4{color:var(--paper)}
+.work-item:focus-visible{outline:2px solid var(--signal-dark-bg);outline-offset:-2px}
+.work-item.on{background:var(--signal)}
+.work-item.on::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--paper)}
+.work-item.on h4,.work-item.on .n{color:var(--ink)}
+.work-item.on .kk{color:rgba(22,22,22,.7)}
+.work-preview{position:relative;background:#0c0c0c;overflow:hidden}
+.work-preview iframe{position:absolute;top:0;left:0;width:1200px;height:800px;border:none;pointer-events:none;transform-origin:top left;box-shadow:0 0 60px rgba(0,0,0,.5)}
+.work-cap{position:absolute;left:0;right:0;bottom:0;background:rgba(20,20,20,.92);backdrop-filter:blur(6px);padding:16px 24px;border-top:1px solid var(--signal);display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.work-cap p{font-size:13px;color:#ccc;line-height:1.55;max-width:60ch;text-wrap:pretty}
+.work-cap .go{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper);white-space:nowrap;margin-top:0}
+.work-cap .go:hover{color:var(--signal-dark-bg);border-bottom-color:var(--signal-dark-bg)}
 
 /* writing */
-.writing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--blue-line);margin-top:56px;border:1px solid var(--blue-line)}
-.post-card{background:#e8e4d8;padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:22px;text-decoration:none;color:var(--white)}
+.writing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:56px;border:1px solid var(--line)}
+.post-card{background:var(--card);padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:22px;color:var(--ink);transition:background .18s ease,color .18s ease}
+.post-card:hover{background:var(--ink);color:var(--paper)}
+.post-card:hover .pd{color:#bbb}
+.post-card:hover .pgo{color:var(--paper)}
 .post-card .pk{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--signal);letter-spacing:.08em;text-transform:uppercase}
-.post-card h3{font-size:19px;font-weight:700;line-height:1.25;margin-top:10px}
-.post-card .pd{font-size:13.5px;color:#333;line-height:1.55;margin-top:10px}
-.post-card .pgo{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--white)}
+.post-card h3{font-size:19px;font-weight:700;line-height:1.25;margin-top:10px;text-wrap:pretty}
+.post-card .pd{font-size:13.5px;color:var(--body);line-height:1.55;margin-top:10px;transition:color .18s ease}
+.post-card .pgo{font-family:'JetBrains Mono',monospace;font-size:11px;color:inherit}
 
-footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#666;letter-spacing:.05em}
+footer{padding:36px 0;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em}
+.totop{position:fixed;right:28px;bottom:28px;z-index:10;display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px;border:1px solid var(--ink);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s}
+.totop.show{opacity:1;pointer-events:auto}
+.totop:hover{background:var(--signal);border-color:var(--signal)}
+
+@media (max-width:1080px){
+  .writing-grid{grid-template-columns:1fr 1fr}
+  .writing-grid>:last-child:nth-child(odd){grid-column:1/-1}
+  .work-wrap{grid-template-columns:250px 1fr}
+  .work-item{padding:18px 18px}
+  .work-item h4{font-size:15px}
+}
+@media (max-width:860px){
+  .wrap{padding:0 24px}
+  #work{margin:0 -24px;padding:64px 24px}
+  .section{padding:56px 0}
+  .sec-marker{font-size:72px;top:48px}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:32px}
+  .ph{max-width:220px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .metric:nth-child(2n){border-right:none}
+  .metric:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .xp-row{grid-template-columns:1fr;gap:14px}
+  .writing-grid{grid-template-columns:1fr}
+  .work-wrap{grid-template-columns:1fr;height:auto}
+  .work-list{display:flex;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line-dark)}
+  .work-item{flex:0 0 220px;border-bottom:none;border-right:1px solid var(--line-dark)}
+  .work-preview{height:52vh;min-height:320px}
+  .work-cap{position:static;flex-direction:column;align-items:flex-start;gap:12px}
+  .crosshair{display:none}
+}
 </style>
 </head>
 <body>
@@ -116,7 +161,7 @@ footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'Je
 <div class="wrap">
   <nav>
     <div class="brand">SOOD<b>_</b>A / DIGITAL LEAD</div>
-    <div class="nav-links"><a href="#about">01_ABOUT</a><a href="#xp">02_EXP</a><a href="#writing">03_WRITING</a><a href="#dl">04_DOCS</a><a href="#contact">05_CONTACT</a></div>
+    <div class="nav-links"><a href="#about">01_ABOUT</a><a href="#xp">02_EXP</a><a href="#work">03_WORK</a><a href="#writing">04_WRITING</a><a href="#contact">05_CONTACT</a><a href="Portfolio.html">PORTFOLIO ↗</a><a href="cv/cv.html">CV ↗</a></div>
   </nav>
 
   <section class="hero">
@@ -128,7 +173,7 @@ footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'Je
       <div class="spec"><div class="k">Base</div><div class="v">London, UK</div></div>
     </div>
     <p class="tagline">ARB-qualified architect and digital transformation leader, building the BIM, data and AI systems that let practices design with precision, accountability and speed.</p>
-    <div class="actions"><a class="btn btn-p" href="cv/cv.html" target="_blank">VIEW_CV.PDF</a><a class="btn btn-g" href="#contact">CONTACT →</a></div>
+    <div class="actions"><a class="btn btn-p" href="Portfolio.html">SELECTED WORK →</a><a class="btn btn-g" href="cv/cv.html">VIEW_CV.PDF</a><a class="btn btn-g" href="#contact">CONTACT →</a></div>
   </section>
 
   <section class="section" id="about">
@@ -161,20 +206,24 @@ footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'Je
     <div class="xp-row"><div class="when">2015 to<br>2022<br>LONDON</div><div><div class="role">ARCHITECT &amp; BIM SPECIALIST</div><div class="org">POLLARD THOMAS EDWARDS</div><ul><li>Managed BIM coordination for mixed-use schemes; authored BIM Execution Plans.</li></ul></div></div>
   </section>
 
-  <section class="section" id="writing">
+  <section class="section" id="work">
     <div class="sec-marker">03</div>
+    <div class="sec-label">WORK</div>
+    <div class="sec-title">SELECTED PROJECTS</div>
+    <div class="work-wrap">
+      <div class="work-list" id="work-list"></div>
+      <div class="work-preview">
+        <iframe id="work-iframe" scrolling="no"></iframe>
+        <div class="work-cap" id="work-cap"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="writing">
+    <div class="sec-marker">04</div>
     <div class="sec-label">WRITING</div>
     <div class="sec-title">RECENT POSTS &amp; ARTICLES</div>
     <div class="writing-grid" id="writing-grid"></div>
-  </section>
-
-  <section class="section" id="dl">
-    <div class="sec-marker">04</div>
-    <div class="sec-label">DOWNLOADS</div>
-    <div class="sec-title">CURRICULUM VITÆ</div>
-    <div class="dl-grid">
-      <div class="dl-card"><div class="k">DOC · A4</div><h3>Curriculum Vitæ</h3><p>A two-page, data-led CV: capability system, experience and technical stack.</p><a class="go" href="cv/cv.html" target="_blank">OPEN_CV.HTML →</a></div>
-    </div>
   </section>
 
   <section class="section" id="contact" style="border-bottom:none">
@@ -183,8 +232,8 @@ footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'Je
     <div class="contact-grid">
       <div><h2>GET IN<br>TOUCH.</h2></div>
       <div>
-        <div class="crow"><span>Email</span><span><a href="mailto:anirudh.sood@proton.me" style="color:inherit;text-decoration:none">anirudh.sood@proton.me</a></span></div>
-        <div class="crow"><span>LinkedIn</span><span><a href="https://www.linkedin.com/in/anirudh-sood-07076972/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">/anirudh-sood</a></span></div>
+        <div class="crow"><span>Email</span><span>anirudh.sood@proton.me</span></div>
+        <div class="crow"><span>LinkedIn</span><span>/anirudh-sood</span></div>
         <div class="crow"><span>Location</span><span>London, UK</span></div>
       </div>
     </div>
@@ -192,6 +241,49 @@ footer{padding:36px 0;display:flex;justify-content:space-between;font-family:'Je
 
   <footer><span>© ANIRUDH SOOD, REV.2026</span><span>COORD: 51.5074° N, 0.1278° W</span></footer>
 </div>
+<button class="totop mono" id="totop" aria-label="Back to top">↑ TOP</button>
+<script>
+(function(){
+  var PROJECTS = [
+    {src:'portfolio-mockups/as-clientxr-portfolio.html', k:'JS · SUPABASE · PANNELLUM — LIVE', title:'AS_ClientXR', desc:'Password-protected 360° panorama, video & drawing preview portal for architecture clients — shared via a single QR-code link.'},
+    {src:'portfolio-mockups/as-vantage-portfolio.html', k:'PYTHON · VANILLA JS · MAPILLARY API — INTERNAL TOOL', title:'AS_Vantage', desc:'A street-imagery sourcing tool that pulls real Mapillary photography and ranks it by camera-heading and distance match.'},
+    {src:'portfolio-mockups/as-carboncalculator-portfolio.html', k:'REVIT API · PYREVIT · WPF/XAML — INTERNAL TOOL', title:'AS_CarbonCalculator', desc:'A guided, four-step Revit pipeline that turns raw model material data into an EN 15978 whole-life embodied-carbon report.'},
+    {src:'portfolio-mockups/as-toolmap-portfolio.html', k:'PYTHON 3 · D3.JS · VANILLA JS/CSS — PUBLIC (GITHUB PAGES)', title:'AS_ToolMap', desc:'A searchable card catalogue and D3 force-graph of every tool in the AS Tools Revit extension.'},
+    {src:'portfolio-mockups/as-daylightmap-portfolio.html', k:'REVIT API · RAY-CAST · CANVAS JS — INTERNAL TOOL', title:'AS_DaylightMap', desc:"Reads a room's real site location and true north to render a browser heat-map of daylight reach."}
+  ];
+  var list = document.getElementById('work-list');
+  var iframe = document.getElementById('work-iframe');
+  var cap = document.getElementById('work-cap');
+
+  function scaleWork(){
+    var f = iframe.parentElement;
+    var s = Math.min(f.clientWidth / 1200, f.clientHeight / 800);
+    iframe.style.transform = 'scale(' + s + ')';
+  }
+  function showProject(i){
+    list.querySelectorAll('.work-item').forEach(function(el, j){ el.classList.toggle('on', j === i); });
+    iframe.src = PROJECTS[i].src;
+    cap.innerHTML = '<p>' + PROJECTS[i].desc + '</p><a class="go" href="' + PROJECTS[i].src + '" target="_blank">VIEW_CASE_STUDY →</a>';
+  }
+  PROJECTS.forEach(function(p, i){
+    var it = document.createElement('button');
+    it.type = 'button';
+    it.className = 'work-item';
+    it.innerHTML = '<div class="n mono">0' + (i + 1) + '</div><h4>' + p.title + '</h4><div class="kk mono">' + p.k + '</div>';
+    it.addEventListener('click', function(){ showProject(i); });
+    list.appendChild(it);
+  });
+  showProject(0);
+  iframe.addEventListener('load', scaleWork);
+  window.addEventListener('resize', scaleWork);
+
+  var totop = document.getElementById('totop');
+  window.addEventListener('scroll', function(){
+    totop.classList.toggle('show', window.scrollY > 480);
+  });
+  totop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
+</script>
 <script src="writing/posts.js"></script>
 <script>
 (function(){

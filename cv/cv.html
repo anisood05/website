@@ -3,272 +3,202 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Anirudh Sood · Curriculum Vitæ</title>
+<title>Anirudh Sood · curriculum vitae</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="cv-system.css" />
-
-<!-- React + Babel -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 </head>
 <body>
-<div class="deck" id="deck">
+<doc-page size="a4">
 
-  <!-- ============================= PAGE 1 ============================= -->
-  <section class="page" data-screen-label="CV · 1">
-
-    <!-- header -->
-    <header style="display:grid; grid-template-columns:1fr auto; align-items:end; padding-bottom:16px; border-bottom:2px solid var(--ink);">
-      <div>
-        <div class="eyebrow" style="margin-bottom:9px;">Head of Digital · BIM / Data / AI</div>
-        <h1 class="h1">Anirudh Sood</h1>
-        <div style="font-size:11px; color:var(--ink-2); margin-top:8px;">ARB-qualified architect &amp; digital transformation leader</div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:9.5px; line-height:1.7; color:var(--grey);">
-          <div style="color:var(--ink); font-weight:600;">07547 628754</div>
-          <div>anirudh.sood@proton.me</div>
-          <div style="color:var(--signal);">www.anirudhsood.co.uk</div>
-          <div>London, UK</div>
-        </div>
-        <div class="chips" style="justify-content:flex-end; margin-top:10px;">
-          <span class="chip"><b>ARB</b> Architect</span>
-          <span class="chip"><b>RIBA</b> Part III</span>
-          <span class="chip"><b>Oxford</b> AI</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- metric strip -->
-    <!-- NOTE: swap these for hard KPIs when available (team size, adoption %, hours saved) -->
-    <div class="metrics" style="margin-top:18px;">
-      <div class="metric"><div class="metricN">10+</div><div class="cap">years · built environment</div></div>
-      <div class="metric"><div class="metricN">RIBA&nbsp;1–6</div><div class="cap">stages delivered</div></div>
-      <div class="metric"><div class="metricN">5</div><div class="cap">capability domains led</div></div>
-      <div class="metric sig"><div class="metricN">ARB</div><div class="cap">registered architect</div></div>
+<section class="page" data-screen-label="CV · 1">
+  <header class="doc-head">
+    <div>
+      <div class="eyebrow">Head of digital · BIM, data and AI</div>
+      <h1 class="h1">Anirudh Sood</h1>
+      <div class="sub">Digital strategy, automation and AI for a London architecture practice</div>
     </div>
-
-    <!-- profile -->
-    <p class="lede" style="margin: 24px 0 0; max-width: 90%; width: 671px">Strategic digital leader with over ten years’ experience in the built environment, delivering BIM, data, and AI solutions. Proven ability to lead complex projects from concept to completion, embed governance frameworks, and align technology with business goals. Skilled at translating technical complexity into clear, actionable digital strategies that enable teams to adopt future‑ready tools and workflows. Strong communicator with active listening skills, building collaborative relationships across multidisciplinary teams.</p>
-
-    <!-- capability system -->
-    <div style="display:flex; align-items:baseline; justify-content:space-between; margin:42px 0 0;">
-      <div class="label">Capability System · Aukett Swanke · 2022–Present</div>
-      <div class="label" style="color:var(--grey);">Ops&nbsp;→&nbsp;Strat&nbsp;&nbsp;·&nbsp;&nbsp;Full detail p.2</div>
+    <div>
+      <div class="meta">
+        <div class="strong"><a href="tel:+447547628754">07547 628754</a></div>
+        <div><a href="mailto:anirudh.sood@proton.me">anirudh.sood@proton.me</a></div>
+        <div><a href="https://www.anirudhsood.co.uk">www.anirudhsood.co.uk</a></div>
+        <div>London, UK</div>
+      </div>
+      <div class="chips">
+        <span class="chip"><b>ARB</b> registered architect</span>
+        <span class="chip"><b>Oxford</b> AI programme</span>
+      </div>
     </div>
+  </header>
 
-    <div style="margin-top:12px;">
-      <div class="cap-row" style="border-top-color:var(--ink);">
-        <div class="cap-num">01</div>
-        <div><div class="h2">Project Delivery</div><div class="kicker">BIM &amp; Digital Integration</div></div>
-        <div class="alt"><div class="track"></div><div class="tick" style="left:0;"></div><div class="tick" style="left:50%;"></div><div class="tick" style="right:0;"></div><div class="dot ops" style="left:24%;"></div><div class="ends"><span>Ops</span><span>Strat</span></div></div>
-      </div>
-      <div class="cap-row">
-        <div class="cap-num">02</div>
-        <div><div class="h2">Automation</div><div class="kicker">Modelling &amp; App Development</div></div>
-        <div class="alt"><div class="track"></div><div class="tick" style="left:0;"></div><div class="tick" style="left:50%;"></div><div class="tick" style="right:0;"></div><div class="dot ops" style="left:44%;"></div><div class="ends"><span>Ops</span><span>Strat</span></div></div>
-      </div>
-      <div class="cap-row">
-        <div class="cap-num">03</div>
-        <div><div class="h2">Libraries / Systems</div><div class="kicker">Visual communication, workflows &amp; content</div></div>
-        <div class="alt"><div class="track"></div><div class="tick" style="left:0;"></div><div class="tick" style="left:50%;"></div><div class="tick" style="right:0;"></div><div class="dot ops" style="left:30%;"></div><div class="ends"><span>Ops</span><span>Strat</span></div></div>
-      </div>
-      <div class="cap-row">
-        <div class="cap-num">04</div>
-        <div><div class="h2">Building Analytics</div><div class="kicker">Sustainability &amp; Performance</div></div>
-        <div class="alt"><div class="track"></div><div class="tick" style="left:0;"></div><div class="tick" style="left:50%;"></div><div class="tick" style="right:0;"></div><div class="dot" style="left:62%;"></div><div class="ends"><span>Ops</span><span>Strat</span></div></div>
-      </div>
-      <div class="cap-row">
-        <div class="cap-num">05</div>
-        <div><div class="h2">Digital Transformation</div><div class="kicker">Strategic Impact</div></div>
-        <div class="alt"><div class="track"></div><div class="tick" style="left:0;"></div><div class="tick" style="left:50%;"></div><div class="tick" style="right:0;"></div><div class="dot" style="left:90%;"></div><div class="ends"><span>Ops</span><span>Strat</span></div></div>
-      </div>
-      <div class="hair"></div>
-    </div>
+  <div class="metrics">
+    <div class="metric"><div class="metricN">10+</div><div class="cap">years in the built environment</div></div>
+    <div class="metric"><div class="metricN">40+</div><div class="cap">tools shipped and in daily use</div></div>
+    <div class="metric sig"><div class="metricN">5</div><div class="cap">practice-wide systems built</div></div>
+  </div>
 
-    <!-- integrated skillset + technical stack -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:36px; margin-top:42px;">
-      <div>
-        <div class="label" style="margin-bottom:13px;">Integrated Skillset</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>AEC domain expertise + digital systems leadership</div>
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Product-led design of tools, workflows &amp; standards</div>
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>User-centred, iterative problem solving</div>
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Data, automation &amp; responsible AI adoption</div>
+  <p class="lede">Digital leader in the built environment, setting the digital strategy for a London practice across BIM, data, automation and AI, then building the tools, standards and governance behind it. More than 10 years of project delivery provides the technical grounding. The current focus is systems the whole practice can run.</p>
+
+  <div class="label col-h" style="margin-top:var(--s4)">Employment history</div>
+
+  <div class="xp">
+    <div class="when">October 2022<br />to now<br />London</div>
+    <div>
+      <div class="role">Head of Digital</div>
+      <div class="org">Aukett Swanke Limited</div>
+      <div class="prog-line"><span class="yr">June 2025</span> Head of Digital · <span class="yr">May 2023</span> BIM and Digital Strategies Lead · <span class="yr">October 2022</span> BIM Specialist</div>
+      <div class="xp-groups">
+        <div class="xp-group">
+          <div class="xp-group-h"><span class="xp-group-n">01</span><span class="xp-group-t">Project delivery</span></div>
+          <div class="body">BIM delivery across RIBA stages 1-6 on commercial, hospitality and retail schemes: modelling standards, model checking, clash detection, COBie and data-rich IFC.</div>
         </div>
-      </div>
-      <div>
-        <div class="label" style="margin-bottom:13px;">Software Projects</div>
-        <div class="stack" style="grid-template-columns:1fr;">
-          <div class="stack-row"><b>Client Portal</b><span>Immersive client preview platform serving 360° panorama, video and gallery content via QR-code links and two-factor access control.</span></div>
-          <div class="stack-row"><b>Revit Extension</b><span>Custom toolbar of 40+ tools deployed firm-wide: embodied carbon analyser, 3D print preparation wizard and usage analytics dashboard.</span></div>
-          <div class="stack-row"><b>Imagery Tool</b><span>Web tool for sourcing and scoring street-level photography by heading and proximity, used to find real-world backdrops for visualisation.</span></div>
-          <div class="stack-row"><b>Forma Analytics</b><span>Real-time building metrics panel embedded in Autodesk Forma: GFA, FAR, floor counts and facade orientation from live 3D geometry.</span></div>
-          <div class="stack-row"><b>Compliance Review</b><span>Offline RAG sign-off system covering 500 compliance items across 25 building configurations, with photo attachments and JSON export.</span></div>
+        <div class="xp-group">
+          <div class="xp-group-h"><span class="xp-group-n">02</span><span class="xp-group-t">Automation</span></div>
+          <div class="body">Five tools now used across the practice: a Revit extension, a client portal, a Forma panel, an imagery finder and a compliance system. Each was piloted before it scaled.</div>
+        </div>
+        <div class="xp-group">
+          <div class="xp-group-h"><span class="xp-group-n">03</span><span class="xp-group-t">Libraries and systems</span></div>
+          <div class="body">Templates and tooling for communicating design intent, with automation handling the repetitive work.</div>
+        </div>
+        <div class="xp-group">
+          <div class="xp-group-h"><span class="xp-group-n">04</span><span class="xp-group-t">Building analytics</span></div>
+          <div class="body">A carbon analytics framework, with dashboards and reports supporting design decisions.</div>
+        </div>
+        <div class="xp-group xp-group--wide">
+          <div class="xp-group-h"><span class="xp-group-n">05</span><span class="xp-group-t">Digital transformation</span></div>
+          <div class="body">Wrote the Digital Operations Framework, the AI-in-Practice Protocol and the ISO 19650 template set (BEP, TIDP, clash matrix). Set up how the practice governs AI, founded its AI working and development groups, reviewed client contracts for digital obligations, and joined the studio management group.</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="foot"><b>ANIRUDH SOOD · CURRICULUM VITÆ</b><span>01 / 02</span></div>
-  </section>
+  <div class="xp xp--prior">
+    <div class="when">May to<br />November 2022<br />Secondment</div>
+    <div>
+      <div class="role">Part 2 Architectural Assistant</div>
+      <div class="org">Architecture PLB, London</div>
+      <div class="body">Led BIM delivery on a mid-sized project through RIBA stages 1-5, coordinating consultants across the design, and rewrote the practice BIM protocols.</div>
+    </div>
+  </div>
 
-  <!-- ============================= PAGE 2 ============================= -->
-  <section class="page" data-screen-label="CV · 2">
+  <div class="xp xp--prior">
+    <div class="when">March 2015 to<br />April 2022<br />London</div>
+    <div>
+      <div class="role">Part 2 Architectural Assistant and BIM Specialist</div>
+      <div class="org">Pollard Thomas Edwards, London</div>
+      <div class="body">Ran BIM coordination on mixed-use schemes and wrote the BIM Execution Plans behind them. Built the workflows, templates and model checks the team delivered against, audited models in Navisworks, and introduced VR to explain designs.</div>
+    </div>
+  </div>
 
-    <header style="display:grid; grid-template-columns:1fr auto; align-items:end; padding-bottom:11px; border-bottom:2px solid var(--ink);">
-      <div>
-        <div class="eyebrow" style="margin-bottom:7px;">Anirudh Sood · continued</div>
-        <h2 style="font-size:24px; font-weight:800; letter-spacing:-.02em; margin:0;">Experience &amp; Education</h2>
+  <div class="xp xp--prior">
+    <div class="when">November 2013<br />to March 2015<br />London</div>
+    <div>
+      <div class="role">Part 2 Architectural Assistant</div>
+      <div class="org">Glenn Howells Architects, London</div>
+      <div class="body">Coordinated BIM across consultant teams on housing, retail and non-residential projects through RIBA stages 1-5, and prepared construction drawings, planning applications and presentation material.</div>
+    </div>
+  </div>
+
+  <div class="foot"><b>ANIRUDH SOOD · CURRICULUM VITAE</b><span>01 / 02</span></div>
+</section>
+
+<section class="page page--2" data-screen-label="CV · 2">
+  <header class="doc-head">
+    <div>
+      <div class="eyebrow">Anirudh Sood · continued</div>
+      <h2 class="h2">Delivery and background</h2>
+    </div>
+    <div class="meta">
+      <div>Notice period: four weeks</div>
+      <div><a href="https://www.anirudhsood.co.uk">www.anirudhsood.co.uk</a></div>
+    </div>
+  </header>
+
+  <div class="label col-h" style="margin-top:var(--s4)">Selected delivery · Aukett Swanke</div>
+  <div class="stack">
+    <div class="stack-row"><b>Revit Extension</b><span>More than 40 tools used daily across the practice, spanning embodied carbon calculation, model auditing, sheet and view management, and 3D-print preparation.</span></div>
+    <div class="stack-row"><b>Client Portal</b><span>360° panoramas, video and image galleries shared with clients by QR link, behind two-factor access.</span></div>
+    <div class="stack-row"><b>Forma Analytics</b><span>Live floor area, plot ratio and facade metrics pulled from Autodesk Forma into early-stage design decisions.</span></div>
+    <div class="stack-row"><b>Compliance Review</b><span>Offline sign-off system covering 500 checks across 25 building types.</span></div>
+    <div class="stack-row"><b>Imagery Tool</b><span>Finds and ranks street-level photography for a site by camera heading and distance.</span></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="label col-h">Approach</div>
+      <ul class="tick-list">
+        <li>Digital strategy grounded in real project delivery.</li>
+        <li>Tools, workflows and standards designed as products, piloted before they scale.</li>
+        <li>Adoption led with the people who do the work.</li>
+        <li>Governance for data, automation and AI.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="label col-h">Standards and quality</div>
+      <ul class="tick-list">
+        <li>ISO 19650 information management applied on live projects.</li>
+        <li>Checks and reviews built into the delivery process.</li>
+        <li>Client digital obligations reviewed at appointment stage.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="label col-h">Outside the practice</div>
+      <ul class="tick-list">
+        <li>Member of the Digital Design Leadership Forum.</li>
+        <li>Panel speaker on digital design and construction.</li>
+        <li>Conferences, seminars and specialist workshops.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="label col-h">Software and platforms</div>
+      <ul class="tick-list">
+        <li>Revit, Navisworks, Solibri, Autodesk Construction Cloud, Autodesk Forma.</li>
+        <li>Python, pyRevit, the Revit API, Power Apps, Power Automate and Power BI.</li>
+        <li>Custom apps built in Power Apps for site data capture and practice reporting.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:var(--s5)">
+    <div class="label col-h">Education and courses</div>
+    <div class="edu">
+      <div class="edu-row">
+        <div class="deg">Artificial Intelligence Programme</div>
+        <div class="inst">Saïd Business School, University of Oxford</div>
+        <div class="yr">July to September 2023</div>
       </div>
-      <div style="font-size:9px; color:var(--grey); text-align:right; line-height:1.6;">
-        <div>Notice period · 4 weeks</div>
-        <div style="color:var(--signal);">www.anirudhsood.co.uk</div>
+      <div class="edu-row">
+        <div class="deg">RIBA Part 3 · Postgraduate Diploma</div>
+        <div class="inst">University of Westminster, London</div>
+        <div class="yr">September 2021 to 2022</div>
       </div>
-    </header>
-
-    <!-- experience -->
-    <div class="label" style="margin:12px 0 2px;">Career History</div>
-
-    <div class="xp" style="border-top-color:var(--ink); padding:10px 0;">
-      <div class="when">Oct 2022 –<br/>Present<br/>London</div>
-      <div>
-        <div class="role">Head of Digital</div>
-        <div class="org">Aukett Swanke Limited</div>
-        <div class="prog">
-          <div><span class="yr">Jun 2025 –</span> Head of Digital</div>
-          <div><span class="yr">May 2023 –</span> BIM &amp; Digital Strategies Lead</div>
-          <div><span class="yr">Oct 2022 –</span> BIM Specialist</div>
-        </div>
-
-        <div class="xp-groups" style="gap:6px; margin-top:7px;">
-          <div class="xp-group">
-            <div class="xp-group-h" style="padding-bottom:3px;"><span class="xp-group-n">01</span><span class="xp-group-t">Project Delivery</span><span class="xp-group-k">BIM &amp; Digital Integration</span></div>
-            <div class="body">Directed BIM delivery across RIBA Stages 1–6 for commercial, hospitality, community and retail; defined modelling standards and QA/QC; embedded clash detection to de-risk pre-construction; delivered COBie and data-rich IFC for facilities management.</div>
-          </div>
-          <div class="xp-group">
-            <div class="xp-group-h" style="padding-bottom:3px;"><span class="xp-group-n">02</span><span class="xp-group-t">Automation</span><span class="xp-group-k">Modelling &amp; App Development</span></div>
-            <div class="body">Built 5 internal tools deployed firm-wide: Revit extension (40+ tools), client preview portal, Forma analytics panel, imagery sourcing tool and offline compliance review system; each piloted then scaled practice-wide.</div>
-          </div>
-          <div class="xp-group">
-            <div class="xp-group-h" style="padding-bottom:3px;"><span class="xp-group-n">03</span><span class="xp-group-t">Libraries / Systems</span><span class="xp-group-k">Visual communication, workflows &amp; content</span></div>
-            <div class="body">Enhanced workflows with templates and new software to sharpen design-intent communication; incorporated AI and automation to lift speed and output consistency.</div>
-          </div>
-          <div class="xp-group">
-            <div class="xp-group-h" style="padding-bottom:3px;"><span class="xp-group-n">04</span><span class="xp-group-t">Building Analytics</span><span class="xp-group-k">Sustainability &amp; Performance</span></div>
-            <div class="body">Built a carbon-focused analytics framework; led interactive dashboards and integrated reports translating performance data into actionable design knowledge.</div>
-          </div>
-          <div class="xp-group">
-            <div class="xp-group-h" style="padding-bottom:3px;"><span class="xp-group-n">05</span><span class="xp-group-t">Digital Transformation</span><span class="xp-group-k">Strategic Impact</span></div>
-            <div class="body">Authored the Digital Operations Framework, AI-in-Practice Protocol and BIM templates (BEP, TIDP, Clash Matrix); established AI governance; founded AI Working &amp; Development Groups; reviewed client contracts for digital obligations; produced plain-English guides; active member of the Studio Management Group.</div>
-          </div>
-        </div>
+      <div class="edu-row">
+        <div class="deg">RIBA Part 2 · MArch, Merit</div>
+        <div class="inst">University of Edinburgh</div>
+        <div class="yr">September 2011 to June 2013</div>
+      </div>
+      <div class="edu-row">
+        <div class="deg">RIBA Part 1 · BA Architecture (Honours)</div>
+        <div class="inst">University of Edinburgh</div>
+        <div class="yr">September 2007 to June 2011</div>
       </div>
     </div>
+  </div>
 
-    <div class="xp" style="border-top-color:var(--ink); padding:10px 0;">
-      <div class="when">May 2022 –<br/>Nov 2022<br/>Secondment</div>
-      <div>
-        <div class="role">Experienced Part II Architectural Assistant</div>
-        <div class="org">Architecture PLB · London</div>
-        <ul>
-          <li>Led BIM project delivery on a medium-scale project (RIBA Stages 1–5), coordinating with consultant teams to ensure seamless design integration.</li>
-          <li>Reviewed and optimised BIM protocols, introducing streamlined workflows that improved efficiency project-wide.</li>
-        </ul>
-      </div>
-    </div>
+  <div class="foot"><b>ANIRUDH SOOD · CURRICULUM VITAE</b><span>02 / 02</span></div>
+</section>
 
-    <div class="xp" style="padding:10px 0;">
-      <div class="when">Mar 2015 –<br/>Apr 2022<br/>London</div>
-      <div>
-        <div class="role">Experienced Part II Architectural Assistant, BIM &amp; Digital Specialist</div>
-        <div class="org">Pollard Thomas Edwards · London</div>
-        <ul>
-          <li>Managed BIM coordination for mixed-use schemes, authoring and implementing the BIM Execution Plans.</li>
-          <li>Developed BIM workflows, conducted model QA/QC reviews and created templates to standardise delivery.</li>
-          <li>Delivered project audits in Navisworks, optimised Revit models and introduced VR tools to enhance communication.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="xp" style="padding:10px 0;">
-      <div class="when">Nov 2013 –<br/>Mar 2015<br/>London</div>
-      <div>
-        <div class="role">Part II Architectural Assistant</div>
-        <div class="org">Glenn Howells Architects · London</div>
-        <ul>
-          <li>Coordinated BIM between consultant teams on medium to large-scale residential, non-residential and retail projects (RIBA Stages 1–5).</li>
-          <li>Prepared construction drawings, planning applications and presentation materials to support project submissions.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- two-column: education | standards + industry -->
-    <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:40px; margin-top:12px;">
-      <div>
-        <div class="label" style="margin-bottom:4px;">Education &amp; Professional Courses</div>
-        <div class="edu">
-          <div class="edu-row" style="border-top-color:var(--ink);">
-            <div class="deg">Oxford Artificial Intelligence Programme</div>
-            <div class="inst">Saïd Business School, University of Oxford</div>
-            <div class="yr">Jul – Sep 2023</div>
-          </div>
-          <div class="edu-row">
-            <div class="deg">RIBA Part III · PG.Dip.</div>
-            <div class="inst">University of Westminster, London</div>
-            <div class="yr">Sep 2021 – Sep 2022</div>
-          </div>
-          <div class="edu-row">
-            <div class="deg">RIBA Part II · M.Arch, Merit</div>
-            <div class="inst">University of Edinburgh</div>
-            <div class="yr">Sep 2011 – Jun 2013</div>
-          </div>
-          <div class="edu-row">
-            <div class="deg">RIBA Part I · BA Architecture, Hons</div>
-            <div class="inst">University of Edinburgh</div>
-            <div class="yr">Sep 2007 – Jun 2011</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="label" style="margin-bottom:7px;">Standards &amp; Quality</div>
-        <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:10px;">
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Working knowledge of ISO 19650 information management, applied across live projects.</div>
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Strong QA/QC focus, ensuring compliance with project and organisational requirements.</div>
-        </div>
-
-        <div class="label" style="margin-bottom:7px;">Industry Engagement</div>
-        <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:10px;">
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Active member, Digital Design Leadership Forum; panel speaker on digital design &amp; construction.</div>
-          <div class="body" style="padding-left:14px; position:relative;"><span style="position:absolute; left:0; top:6px; width:7px; height:1px; background:var(--signal);"></span>Continuous learning through industry conferences, seminars and specialist workshops.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="foot"><b>ANIRUDH SOOD · CURRICULUM VITÆ</b><span>02 / 02</span></div>
-  </section>
-
-</div>
-
-<script>
-  // Fit the A4 deck to the viewport width (screen only), capped at 1:1.
-  function fit(){
-    const deck = document.getElementById('deck');
-    const pad = 48;
-    const scale = Math.min(1, (window.innerWidth - pad) / 794);
-    document.querySelectorAll('.page').forEach(p=>{
-      p.style.transform = 'scale(' + scale + ')';
-      p.style.transformOrigin = 'top center';
-      p.style.marginBottom = (scale < 1 ? (scale-1)*1123 : 0) + 'px';
-    });
-  }
-  window.addEventListener('resize', fit);
-  fit();
-</script>
+</doc-page>
+<script src="doc-page.js"></script>
 <div id="tweaks-root"></div>
 
 <script type="text/babel">
@@ -281,51 +211,52 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const PAPER = {
-  White: { paper:'#f4f1ea', ink:'#161616', ink2:'#333333', grey:'#666666', line:'#d9d3c2', line2:'#c9c2ae', panel:'#e8e4d8', panel2:'#ddd8c8', bg:'#d4cfc0' },
-  Warm:  { paper:'#faf8f3', ink:'#1a1410', ink2:'#3d3730', grey:'#8a8178', line:'#e5dfd7', line2:'#d9d2c9', panel:'#f2ede5', panel2:'#e8e1d7', bg:'#c5bfb6' },
-  Slate: { paper:'#16191e', ink:'#edf0f4', ink2:'#bcc4cf', grey:'#6b7480', line:'#2c3540', line2:'#364250', panel:'#1d2530', panel2:'#242f3c', bg:'#0d1015' },
+  White: { paper:'#f4f1ea', ink:'#161616', body:'#333333', muted:'#666666', line:'#d9d3c2', line2:'#c9c2ae', card:'#e8e4d8', card2:'#ddd8c8', lift:0 },
+  Warm:  { paper:'#faf8f3', ink:'#1a1410', body:'#3d3730', muted:'#8a8178', line:'#e5dfd7', line2:'#d9d2c9', card:'#f2ede5', card2:'#e8e1d7', lift:0 },
+  Slate: { paper:'#16191e', ink:'#edf0f4', body:'#bcc4cf', muted:'#8d97a4', line:'#2c3540', line2:'#364250', card:'#1d2530', card2:'#242f3c', lift:1 },
 };
 
 const FONTS = {
-  Swiss: { stack:"'Hanken Grotesk', system-ui, sans-serif", url: null },
-  Serif: { stack:"'Lora', Georgia, serif",                  url: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" },
-  Mono:  { stack:"'IBM Plex Mono', monospace",              url: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" },
+  Swiss: { stack:"'Space Grotesk', system-ui, sans-serif", url:null },
+  Serif: { stack:"'Lora', Georgia, serif", url:"https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" },
+  Mono:  { stack:"'JetBrains Mono', ui-monospace, monospace", url:null },
 };
 
-function loadFont(url) {
-  if (!url || document.querySelector(`link[href="${url}"]`)) return;
+function loadFont(url){
+  if(!url || document.querySelector(`link[href="${url}"]`)) return;
   const l = document.createElement('link');
   l.rel = 'stylesheet'; l.href = url;
   document.head.appendChild(l);
 }
 
-function applyTweaks(t) {
+function applyTweaks(t){
   const r = document.documentElement;
   const p = PAPER[t.paper] || PAPER.White;
-  const f = FONTS[t.font]  || FONTS.Swiss;
-  r.style.setProperty('--paper',   p.paper);
-  r.style.setProperty('--ink',     p.ink);
-  r.style.setProperty('--ink-2',   p.ink2);
-  r.style.setProperty('--grey',    p.grey);
-  r.style.setProperty('--line',    p.line);
-  r.style.setProperty('--line-2',  p.line2);
-  r.style.setProperty('--panel',   p.panel);
-  r.style.setProperty('--panel-2', p.panel2);
-  document.body.style.background = p.bg;
-  r.style.setProperty('--signal',     t.accent);
-  r.style.setProperty('--signal-ink', t.accent);
+  const f = FONTS[t.font] || FONTS.Swiss;
+  r.style.setProperty('--paper', p.paper);
+  r.style.setProperty('--ink', p.ink);
+  r.style.setProperty('--body-ink', p.body);
+  r.style.setProperty('--muted', p.muted);
+  r.style.setProperty('--line', p.line);
+  r.style.setProperty('--line-2', p.line2);
+  r.style.setProperty('--card', p.card);
+  r.style.setProperty('--card-2', p.card2);
+  // accent stays legible on dark paper; the ink variant is derived, never equal
+  const accent = p.lift ? `color-mix(in oklab, ${t.accent} 72%, white)` : t.accent;
+  r.style.setProperty('--signal', accent);
+  r.style.setProperty('--signal-ink', `color-mix(in oklab, ${accent} 78%, ${p.lift ? 'white' : 'black'})`);
   loadFont(f.url);
   r.style.setProperty('--font', f.stack);
 }
 
-function CVTweaks() {
+function CVTweaks(){
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   React.useEffect(() => { applyTweaks(t); }, [t]);
   return (
     <TweaksPanel title="Tweaks">
       <TweakSection label="Accent" />
       <TweakColor label="Colour" value={t.accent}
-        options={['#e2001a', '#161616', '#1a6b3e', '#8c3a1e']}
+        options={['#e2001a', '#1f5fdb', '#1a6b3e', '#8c3a1e']}
         onChange={v => setTweak('accent', v)} />
       <TweakSection label="Typeface" />
       <TweakRadio label="Style" value={t.font}
@@ -341,5 +272,5 @@ function CVTweaks() {
 
 ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<CVTweaks />);
 </script>
-
-
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AS_DaylightMap — Portfolio Card (Real App Colours)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --paper:#f4f1ea;
+    --ink:#161616;
+    --signal:#e2001a;
+    --muted:#666666;
+    --line:#c9c2ae;
+    --card:#e8e4d8;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:#2a2a2a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  }
+
+  .stage{
+    width:1200px;
+    height:800px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--ink);
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .index-num{
+    position:absolute;
+    top:-70px;
+    right:-10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:340px;
+    line-height:1;
+    color:var(--ink);
+    opacity:0.045;
+    letter-spacing:-0.03em;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:28px 36px 20px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .header-left .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:10px;
+  }
+
+  .header-left h1{
+    font-size:38px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.02em;
+    line-height:1;
+  }
+
+  .header-left p{
+    margin-top:8px;
+    max-width:560px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.4;
+    height:44px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+
+  .header-right{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .header-right .arrow{ color:var(--signal); }
+
+  .spec-row{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-bottom:1px solid var(--line);
+    height:62px;
+  }
+
+  .spec-cell{
+    padding:10px 20px;
+    border-right:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .spec-cell:last-child{ border-right:none; }
+
+  .spec-cell .k{
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .spec-cell .v{
+    margin-top:3px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .spec-cell .v.status-live{ color:var(--signal); }
+
+  .stage-body{
+    position:relative;
+    z-index:1;
+    flex:1;
+    display:flex;
+    gap:24px;
+    padding:24px 36px;
+    min-height:0;
+  }
+
+  .screen-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .screen-label span.tag{ color:var(--signal); }
+
+  /* -- pane 1: configure & analyse -- */
+  .pane-config{
+    width:400px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
+    min-height:0;
+  }
+
+  .config-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#fbfaf6;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    padding:14px;
+    gap:6px;
+  }
+
+  .step{ display:flex; align-items:flex-start; gap:9px; background:var(--card); border:1px solid var(--line); padding:7px 10px; }
+  .step .idx{ font-size:10.5px; font-weight:700; width:16px; flex-shrink:0; padding-top:1px; }
+  .step .body{ flex:1; min-width:0; }
+  .step .title{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:-0.01em; }
+  .step .desc{ font-size:8px; color:var(--muted); margin-top:3px; line-height:1.3; font-family:'JetBrains Mono',monospace; }
+  .step.branch{ border-style:dashed; }
+  .step.branch .idx{ color:var(--signal); }
+
+  .output-chip{ margin-top:6px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); padding:8px 10px; }
+  .output-chip .t{ font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:3px; }
+  .output-chip .d{ font-size:8px; color:#cfcac0; line-height:1.3; font-family:'JetBrains Mono',monospace; }
+
+  /* -- pane 2: daylight report -- */
+  .pane-report{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    min-height:0;
+  }
+
+  .report-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#fbfaf6;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    padding:16px;
+    min-height:0;
+  }
+
+  .kpi-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
+  .kpi{ border:1px solid var(--line); background:var(--card); padding:8px 10px; }
+  .kpi .k{ font-size:7.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; line-height:1.25; font-family:'JetBrains Mono',monospace; }
+  .kpi .v{ font-size:17px; font-weight:700; letter-spacing:-0.01em; }
+  .kpi .v.fail{ color:var(--signal); }
+
+  .toolbar{ display:flex; gap:6px; margin-bottom:8px; }
+  .tbtn{ font-size:8.5px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; border:1px solid var(--ink); padding:5px 9px; background:var(--paper); font-family:'JetBrains Mono',monospace; }
+  .tbtn.on{ background:var(--ink); color:var(--paper); }
+
+  .maprow{ display:flex; gap:14px; margin-bottom:10px; }
+  .heatmap{ flex:1; border:1px solid var(--ink); background:var(--paper); padding:6px; }
+  .hm-grid{ display:grid; grid-template-columns:repeat(14,1fr); grid-template-rows:repeat(7,1fr); gap:1px; height:100px; }
+  .hm-grid div{ background:var(--ink); }
+
+  .hm-legend{ width:110px; flex-shrink:0; display:flex; flex-direction:column; gap:6px; }
+  .hm-scale{ display:flex; gap:6px; align-items:center; }
+  .hm-scale-bar{ width:14px; height:80px; border:1px solid var(--ink); display:flex; flex-direction:column; }
+  .hm-scale-bar div{ flex:1; }
+  .hm-scale-lbl{ display:flex; flex-direction:column; justify-content:space-between; height:80px; font-size:7.5px; color:var(--muted); }
+  .hm-row{ display:flex; align-items:center; gap:5px; font-size:7.5px; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+  .hm-sw{ width:9px; height:9px; flex-shrink:0; }
+  .hm-sw.window{ border:1px solid var(--ink); background:none; }
+  .hm-sw.panel{ background:var(--muted); }
+  .hm-sw.nosky{ background:var(--signal); }
+
+  .rtable{ width:100%; border-collapse:collapse; }
+  .rtable th{ font-size:7.5px; letter-spacing:0.05em; text-transform:uppercase; text-align:left; color:var(--paper); background:var(--ink); padding:5px 8px; font-family:'JetBrains Mono',monospace; }
+  .rtable td{ font-size:9.5px; padding:5px 8px; border-bottom:1px solid var(--line); font-family:'JetBrains Mono',monospace; }
+  .rtable tr.fail td{ background:#F6E1DE; }
+  .pill{ font-size:7.5px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; padding:1px 6px; border:1px solid; }
+  .pill.pass{ border-color:#2E5E2B; color:#2E5E2B; background:#E4F0E2; }
+  .pill.fail{ border-color:#8E2B22; color:#8E2B22; background:#F6E1DE; }
+
+  .caption-block{
+    position:relative;
+    z-index:1;
+    border-top:1px solid var(--line);
+    padding:18px 36px 24px;
+    display:flex;
+    gap:36px;
+    height:150px;
+  }
+
+  .caption-block .col{ flex:1; }
+
+  .caption-block .col-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:6px;
+  }
+
+  .caption-block p{
+    font-size:12.5px;
+    line-height:1.5;
+    color:#333;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:4;
+    overflow:hidden;
+  }
+
+  .caption-block .col:last-child p{ color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="index-num">05</div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">// PORTFOLIO — 05</div>
+      <h1>AS_DaylightMap</h1>
+      <p>Reads a room's real site location and true north to render a browser heat-map of daylight reach, ray-casting real obstructions and scoring BRE / BS 8206-2 compliance.</p>
+    </div>
+    <div class="header-right mono">
+      AS Tools — Sustainability <span class="arrow">→</span>
+    </div>
+  </div>
+
+  <div class="spec-row">
+    <div class="spec-cell">
+      <div class="k">Role</div>
+      <div class="v">Concept, Algorithm &amp; Build</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Stack</div>
+      <div class="v">Revit API · Ray-cast · Canvas JS</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Status</div>
+      <div class="v status-live">Live — Internal Production</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Year</div>
+      <div class="v">2026</div>
+    </div>
+  </div>
+
+  <div class="stage-body">
+
+    <div class="pane-config">
+      <div class="screen-label">
+        <span>Configure &amp; Analyse — <span class="tag">hub.xaml</span></span>
+        <span>Revit</span>
+      </div>
+      <div class="config-frame">
+        <div class="step">
+          <div class="idx mono">01</div>
+          <div class="body">
+            <div class="title">Choose what to analyse</div>
+            <div class="desc">Selected room(s), a level, or the whole model, in one report.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx mono">02</div>
+          <div class="body">
+            <div class="title">Configure the run</div>
+            <div class="desc">Grid quality, work-plane height, sun preset — or annual/seasonal mode.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx mono">03</div>
+          <div class="body">
+            <div class="title">Read geometry &amp; obstruction</div>
+            <div class="desc">Rooms + windows, host and linked; ray-casts real obstruction.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="idx mono">04</div>
+          <div class="body">
+            <div class="title">Score the daylight field</div>
+            <div class="desc">BRE Average Daylight Factor and BS 8206-2 PASS/FAIL, per room.</div>
+          </div>
+        </div>
+        <div class="step branch">
+          <div class="idx mono">4b</div>
+          <div class="body">
+            <div class="title">Annual / seasonal (optional)</div>
+            <div class="desc">Cumulative sun-hours + per-season direct-sun maps.</div>
+          </div>
+        </div>
+        <div class="output-chip">
+          <div class="t">Output</div>
+          <div class="d">Self-contained HTML report — heat-map(s), ranked table, viridis palette, CSV export. Read-only.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane-report">
+      <div class="screen-label">
+        <span>Daylight Heat-map Report — <span class="tag">report.html</span></span>
+        <span>Generated</span>
+      </div>
+      <div class="report-frame">
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="k">Average Daylight Factor</div>
+            <div class="v">2.34%</div>
+          </div>
+          <div class="kpi">
+            <div class="k">BS 8206-2 Target</div>
+            <div class="v">1.5%</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Result</div>
+            <div class="v" style="color:#2E5E2B">PASS</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Floor ≥ Target</div>
+            <div class="v">78%</div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="tbtn on">Palette: Warm</div>
+          <div class="tbtn">Contours: Off</div>
+          <div class="tbtn">Export CSV</div>
+        </div>
+
+        <div class="maprow">
+          <div class="heatmap"><div class="hm-grid" id="hmgrid"></div></div>
+          <div class="hm-legend">
+            <div class="hm-scale">
+                <div class="hm-scale-bar" style="background:linear-gradient(180deg,#e63c28,#f0c828,#2daa55,#00a0be,#1e46a0)"></div>
+              <div class="hm-scale-lbl"><span>Better</span><span>Poorer</span></div>
+            </div>
+            <div class="hm-row"><span class="hm-sw window"></span>Window</div>
+            <div class="hm-row"><span class="hm-sw panel"></span>Glazed panel</div>
+            <div class="hm-row"><span class="hm-sw nosky"></span>No sky line</div>
+          </div>
+        </div>
+
+        <table class="rtable">
+          <thead><tr><th>Room</th><th>ADF %</th><th>Target %</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr class="fail"><td>02 — Bedroom 1</td><td>0.62</td><td>1.0</td><td><span class="pill fail">Fail</span></td></tr>
+            <tr class="fail"><td>05 — Kitchen</td><td>1.71</td><td>2.0</td><td><span class="pill fail">Fail</span></td></tr>
+            <tr><td>01 — Living / Dining</td><td>2.34</td><td>1.5</td><td><span class="pill pass">Pass</span></td></tr>
+            <tr><td>07 — Study</td><td>3.02</td><td>2.0</td><td><span class="pill pass">Pass</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caption-block">
+    <div class="col">
+      <div class="col-label">// The Problem</div>
+      <p>Daylight compliance was either outsourced to a consultant or skipped entirely at early stages, with no quick way to see which rooms were under-lit before drawings went out.</p>
+    </div>
+    <div class="col">
+      <div class="col-label">// My Contribution</div>
+      <p>Built the full geometric pipeline: real site location and true north for a geographically-correct sun, ray-casting external obstructions, scoring a floor grid against BRE / BS 8206-2, rendered as a self-contained offline HTML report.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var grid = document.getElementById('hmgrid');
+  var cols = 14, rows = 7;
+  var noSkyCells = [18, 41, 76];
+  var seed = 7;
+  function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+  for (var r = 0; r < rows; r++){
+    for (var c = 0; c < cols; c++){
+      var i = r * cols + c;
+      var d = document.createElement('div');
+      if (noSkyCells.indexOf(i) !== -1){
+        d.style.background = '#e2001a';
+        d.style.opacity = '0.85';
+      } else {
+        var falloff = 1 - Math.sqrt(Math.pow(c / cols, 2) + Math.pow(r / rows, 2)) * 0.75;
+        var jitter = (rnd() - 0.5) * 0.15;
+        var v = Math.max(0.12, Math.min(1, falloff + jitter));
+        var stops = [[30,70,160],[0,160,190],[45,170,85],[240,200,40],[230,60,40]];
+        var t = Math.max(0, Math.min(1, (v - 0.12) / 0.88)) * (stops.length - 1);
+        var i0 = Math.floor(t), i1 = Math.min(stops.length - 1, i0 + 1), f = t - i0;
+        var col = stops[i0].map(function(ch, idx){ return Math.round(ch + (stops[i1][idx] - ch) * f); });
+        d.style.background = 'rgb(' + col.join(',') + ')';
+      }
+      grid.appendChild(d);
+    }
+  }
+})();
+</script>
+
+</body>
+</html>

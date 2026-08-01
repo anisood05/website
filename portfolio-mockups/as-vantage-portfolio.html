@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AS_Vantage — Portfolio Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --paper:#f4f1ea;
+    --ink:#161616;
+    --signal:#e2001a;
+    --muted:#666666;
+    --line:#c9c2ae;
+    --card:#e8e4d8;
+
+    /* real app product palette — used only inside the recreated app frame */
+    --auk-navy:#0F1C2E;
+    --auk-copper:#B87333;
+    --auk-linen:#F6F4F1;
+    --auk-white:#FFFFFF;
+    --auk-cream:#FBF6EE;
+    --auk-dusk:#7A7268;
+    --auk-ink:#3A3228;
+    --auk-stone:#E2DDD8;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:#2a2a2a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  }
+
+  .stage{
+    width:1200px;
+    height:800px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--ink);
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ── giant faint index numeral ── */
+  .index-num{
+    position:absolute;
+    top:-70px;
+    right:-10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:340px;
+    line-height:1;
+    color:var(--ink);
+    opacity:0.045;
+    letter-spacing:-0.03em;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ── header strip ── */
+  .header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:28px 36px 20px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .header-left .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:10px;
+  }
+
+  .header-left h1{
+    font-size:38px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.02em;
+    line-height:1;
+  }
+
+  .header-left p{
+    margin-top:8px;
+    max-width:560px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.4;
+    height:44px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+
+  .header-right{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .header-right .arrow{ color:var(--signal); }
+
+  /* ── spec row ── */
+  .spec-row{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-bottom:1px solid var(--line);
+    height:62px;
+  }
+
+  .spec-cell{
+    padding:10px 20px;
+    border-right:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .spec-cell:last-child{ border-right:none; }
+
+  .spec-cell .k{
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .spec-cell .v{
+    margin-top:3px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .spec-cell .v.status-live{ color:var(--signal); }
+
+  /* ── main mockup area ── */
+  .stage-body{
+    position:relative;
+    z-index:1;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:24px 36px;
+    min-height:0;
+  }
+
+  .screen-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .screen-label span.tag{ color:var(--signal); }
+
+  /* ── app frame (recreation of the real product UI) ── */
+  .pane-app{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+
+  .pf-frame{
+    flex:1;
+    min-height:0;
+    border:1px solid var(--ink);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    background:var(--auk-white);
+  }
+
+  .app-topbar{
+    flex-shrink:0;
+    height:34px;
+    background:var(--auk-navy);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 16px;
+  }
+  .app-logo{ font-size:13px; font-weight:800; letter-spacing:2px; color:var(--auk-white); font-family:'Space Grotesk',sans-serif; }
+  .app-logo em{ color:var(--auk-copper); font-style:normal; }
+  .app-hdr-sep{
+    font-size:10px;
+    color:rgba(255,255,255,0.4);
+    border-left:1px solid rgba(255,255,255,0.15);
+    padding-left:10px;
+    margin-left:10px;
+  }
+  .app-hdr-left{ display:flex; align-items:center; }
+  .app-hdr-right{ display:flex; align-items:center; gap:8px; }
+  .app-mode-badge{
+    font-size:8.5px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.08);
+    color:rgba(255,255,255,0.6);
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .app-version{ font-size:9px; color:rgba(255,255,255,0.35); }
+
+  .app-body{
+    flex:1;
+    min-height:0;
+    background:var(--auk-linen);
+    display:flex;
+    gap:14px;
+    padding:14px;
+    overflow:hidden;
+  }
+
+  .app-left{
+    width:290px;
+    flex-shrink:0;
+    background:var(--auk-white);
+    border:1px solid var(--auk-stone);
+    border-radius:6px;
+    padding:12px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    overflow:hidden;
+    font-family:'Segoe UI',ui-sans-serif,sans-serif;
+  }
+  .app-card-title{
+    font-size:10.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--auk-dusk);
+  }
+  .app-field{ display:flex; flex-direction:column; gap:3px; }
+  .app-field-label{ font-size:9.5px; font-weight:500; color:var(--auk-dusk); }
+  .app-input{
+    border:1px solid var(--auk-stone);
+    border-radius:4px;
+    padding:5px 8px;
+    font-size:10.5px;
+    color:var(--auk-ink);
+    background:var(--auk-white);
+  }
+  .app-divider{ height:1px; background:var(--auk-stone); }
+  .app-radio-group{ display:flex; border:1px solid var(--auk-stone); border-radius:4px; overflow:hidden; width:fit-content; }
+  .app-radio-group span{ padding:4px 10px; font-size:9.5px; font-weight:500; color:var(--auk-dusk); }
+  .app-radio-group span.active{ background:var(--auk-navy); color:var(--auk-white); }
+  .app-address-row{ display:flex; gap:6px; }
+  .app-address-row .app-input{ flex:1; }
+  .app-btn-secondary{
+    background:var(--auk-navy); color:var(--auk-white); border:none; border-radius:4px;
+    padding:5px 9px; font-size:9.5px; font-weight:600; white-space:nowrap;
+  }
+  .app-slider-row{ display:flex; align-items:center; gap:6px; }
+  .app-slider-label{ font-size:8.5px; color:var(--auk-dusk); }
+  .app-track{ flex:1; height:3px; border-radius:2px; background:var(--auk-stone); position:relative; }
+  .app-track .fill{ position:absolute; left:0; top:0; height:100%; border-radius:2px; background:var(--auk-copper); }
+  .app-track .knob{ position:absolute; top:50%; width:8px; height:8px; border-radius:50%; background:var(--auk-copper); transform:translate(-50%,-50%); }
+  .app-slider-val{ min-width:34px; text-align:right; font-size:10px; font-weight:700; color:var(--auk-copper); }
+  .app-hint{ font-size:8.5px; color:var(--auk-dusk); text-align:center; }
+  .app-checkbox-row{ display:flex; align-items:center; gap:6px; font-size:9.5px; color:var(--auk-ink); }
+  .app-checkbox{ width:11px; height:11px; border:1.5px solid var(--auk-copper); border-radius:2px; flex-shrink:0; }
+  .app-btn-primary{
+    margin-top:2px;
+    background:var(--auk-copper); color:var(--auk-white); border:none; border-radius:4px;
+    padding:8px; font-size:11px; font-weight:600; width:100%; text-align:center;
+  }
+
+  .app-right{
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    overflow:hidden;
+    font-family:'Segoe UI',ui-sans-serif,sans-serif;
+  }
+  .app-results-grid{
+    flex:1;
+    min-height:0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  .app-img-card{
+    border:1px solid var(--auk-stone);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--auk-white);
+    display:flex;
+    flex-direction:column;
+  }
+  .app-img-card.best{ border-left:3px solid var(--auk-copper); background:var(--auk-cream); }
+  .app-thumb{
+    flex-shrink:0;
+    height:96px;
+    background:
+      repeating-linear-gradient(45deg, var(--auk-stone) 0px, var(--auk-stone) 6px, #ecE7DF 6px, #ecE7DF 12px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .app-thumb span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--auk-dusk);
+    background:rgba(255,255,255,0.75);
+    padding:2px 5px;
+    border-radius:3px;
+  }
+  .app-pano-badge{
+    position:absolute;
+    top:5px; right:5px;
+    background:var(--auk-navy);
+    color:var(--auk-white);
+    font-size:7.5px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    padding:2px 5px;
+    border-radius:3px;
+  }
+  .app-img-meta{ padding:7px 8px; display:flex; flex-direction:column; gap:2px; flex:1; }
+  .app-img-rank{ font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--auk-copper); }
+  .app-img-dist{ font-size:10.5px; font-weight:600; color:var(--auk-ink); }
+  .app-img-detail{ font-size:8.5px; color:var(--auk-dusk); line-height:1.45; }
+  .app-btn-dl{
+    margin-top:3px;
+    background:var(--auk-linen); color:var(--auk-ink); border:1px solid var(--auk-stone); border-radius:4px;
+    padding:3px 6px; font-size:7.8px; font-weight:600; text-align:center;
+  }
+
+  /* ── caption block ── */
+  .caption-block{
+    position:relative;
+    z-index:1;
+    border-top:1px solid var(--line);
+    padding:18px 36px 24px;
+    display:flex;
+    gap:36px;
+  }
+
+  .caption-block .col{ flex:1; }
+
+  .caption-block .col-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:6px;
+  }
+
+  .caption-block{ height:150px; }
+
+  .caption-block p{
+    font-size:12.5px;
+    line-height:1.5;
+    color:#333;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:4;
+    overflow:hidden;
+  }
+
+  .caption-block .col:last-child p{ color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="index-num">02</div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">// PORTFOLIO — 02</div>
+      <h1>AS_Vantage</h1>
+      <p>Street-imagery sourcing tool — pulls real Mapillary photography and ranks it by camera-heading and distance match for architectural visualisation backdrops.</p>
+    </div>
+    <div class="header-right mono">
+      Internal Tool <span class="arrow">→</span>
+    </div>
+  </div>
+
+  <div class="spec-row">
+    <div class="spec-cell">
+      <div class="k">Role</div>
+      <div class="v">Design &amp; Development</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Stack</div>
+      <div class="v">Python · Vanilla JS · Mapillary API</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Status</div>
+      <div class="v status-live">Internal Tool — Live</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Year</div>
+      <div class="v">2025–2026</div>
+    </div>
+  </div>
+
+  <div class="stage-body">
+
+    <div class="pane-app">
+      <div class="screen-label">
+        <span>Search &amp; Results — <span class="tag">app.html</span></span>
+        <span>Desktop</span>
+      </div>
+      <div class="pf-frame">
+        <div class="app-topbar">
+          <div class="app-hdr-left">
+            <span class="app-logo">AS<em>.</em></span>
+            <span class="app-hdr-sep">Vantage — Mapillary Fetch</span>
+          </div>
+          <div class="app-hdr-right">
+            <span class="app-mode-badge">Standalone</span>
+            <span class="app-version">v1.2</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+          <div class="app-left">
+            <div class="app-card-title">Search Parameters</div>
+
+            <div class="app-field">
+              <div class="app-field-label">Project name</div>
+              <div class="app-input">Kings Cross</div>
+            </div>
+
+            <div class="app-divider"></div>
+
+            <div class="app-field">
+              <div class="app-field-label">Location</div>
+              <div class="app-radio-group">
+                <span class="active">Address</span>
+                <span>Coordinates</span>
+              </div>
+            </div>
+
+            <div class="app-field">
+              <div class="app-field-label">Address</div>
+              <div class="app-address-row">
+                <div class="app-input" style="flex:1">10 Pancras Square, London</div>
+                <div class="app-btn-secondary">Resolve →</div>
+              </div>
+            </div>
+
+            <div class="app-divider"></div>
+
+            <div class="app-field">
+              <div class="app-field-label">Camera heading</div>
+              <div class="app-slider-row">
+                <span class="app-slider-label">W</span>
+                <div class="app-track"><div class="fill" style="width:75%"></div><div class="knob" style="left:75%"></div></div>
+                <span class="app-slider-label">E</span>
+                <span class="app-slider-val">270°</span>
+              </div>
+              <div class="app-hint">Heading set — ranked by heading + distance</div>
+            </div>
+
+            <div class="app-field">
+              <div class="app-field-label">Search radius</div>
+              <div class="app-slider-row">
+                <span class="app-slider-label">50m</span>
+                <div class="app-track"><div class="fill" style="width:11%"></div><div class="knob" style="left:11%"></div></div>
+                <span class="app-slider-label">500m</span>
+                <span class="app-slider-val">100m</span>
+              </div>
+            </div>
+
+            <div class="app-checkbox-row">
+              <span class="app-checkbox"></span>
+              Panoramas only <span style="color:var(--auk-dusk);font-size:8.5px">(360° HDRI for Twinmotion)</span>
+            </div>
+
+            <div class="app-btn-primary">Fetch backdrop</div>
+          </div>
+
+          <div class="app-right">
+            <div class="app-card-title">Results</div>
+            <div class="app-results-grid">
+
+              <div class="app-img-card best">
+                <div class="app-thumb"><span>Mapillary Image</span></div>
+                <div class="app-img-meta">
+                  <div class="app-img-rank">★ Best match</div>
+                  <div class="app-img-dist">42.0m away</div>
+                  <div class="app-img-detail">Δ heading: 4.2°<br>Captured: 2024-08-11<br>Score: 0.0842</div>
+                  <div class="app-btn-dl">Download JPEG</div>
+                </div>
+              </div>
+
+              <div class="app-img-card">
+                <div class="app-thumb"><span>Mapillary Image</span></div>
+                <div class="app-img-meta">
+                  <div class="app-img-rank">#2</div>
+                  <div class="app-img-dist">78.3m away</div>
+                  <div class="app-img-detail">Δ heading: 11.6°<br>Captured: 2023-11-02<br>Score: 0.1873</div>
+                  <div class="app-btn-dl">Download JPEG</div>
+                </div>
+              </div>
+
+              <div class="app-img-card">
+                <div class="app-thumb"><span class="app-pano-badge">360°</span><span>Mapillary Image</span></div>
+                <div class="app-img-meta">
+                  <div class="app-img-rank">360° Panorama</div>
+                  <div class="app-img-dist">112.5m away</div>
+                  <div class="app-img-detail">Captured: 2024-02-19<br>Score: 0.2210</div>
+                  <div class="app-btn-dl">Download JPEG</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caption-block">
+    <div class="col">
+      <div class="col-label">// The Problem</div>
+      <p>Sourcing accurate, correctly-oriented site photography for renders was manual, slow, and inconsistent across a 50-person practice.</p>
+    </div>
+    <div class="col">
+      <div class="col-label">// My Contribution</div>
+      <p>Built the fetch/ranking engine, Mapillary integration, and dual server + standalone UI end to end.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

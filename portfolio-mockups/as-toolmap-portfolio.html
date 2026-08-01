@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AS_ToolMap — Portfolio Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --paper:#f4f1ea;
+    --ink:#161616;
+    --signal:#e2001a;
+    --muted:#666666;
+    --line:#c9c2ae;
+    --card:#e8e4d8;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:#2a2a2a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  }
+
+  .stage{
+    width:1200px;
+    height:800px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--ink);
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .index-num{
+    position:absolute;
+    top:-70px;
+    right:-10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:340px;
+    line-height:1;
+    color:var(--ink);
+    opacity:0.045;
+    letter-spacing:-0.03em;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:28px 36px 20px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .header-left .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:10px;
+  }
+
+  .header-left h1{
+    font-size:38px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.02em;
+    line-height:1;
+  }
+
+  .header-left p{
+    margin-top:8px;
+    max-width:560px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.4;
+    height:44px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+
+  .header-right{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .header-right .arrow{ color:var(--signal); }
+
+  .spec-row{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-bottom:1px solid var(--line);
+    height:62px;
+  }
+
+  .spec-cell{
+    padding:10px 20px;
+    border-right:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .spec-cell:last-child{ border-right:none; }
+
+  .spec-cell .k{
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .spec-cell .v{
+    margin-top:3px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .spec-cell .v.status-live{ color:var(--signal); }
+
+  .stage-body{
+    position:relative;
+    z-index:1;
+    flex:1;
+    display:flex;
+    gap:24px;
+    padding:24px 36px;
+    min-height:0;
+  }
+
+  .screen-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .screen-label span.tag{ color:var(--signal); }
+
+  /* -- pane 1: grid catalogue -- */
+  .pane-catalogue{
+    width:440px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
+    min-height:0;
+  }
+
+  .cat-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#fbfaf6;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    padding:14px;
+    min-height:0;
+  }
+
+  .search-box{
+    border:1px solid var(--ink);
+    padding:7px 10px;
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:0.02em;
+    margin-bottom:8px;
+    background:var(--paper);
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .filter-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .chip{ font-size:8.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; padding:4px 8px; border:1px solid var(--ink); white-space:nowrap; font-family:'JetBrains Mono',monospace; }
+  .chip.active{ background:var(--ink); color:var(--paper); }
+
+  .result-line{ font-size:9px; color:var(--muted); letter-spacing:0.03em; margin-bottom:10px; font-family:'JetBrains Mono',monospace; }
+
+  .card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .tool-card{ border:1px solid var(--line); background:var(--card); padding:8px 9px; display:flex; flex-direction:column; gap:4px; }
+  .badge{ font-size:7px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:2px 5px; display:inline-block; }
+  .badge.red{ background:var(--signal); color:var(--paper); }
+  .badge.ink{ background:var(--ink); color:var(--paper); }
+  .badge.tan{ background:var(--line); color:var(--ink); }
+  .badge.outline{ border:1px solid var(--ink); color:var(--ink); }
+  .tool-card-title{ font-size:11px; font-weight:700; letter-spacing:-0.01em; text-transform:uppercase; }
+  .tool-card-desc{ font-size:8.5px; color:var(--muted); line-height:1.3; flex:1; font-family:'JetBrains Mono',monospace; }
+  .tool-card-foot{ font-size:7.5px; color:var(--muted); letter-spacing:0.02em; font-family:'JetBrains Mono',monospace; }
+
+  /* -- pane 2: relationship map -- */
+  .pane-map{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    min-height:0;
+  }
+
+  .map-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#fbfaf6;
+    display:flex;
+    gap:12px;
+    overflow:hidden;
+    padding:14px;
+    min-height:0;
+  }
+
+  .map-sidebar{ width:126px; flex-shrink:0; display:flex; flex-direction:column; gap:10px; overflow:hidden; }
+  .msearch{ border:1px solid var(--line); padding:6px 8px; font-size:8.5px; color:var(--muted); background:var(--card); font-family:'JetBrains Mono',monospace; }
+  .map-sh{ font-family:'JetBrains Mono',monospace; font-size:7.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .map-sh .rule{ flex:1; height:1px; background:var(--line); }
+
+  .cat-chip{ display:flex; align-items:center; gap:6px; padding:5px 6px; background:var(--card); border:1px solid transparent; border-radius:2px; opacity:0.45; }
+  .cat-chip.on{ opacity:1; border-color:var(--ink); }
+  .cat-chip .cdot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .cat-chip .cname{ font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; flex:1; }
+  .cat-chip .ccount{ font-size:7px; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+
+  .layout-sw{ display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); }
+  .layout-sw div{ padding:5px 0; text-align:center; font-size:7px; font-family:'JetBrains Mono',monospace; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); }
+  .layout-sw div.on{ background:var(--ink); color:var(--paper); }
+
+  .map-legend{ font-size:7px; color:var(--muted); line-height:1.5; font-family:'JetBrains Mono',monospace; display:flex; flex-direction:column; gap:3px; }
+  .map-legend .item{ display:flex; align-items:center; gap:5px; }
+  .map-legend .sw-dot{ width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; flex-shrink:0; }
+  .map-legend .sw-ring{ width:6px; height:6px; border-radius:50%; border:1px dashed var(--ink); display:inline-block; flex-shrink:0; }
+  .map-legend .sw-line{ width:10px; height:0; border-top:1px solid var(--ink); display:inline-block; flex-shrink:0; }
+  .map-legend .sw-dash{ width:10px; height:0; border-top:1px dashed var(--muted); display:inline-block; flex-shrink:0; }
+
+  .map-stage{ position:relative; flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; min-height:0; }
+  .graph-box{ position:relative; border:1px solid var(--ink); background:var(--paper); flex:1; min-height:0; }
+  .graph-box svg{ width:100%; height:100%; display:block; }
+
+  .ledger-block{ position:absolute; left:8px; bottom:8px; background:var(--paper); border:1px solid var(--ink); padding:7px 10px; font-family:'JetBrains Mono',monospace; font-size:7.5px; color:var(--muted); line-height:1.6; }
+  .ledger-block .lt{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:8.5px; letter-spacing:0.06em; color:var(--ink); margin-bottom:3px; }
+  .ledger-block .lrow{ display:flex; justify-content:space-between; gap:12px; }
+  .ledger-block .lrow strong{ color:var(--ink); }
+
+  .detail-card{ position:absolute; right:8px; bottom:8px; width:190px; background:var(--paper); border:1px solid var(--ink); padding:9px 10px; }
+  .detail-eyebrow{ display:flex; align-items:center; gap:5px; font-size:7.5px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; font-family:'JetBrains Mono',monospace; }
+  .detail-eyebrow .dot{ width:6px; height:6px; background:var(--signal); flex-shrink:0; }
+  .detail-eyebrow .p{ color:var(--signal); font-weight:700; }
+  .detail-eyebrow .s{ color:var(--muted); }
+  .detail-title{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:-0.01em; margin-bottom:5px; }
+  .detail-chip{ display:inline-block; font-size:7px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; border:1px solid var(--signal); color:var(--signal); padding:2px 5px; margin-bottom:7px; font-family:'JetBrains Mono',monospace; }
+  .detail-meta{ display:grid; grid-template-columns:1fr 1fr; gap:5px 8px; border-top:1px solid var(--line); padding-top:7px; }
+  .detail-meta .k{ font-size:7px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+  .detail-meta .v{ font-size:9.5px; font-weight:700; }
+
+  .legend-row{ display:flex; justify-content:space-between; align-items:center; margin-top:9px; font-size:8px; color:var(--muted); letter-spacing:0.02em; flex-wrap:wrap; gap:6px; font-family:'JetBrains Mono',monospace; }
+  .legend-row .items{ display:flex; gap:12px; flex-wrap:wrap; }
+  .legend-row .item{ display:flex; align-items:center; gap:4px; }
+  .legend-row .sw-dot{ width:7px; height:7px; border-radius:50%; background:var(--ink); display:inline-block; }
+  .legend-row .sw-ring{ width:7px; height:7px; border-radius:50%; border:1px dashed var(--ink); display:inline-block; }
+  .legend-row .sw-line{ width:12px; height:0; border-top:1px solid var(--ink); display:inline-block; }
+  .legend-row .sw-dash{ width:12px; height:0; border-top:1px dashed var(--muted); display:inline-block; }
+
+  .caption-block{
+    position:relative;
+    z-index:1;
+    border-top:1px solid var(--line);
+    padding:18px 36px 24px;
+    display:flex;
+    gap:36px;
+    height:150px;
+  }
+
+  .caption-block .col{ flex:1; }
+
+  .caption-block .col-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:6px;
+  }
+
+  .caption-block p{
+    font-size:12.5px;
+    line-height:1.5;
+    color:#333;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:4;
+    overflow:hidden;
+  }
+
+  .caption-block .col:last-child p{ color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="index-num">04</div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">// PORTFOLIO — 04</div>
+      <h1>AS_ToolMap</h1>
+      <p>A searchable card catalogue and D3 force-graph of every tool in the AS Tools Revit extension, generated straight from the codebase.</p>
+    </div>
+    <div class="header-right mono">
+      AS Tools — Public Catalogue <span class="arrow">→</span>
+    </div>
+  </div>
+
+  <div class="spec-row">
+    <div class="spec-cell">
+      <div class="k">Role</div>
+      <div class="v">Generator, UX &amp; Build</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Stack</div>
+      <div class="v">Python 3 · D3.js · Vanilla JS/CSS</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Status</div>
+      <div class="v status-live">Live — Public (GitHub Pages)</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Year</div>
+      <div class="v">2025–2026</div>
+    </div>
+  </div>
+
+  <div class="stage-body">
+
+    <div class="pane-catalogue">
+      <div class="screen-label">
+        <span>Grid Catalogue — <span class="tag">index.html</span></span>
+        <span>Public</span>
+      </div>
+      <div class="cat-frame">
+        <div class="search-box">Search tools… (press / to focus)</div>
+        <div class="filter-row">
+          <div class="chip active">ALL 104</div>
+          <div class="chip">AUTOMATE</div>
+          <div class="chip">SUSTAINABILITY</div>
+          <div class="chip">COORDINATION</div>
+        </div>
+        <div class="result-line">104 tools across 7 panels · generated from bundle.yaml + script.py</div>
+        <div class="card-grid">
+          <div class="tool-card">
+            <div class="badge red">Sustainability</div>
+            <div class="tool-card-title">Carbon Workflow</div>
+            <div class="tool-card-desc">Guided EN 15978 embodied-carbon pipeline: audit, match, correct, report.</div>
+            <div class="tool-card-foot">by AS Tools · 2026</div>
+          </div>
+          <div class="tool-card">
+            <div class="badge ink">Coordination</div>
+            <div class="tool-card-title">CLASH Detect</div>
+            <div class="tool-card-desc">Multi-discipline clash detection, run natively inside Revit.</div>
+            <div class="tool-card-foot">by AS Tools · 2025</div>
+          </div>
+          <div class="tool-card">
+            <div class="badge tan">Resources</div>
+            <div class="tool-card-title">Find</div>
+            <div class="tool-card-desc">Unified search across tools, docs and reference links.</div>
+            <div class="tool-card-foot">by AS Tools · 2026</div>
+          </div>
+          <div class="tool-card">
+            <div class="badge outline">Export / Import</div>
+            <div class="tool-card-title">PRINT 3D Prep</div>
+            <div class="tool-card-desc">4-step wizard: hide categories, section box, thicken, export STL.</div>
+            <div class="tool-card-foot">by AS Tools · 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane-map">
+      <div class="screen-label">
+        <span>Relationship Map — <span class="tag">map.html</span></span>
+        <span>Public</span>
+      </div>
+      <div class="map-frame">
+        <div class="map-sidebar">
+          <div class="msearch">Search tools…</div>
+          <div class="map-sh"><span>Categories</span><span class="rule"></span></div>
+          <div class="cat-chip"><span class="cdot" style="background:#bdbdbd"></span><span class="cname">About</span><span class="ccount">3</span></div>
+          <div class="cat-chip on"><span class="cdot" style="background:#e2001a"></span><span class="cname">Sustainability</span><span class="ccount">7</span></div>
+          <div class="cat-chip"><span class="cdot" style="background:#161616"></span><span class="cname">Automate</span><span class="ccount">54</span></div>
+          <div class="cat-chip"><span class="cdot" style="background:#7d7d7d"></span><span class="cname">Resources</span><span class="ccount">15</span></div>
+          <div class="map-sh"><span>Layout</span><span class="rule"></span></div>
+          <div class="layout-sw"><div class="on">Cluster</div><div>Spread</div></div>
+          <div class="map-sh"><span>Legend</span><span class="rule"></span></div>
+          <div class="map-legend">
+            <div class="item"><span class="sw-dot"></span>Node</div>
+            <div class="item"><span class="sw-ring"></span>Has demo</div>
+            <div class="item"><span class="sw-line"></span>Family</div>
+            <div class="item"><span class="sw-dash"></span>Sub-group</div>
+          </div>
+        </div>
+        <div class="map-stage">
+        <div class="graph-box">
+          <svg viewBox="0 0 620 230" preserveAspectRatio="xMidYMid meet">
+            <line x1="120" y1="70" x2="60" y2="40" stroke="#161616" stroke-width="1"/>
+            <line x1="120" y1="70" x2="60" y2="100" stroke="#161616" stroke-width="1"/>
+            <line x1="120" y1="70" x2="170" y2="30" stroke="#161616" stroke-width="1"/>
+            <line x1="120" y1="70" x2="185" y2="105" stroke="#161616" stroke-width="1"/>
+            <line x1="90" y1="180" x2="50" y2="205" stroke="#161616" stroke-width="1"/>
+            <line x1="420" y1="45" x2="470" y2="25" stroke="#161616" stroke-width="1"/>
+            <line x1="185" y1="105" x2="230" y2="60" stroke="#666666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="480" y1="70" x2="420" y2="45" stroke="#666666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="330" y1="25" x2="375" y2="12" stroke="#666666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="90" y1="180" x2="160" y2="195" stroke="#666666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="350" y1="200" x2="400" y2="210" stroke="#666666" stroke-width="1" stroke-dasharray="3,3"/>
+            <circle cx="60" cy="40" r="5" fill="#161616"/>
+            <circle cx="60" cy="100" r="5" fill="#161616"/>
+            <circle cx="170" cy="30" r="5" fill="#161616"/>
+            <circle cx="185" cy="105" r="5" fill="#161616"/>
+            <circle cx="185" cy="105" r="9" fill="none" stroke="#161616" stroke-width="1" stroke-dasharray="2,2"/>
+            <circle cx="230" cy="60" r="5" fill="#161616"/>
+            <circle cx="90" cy="180" r="7" fill="#161616"/>
+            <circle cx="90" cy="180" r="11" fill="none" stroke="#161616" stroke-width="1" stroke-dasharray="2,2"/>
+            <circle cx="160" cy="195" r="5" fill="#161616"/>
+            <circle cx="50" cy="205" r="4" fill="#161616"/>
+            <circle cx="420" cy="45" r="6" fill="#161616"/>
+            <circle cx="470" cy="25" r="4" fill="#161616"/>
+            <circle cx="480" cy="70" r="6" fill="#161616"/>
+            <circle cx="480" cy="70" r="10" fill="none" stroke="#161616" stroke-width="1" stroke-dasharray="2,2"/>
+            <circle cx="330" cy="25" r="7" fill="#161616"/>
+            <circle cx="330" cy="25" r="11" fill="none" stroke="#161616" stroke-width="1" stroke-dasharray="2,2"/>
+            <circle cx="375" cy="12" r="4" fill="#161616"/>
+            <circle cx="350" cy="200" r="5" fill="#161616"/>
+            <circle cx="400" cy="210" r="4" fill="#161616"/>
+            <circle cx="120" cy="70" r="9" fill="#e2001a"/>
+            <circle cx="120" cy="70" r="13" fill="none" stroke="#e2001a" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="132" y="66" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" fill="#161616">Carbon Workflow</text>
+            <text x="192" y="118" font-family="JetBrains Mono, monospace" font-size="7" fill="#666666">Report</text>
+            <text x="98" y="177" font-family="JetBrains Mono, monospace" font-size="7" fill="#666666">CLASH Detect</text>
+            <text x="490" y="67" font-family="JetBrains Mono, monospace" font-size="7" fill="#666666">Usage Report</text>
+            <text x="292" y="46" font-family="JetBrains Mono, monospace" font-size="7" fill="#666666">PRINT 3D Prep</text>
+          </svg>
+          <div class="ledger-block">
+            <div class="lt">RELATIONSHIP MAP</div>
+            <div class="lrow"><span>Project</span><strong>ASTools v1.0</strong></div>
+            <div class="lrow"><span>Scale</span><strong>NTS</strong></div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-eyebrow"><span class="dot"></span><span class="p">Sustainability</span><span class="s">/ _carbon</span></div>
+            <div class="detail-title">Carbon Workflow</div>
+            <span class="detail-chip">New</span>
+            <div class="detail-meta">
+              <div><div class="k">Author</div><div class="v">AS Tools</div></div>
+              <div><div class="k">Updated</div><div class="v">2026</div></div>
+              <div><div class="k">Panel</div><div class="v">Sustainability</div></div>
+              <div><div class="k">Sub-group</div><div class="v">_carbon</div></div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caption-block">
+    <div class="col">
+      <div class="col-label">// The Problem</div>
+      <p>The extension ships 100+ tools across seven ribbon panels, with no way to browse, search or understand how they relate before opening Revit — and no way to keep documentation honest as tools changed.</p>
+    </div>
+    <div class="col">
+      <div class="col-label">// My Contribution</div>
+      <p>Built a Python generator that reads every bundle.yaml and script.py in the source tree and compiles a zero-dependency searchable catalogue plus a D3 force-directed relationship map — both static HTML, deployed to GitHub Pages.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AS_ClientXR — Portfolio Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --paper:#f4f1ea;
+    --ink:#161616;
+    --signal:#e2001a;
+    --muted:#666666;
+    --line:#c9c2ae;
+    --card:#e8e4d8;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:#2a2a2a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  }
+
+  .stage{
+    width:1200px;
+    height:800px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--ink);
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ── giant faint index numeral ── */
+  .index-num{
+    position:absolute;
+    top:-70px;
+    right:-10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:340px;
+    line-height:1;
+    color:var(--ink);
+    opacity:0.045;
+    letter-spacing:-0.03em;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ── header strip ── */
+  .header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding:28px 36px 20px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .header-left .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:10px;
+  }
+
+  .header-left h1{
+    font-size:38px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.02em;
+    line-height:1;
+  }
+
+  .header-left p{
+    margin-top:8px;
+    max-width:560px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.4;
+    height:44px;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+
+  .header-right{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .header-right .arrow{ color:var(--signal); }
+
+  /* ── spec row ── */
+  .spec-row{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-bottom:1px solid var(--line);
+    height:62px;
+  }
+
+  .spec-cell{
+    padding:10px 20px;
+    border-right:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .spec-cell:last-child{ border-right:none; }
+
+  .spec-cell .k{
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .spec-cell .v{
+    margin-top:3px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .spec-cell .v.status-live{ color:var(--signal); }
+
+  /* ── main mockup area ── */
+  .stage-body{
+    position:relative;
+    z-index:1;
+    flex:1;
+    display:flex;
+    gap:24px;
+    padding:24px 36px;
+    min-height:0;
+  }
+
+  .screen-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .screen-label span.tag{ color:var(--signal); }
+
+  /* -- pane 1: mobile client landing -- */
+  .pane-mobile{
+    width:300px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
+  }
+
+  .phone-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#fbfaf6;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .phone-topbar{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    padding:8px 12px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    text-transform:uppercase;
+  }
+
+  .phone-content{
+    flex:1;
+    padding:16px 14px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  .phone-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--signal);
+    text-align:center;
+  }
+
+  .phone-project{
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    margin-top:6px;
+  }
+
+  .phone-sub{
+    text-align:center;
+    font-size:10px;
+    color:var(--muted);
+    margin-top:4px;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.04em;
+  }
+
+  .tile-grid{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .tile{
+    border:1px solid var(--line);
+    background:var(--card);
+    aspect-ratio:1/0.85;
+    padding:9px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  .tile .tile-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:8px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .tile .tile-label{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    line-height:1.15;
+  }
+
+  .tile .tile-arrow{
+    align-self:flex-end;
+    color:var(--signal);
+    font-size:13px;
+    font-weight:700;
+  }
+
+  .tile.wide{ grid-column:1/-1; aspect-ratio:auto; height:44px; flex-direction:row; align-items:center; justify-content:space-between; }
+  .tile.wide .tile-label{ font-size:11px; }
+
+  .phone-footer{
+    margin-top:auto;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .phone-footer .mono{
+    font-size:8px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* -- pane 2: 360 viewer -- */
+  .pane-viewer{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+
+  .viewer-frame{
+    flex:1;
+    border:1px solid var(--ink);
+    background:#0e0e0e;
+    display:flex;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .viewer-sidepanel{
+    width:190px;
+    flex-shrink:0;
+    background:var(--paper);
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    padding:16px 14px;
+  }
+
+  .viewer-sidepanel .brand{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+  }
+
+  .viewer-sidepanel .proj-name{
+    font-size:16px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    margin-top:6px;
+    line-height:1.15;
+  }
+
+  .scene-list{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+
+  .scene-item{
+    background:var(--paper);
+    padding:9px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+
+  .scene-item.active{ background:var(--ink); color:var(--paper); }
+  .scene-item .idx{ color:var(--muted); }
+  .scene-item.active .idx{ color:var(--signal); }
+
+  .viewer-main{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .pano-abstract{
+    position:absolute;
+    inset:0;
+    background:
+      repeating-linear-gradient(90deg, rgba(244,241,234,0.05) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(244,241,234,0.05) 0 1px, transparent 1px 80px),
+      linear-gradient(180deg,#1b1b1b 0%, #0e0e0e 60%, #060606 100%);
+  }
+
+  .pano-horizon{
+    position:absolute;
+    left:0; right:0; top:52%;
+    height:1px;
+    background:rgba(244,241,234,0.18);
+  }
+
+  .pano-crosshair{
+    position:relative;
+    width:64px; height:64px;
+    z-index:1;
+  }
+  .pano-crosshair::before, .pano-crosshair::after{
+    content:'';
+    position:absolute;
+    background:var(--signal);
+  }
+  .pano-crosshair::before{ left:50%; top:0; bottom:0; width:1px; transform:translateX(-50%); }
+  .pano-crosshair::after{ top:50%; left:0; right:0; height:1px; transform:translateY(-50%); }
+
+  .viewer-toolbar{
+    position:absolute;
+    bottom:14px; right:14px;
+    display:flex;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    z-index:2;
+  }
+  .viewer-toolbar .btn{
+    background:var(--paper);
+    width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  .viewer-caption{
+    position:absolute;
+    bottom:14px; left:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(244,241,234,0.55);
+    z-index:2;
+  }
+
+  /* ── caption block ── */
+  .caption-block{
+    position:relative;
+    z-index:1;
+    border-top:1px solid var(--line);
+    padding:18px 36px 24px;
+    display:flex;
+    gap:36px;
+  }
+
+  .caption-block .col{ flex:1; }
+
+  .caption-block .col-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:6px;
+  }
+
+  .caption-block{ height:150px; }
+
+  .caption-block p{
+    font-size:12.5px;
+    line-height:1.5;
+    color:#333;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:4;
+    overflow:hidden;
+  }
+
+  .caption-block .col:last-child p{ color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="index-num">01</div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">// PORTFOLIO — 01</div>
+      <h1>AS_ClientXR</h1>
+      <p>Password-protected 360° panorama, video &amp; drawing preview portal for architecture clients — shared via a single QR-code link.</p>
+    </div>
+    <div class="header-right mono">
+      auk-client-viewer.pages.dev <span class="arrow">→</span>
+    </div>
+  </div>
+
+  <div class="spec-row">
+    <div class="spec-cell">
+      <div class="k">Role</div>
+      <div class="v">Design &amp; Build</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Stack</div>
+      <div class="v">JS · Supabase · Pannellum</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Status</div>
+      <div class="v status-live">Live — Production</div>
+    </div>
+    <div class="spec-cell">
+      <div class="k">Year</div>
+      <div class="v">2026</div>
+    </div>
+  </div>
+
+  <div class="stage-body">
+
+    <div class="pane-mobile">
+      <div class="screen-label">
+        <span>Client Landing — <span class="tag">landing.html</span></span>
+        <span>Mobile</span>
+      </div>
+      <div class="phone-frame">
+        <div class="phone-topbar">
+          <span>auk-client-viewer.pages.dev</span>
+          <span>••••</span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-eyebrow">Aukett Swanke — Client Preview</div>
+          <div class="phone-project">Riverside HQ</div>
+          <div class="phone-sub">4 items · expires in 12 days</div>
+
+          <div class="tile-grid">
+            <div class="tile">
+              <div class="tile-tag">01</div>
+              <div class="tile-label">360°<br>Panorama</div>
+              <div class="tile-arrow">→</div>
+            </div>
+            <div class="tile">
+              <div class="tile-tag">02</div>
+              <div class="tile-label">Fly-through<br>Video</div>
+              <div class="tile-arrow">→</div>
+            </div>
+            <div class="tile">
+              <div class="tile-tag">03</div>
+              <div class="tile-label">Image<br>Gallery</div>
+              <div class="tile-arrow">→</div>
+            </div>
+            <div class="tile">
+              <div class="tile-tag">04</div>
+              <div class="tile-label">Spec<br>PDF</div>
+              <div class="tile-arrow">→</div>
+            </div>
+          </div>
+          <div class="tile wide" style="margin-top:8px;">
+            <div class="tile-label">Walkthrough — Scroll Narrative</div>
+            <div class="tile-arrow">→</div>
+          </div>
+
+          <div class="phone-footer">
+            <span class="mono">Aukett Swanke</span>
+            <span class="mono">Client Co.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane-viewer">
+      <div class="screen-label">
+        <span>360° Panorama Viewer — <span class="tag">index.html</span></span>
+        <span>Desktop</span>
+      </div>
+      <div class="viewer-frame">
+        <div class="viewer-sidepanel">
+          <div class="brand">Aukett Swanke</div>
+          <div class="proj-name">Riverside HQ</div>
+
+          <div class="scene-list">
+            <div class="scene-item active"><span>Reception</span><span class="idx">01</span></div>
+            <div class="scene-item"><span>Boardroom</span><span class="idx">02</span></div>
+            <div class="scene-item"><span>Roof Terrace</span><span class="idx">03</span></div>
+            <div class="scene-item"><span>Atrium</span><span class="idx">04</span></div>
+          </div>
+        </div>
+
+        <div class="viewer-main">
+          <div class="pano-abstract"></div>
+          <div class="pano-horizon"></div>
+          <div class="pano-crosshair"></div>
+          <div class="viewer-caption">Scene 01 / 04 — Reception</div>
+          <div class="viewer-toolbar">
+            <div class="btn">−</div>
+            <div class="btn">+</div>
+            <div class="btn">⛶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caption-block">
+    <div class="col">
+      <div class="col-label">// The Problem</div>
+      <p>Aukett Swanke needed to share immersive 360° project walkthroughs, fly-through videos and drawing packs with clients before handover — without exposing a public CMS, and while satisfying PI-insurance requirements for a verifiable second access factor.</p>
+    </div>
+    <div class="col">
+      <div class="col-label">// My Contribution</div>
+      <p>Designed and built the full system solo: the client-facing landing/viewer, the admin dashboard for project and content management, the Supabase schema and RLS policies, the SHA-256 password + access-code auth flow, and the Cloudflare Pages deployment — zero build step throughout.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
