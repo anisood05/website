@@ -64,9 +64,41 @@ a:hover{color:var(--signal)}
 .persona-badge{width:20px;height:20px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .persona-badge .icon{width:11px;height:11px;stroke:var(--signal);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .persona-key-row{position:relative;z-index:1;display:flex;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px}
-.persona-key-tile{flex:1;background:var(--paper);padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
-.persona-key-tile .icon{width:30px;height:30px;stroke:var(--ink);stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.persona-key-tile{flex:1;background:var(--paper);padding:22px 12px 26px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;position:relative;border:none;font:inherit;cursor:pointer;transition:background var(--t) var(--ease)}
+.persona-key-tile .icon{width:30px;height:30px;stroke:var(--ink);stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--t) var(--ease)}
 .persona-key-tile span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+.persona-key-tile .cnt{position:absolute;top:10px;right:12px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--muted);opacity:.7}
+.persona-key-tile::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--p-color);transform:scaleX(0);transform-origin:left center;transition:transform var(--t) var(--ease)}
+.persona-key-tile:hover{background:var(--card)}
+.persona-key-tile:hover .icon{transform:translateY(-3px)}
+.persona-key-tile[aria-pressed="true"]{background:var(--card)}
+.persona-key-tile[aria-pressed="true"]::after{transform:scaleX(1)}
+.persona-key-tile[aria-pressed="true"] span{color:var(--ink);font-weight:700}
+.persona-key-tile[aria-pressed="true"] .cnt{color:var(--p-color);opacity:1;font-weight:700}
+.pf-results{position:relative;z-index:1;border:1px solid var(--line);border-top:none;overflow:hidden;max-height:0;transition:max-height var(--t-slow) var(--ease)}
+.pf-results.open{max-height:520px}
+.pf-hint{position:relative;z-index:1;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+.pf-row{display:flex;align-items:center;gap:22px;padding:14px 18px;border-top:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--paper);opacity:0;transform:translateY(8px);transition:opacity var(--t) var(--ease) var(--d,0ms),transform var(--t) var(--ease) var(--d,0ms),background var(--t-fast) var(--ease)}
+.pf-results.open .pf-row{opacity:1;transform:none}
+.pf-row:first-child{border-top:none}
+.pf-row:hover{background:var(--ink);color:var(--paper)}
+.pf-row:hover .pf-d{color:#bbb}
+.pf-row .pf-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--signal);flex-shrink:0;width:22px}
+.pf-row .pf-t{font-size:15px;font-weight:700;text-transform:uppercase;flex-shrink:0;min-width:210px}
+.pf-row .pf-d{font-size:13px;color:#333;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color var(--t-fast) var(--ease)}
+.pf-row .pf-go{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;flex-shrink:0}
+.pf-chip{position:fixed;left:48px;bottom:28px;z-index:30;display:none;align-items:center;gap:14px;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:11px 16px}
+body.pf-on .pf-chip{display:flex}
+.pf-chip b{color:var(--signal);font-weight:700}
+.pf-chip button{font:inherit;background:none;border:1px solid rgba(244,241,234,.35);color:var(--paper);padding:4px 9px;cursor:pointer;transition:background var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
+.pf-chip button:hover{background:var(--signal);border-color:var(--signal)}
+.proj.pf-dim>*:not(.index-num){opacity:.2;filter:grayscale(1);transition:opacity var(--t) var(--ease),filter var(--t) var(--ease)}
+.proj .persona-badge{transition:opacity var(--t) var(--ease),transform var(--t) var(--ease),background var(--t) var(--ease);cursor:pointer}
+.proj .persona-badge:hover{transform:scale(1.18)}
+.proj.pf-focus .persona-badge{opacity:.22}
+.proj.pf-focus .persona-badge.pf-hit{opacity:1;transform:scale(1.25);background:var(--card)}
+#rail a{transition:color var(--t-fast) var(--ease),opacity var(--t) var(--ease)}
+#rail a.pf-off{opacity:.25}
 .p-director{--p-color:#161616}
 .p-architect{--p-color:oklch(55% 0.13 25)}
 .p-designer{--p-color:oklch(55% 0.13 70)}
@@ -172,9 +204,25 @@ a:hover{color:var(--signal)}
 .icon.warn{stroke:var(--signal)}
 
 .domain-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);margin-top:36px;border:1px solid var(--line)}
-.domain-card{background:var(--paper);padding:24px 16px;display:flex;flex-direction:column;gap:14px;min-height:150px}
+.domain-card{background:var(--paper);padding:24px 16px;display:flex;flex-direction:column;gap:14px;min-height:132px;transition:background var(--t) var(--ease)}
 .domain-card h3{font-size:13px;font-weight:700;text-transform:uppercase;line-height:1.2}
 .domain-card .tags{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:.03em}
+.domain-card.lit{background:var(--card)}
+.pmx{position:relative;z-index:1;display:grid;grid-template-columns:170px repeat(6,1fr);border:1px solid var(--line);border-top:none;font-family:'JetBrains Mono',monospace}
+.pmx>*{border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:9px 6px;transition:background var(--t-fast) var(--ease),opacity var(--t-fast) var(--ease)}
+.pmx .pmx-corner,.pmx .pmx-ch{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-top:none;text-align:center;line-height:1.25}
+.pmx .pmx-corner{justify-content:flex-start;color:var(--signal)}
+.pmx .pmx-rh{justify-content:flex-start;gap:9px;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-left:12px}
+.pmx .pmx-rh svg{width:16px;height:16px;stroke:var(--p-color);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.pmx .pmx-c{cursor:default}
+.pmx .pmx-c i{width:9px;height:9px;background:var(--line);display:block;transition:transform var(--t) var(--ease),background var(--t) var(--ease)}
+.pmx .pmx-c.on i{background:var(--p-color)}
+.pmx.act .pmx-c:not(.hl){opacity:.3}
+.pmx.act .pmx-rh:not(.hl),.pmx.act .pmx-ch:not(.hl){opacity:.35}
+.pmx .pmx-c.hl.on i{transform:scale(1.5)}
+.pmx .pmx-c.hl{background:var(--card)}
+.pmx .pmx-rh.hl,.pmx .pmx-ch.hl{color:var(--ink);font-weight:700}
+.pmx-cap{position:relative;z-index:1;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:10px}
 
 .bridge-row{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;margin-top:40px}
 .bridge-block{border:1px solid var(--line);padding:26px 24px;display:flex;flex-direction:column;gap:16px}
@@ -281,6 +329,8 @@ footer{padding:28px 64px;display:flex;justify-content:space-between;font-family:
     <div class="domain-card"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="4"/><rect x="4" y="10" width="16" height="4"/><rect x="4" y="16" width="16" height="4"/></svg><h3>Libraries / Systems</h3><div class="tags">Rendering · Workflows</div></div>
     <div class="domain-card"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg><h3>Training &amp; Governance</h3><div class="tags">Standards · Adoption</div></div>
   </div>
+  <div class="pmx" id="pmx"></div>
+  <div class="pmx-cap" id="pmxCap">// Hover a domain or a persona to trace the overlap</div>
 </section>
 
 <section class="narrative" id="focus" data-screen-label="Focus">
@@ -372,14 +422,16 @@ footer{padding:28px 64px;display:flex;justify-content:space-between;font-family:
   <div class="index-num">§6</div>
   <div class="narrative-eyebrow">// DIGITAL LEADERSHIP — PERSONA FRAMEWORK</div>
   <h2>One glyph per persona, threaded through every project.</h2>
-  <p class="lede">Every case study ahead is tagged by the roles it was built for.</p>
+  <p class="lede">Select a persona to filter the five case studies by the roles they were built for.</p>
   <div class="persona-key-row">
-    <div class="persona-key-tile p-director"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/></svg><span>Director</span></div>
-    <div class="persona-key-tile p-architect"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg><span>Project Architect</span></div>
-    <div class="persona-key-tile p-designer"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/></svg><span>Designer</span></div>
-    <div class="persona-key-tile p-techarch"><svg class="icon" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17h6M17 14v6"/></svg><span>Technical Architect</span></div>
-    <div class="persona-key-tile p-sustain"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg><span>Sustainability Expert</span></div>
+    <button type="button" class="persona-key-tile p-director" data-p="p-director" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/></svg><span>Director</span><em class="cnt"></em></button>
+    <button type="button" class="persona-key-tile p-architect" data-p="p-architect" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg><span>Project Architect</span><em class="cnt"></em></button>
+    <button type="button" class="persona-key-tile p-designer" data-p="p-designer" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/></svg><span>Designer</span><em class="cnt"></em></button>
+    <button type="button" class="persona-key-tile p-techarch" data-p="p-techarch" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17h6M17 14v6"/></svg><span>Technical Architect</span><em class="cnt"></em></button>
+    <button type="button" class="persona-key-tile p-sustain" data-p="p-sustain" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg><span>Sustainability Expert</span><em class="cnt"></em></button>
   </div>
+  <div class="pf-results" id="pfResults"></div>
+  <div class="pf-hint" id="pfHint">// Click a persona to filter · click again to clear</div>
 </section>
 
 <section class="narrative" id="projects-intro" data-screen-label="Projects">
@@ -588,6 +640,7 @@ footer{padding:28px 64px;display:flex;justify-content:space-between;font-family:
   <div class="case-bar"><span class="ct" id="caseTitle"></span><a id="caseNew" href="#" target="_blank" rel="noopener">Open in new tab ↗</a><button type="button" id="caseClose">Close ✕</button></div>
   <iframe id="caseFrame" title="Case study"></iframe>
 </div>
+<div class="pf-chip" id="pfChip">Filtered by <b id="pfChipName"></b><span id="pfChipCount"></span><button type="button" id="pfClear">Clear ✕</button></div>
 <footer><span>© ANIRUDH SOOD, REV.2026</span><span>COORD: 51.5074° N, 0.1278° W</span></footer>
 
 <script>
@@ -792,6 +845,159 @@ railUpdate();
     }, {threshold:.2});
     dio.observe(document.getElementById('dashboard'));
   }
+})();
+
+/* ---------- persona filter ---------- */
+(function(){
+  var keyRow = document.querySelector('.persona-key-row');
+  if(!keyRow) return;
+  var NAMES = {'p-director':'Director','p-architect':'Project Architect','p-designer':'Designer','p-techarch':'Technical Architect','p-sustain':'Sustainability Expert'};
+  var KEYS = Object.keys(NAMES);
+  var tiles = Array.prototype.slice.call(keyRow.querySelectorAll('.persona-key-tile'));
+  var resultsEl = document.getElementById('pfResults'), hintEl = document.getElementById('pfHint');
+  var chipName = document.getElementById('pfChipName'), chipCount = document.getElementById('pfChipCount');
+
+  var projects = Array.prototype.slice.call(document.querySelectorAll('.proj')).map(function(sec){
+    var badges = Array.prototype.slice.call(sec.querySelectorAll('.persona-badge'));
+    var tags = badges.map(function(b){
+      return KEYS.filter(function(k){ return b.classList.contains(k); })[0];
+    }).filter(Boolean);
+    badges.forEach(function(b){
+      b.setAttribute('role','button');
+      b.setAttribute('tabindex','0');
+      var k = KEYS.filter(function(x){ return b.classList.contains(x); })[0];
+      b.setAttribute('aria-label','Filter by ' + (NAMES[k] || 'persona'));
+    });
+    return {
+      el: sec, id: sec.id, tags: tags, badges: badges,
+      num: (sec.querySelector('.index-num') || {}).textContent || '',
+      title: (sec.querySelector('.proj-head h2') || {}).textContent || '',
+      desc: (sec.querySelector('.proj-desc') || {}).textContent || '',
+      rail: document.querySelector('#rail a[href="#' + sec.id + '"]')
+    };
+  });
+
+  tiles.forEach(function(t){
+    var k = t.dataset.p;
+    t.querySelector('.cnt').textContent = projects.filter(function(p){ return p.tags.indexOf(k) > -1; }).length + '/' + projects.length;
+  });
+
+  var active = null;
+
+  function render(){
+    tiles.forEach(function(t){ t.setAttribute('aria-pressed', String(t.dataset.p === active)); });
+    document.body.classList.toggle('pf-on', !!active);
+    var matched = projects.filter(function(p){ return !active || p.tags.indexOf(active) > -1; });
+
+    projects.forEach(function(p){
+      var hit = !active || p.tags.indexOf(active) > -1;
+      p.el.classList.toggle('pf-dim', !hit);
+      p.el.classList.toggle('pf-focus', !!active && hit);
+      p.badges.forEach(function(b){ b.classList.toggle('pf-hit', !!active && b.classList.contains(active)); });
+      if(p.rail) p.rail.classList.toggle('pf-off', !hit);
+    });
+
+    if(!active){
+      resultsEl.classList.remove('open');
+      hintEl.textContent = '// Click a persona to filter · click again to clear';
+      setTimeout(function(){ if(!active) resultsEl.innerHTML = ''; }, 300);
+      return;
+    }
+    chipName.textContent = NAMES[active];
+    chipCount.textContent = matched.length + ' of ' + projects.length + ' projects';
+    hintEl.textContent = '// ' + matched.length + ' of ' + projects.length + ' case studies built for the ' + NAMES[active] + ' · click the persona again to clear';
+    resultsEl.innerHTML = matched.map(function(p, i){
+      return '<a class="pf-row" href="#' + p.id + '" style="--d:' + (i * 55) + 'ms"><span class="pf-n">' + p.num + '</span><span class="pf-t">' + p.title + '</span><span class="pf-d">' + p.desc + '</span><span class="pf-go">JUMP →</span></a>';
+    }).join('');
+    requestAnimationFrame(function(){ resultsEl.classList.add('open'); });
+  }
+
+  function setPersona(k){ active = (active === k) ? null : k; render(); }
+
+  tiles.forEach(function(t){ t.addEventListener('click', function(){ setPersona(t.dataset.p); }); });
+  document.getElementById('pfClear').addEventListener('click', function(){ active = null; render(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && active && !document.getElementById('caseOverlay').classList.contains('open')){ active = null; render(); }
+  });
+
+  projects.forEach(function(p){
+    p.badges.forEach(function(b){
+      var k = KEYS.filter(function(x){ return b.classList.contains(x); })[0];
+      function go(){
+        active = k; render();
+        var target = document.getElementById('personas');
+        if(target) window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY, behavior: RM ? 'auto' : 'smooth'});
+      }
+      b.addEventListener('click', go);
+      b.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+    });
+  });
+})();
+
+/* ---------- persona x domain matrix ---------- */
+(function(){
+  var mx = document.getElementById('pmx');
+  if(!mx) return;
+  var cap = document.getElementById('pmxCap');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#context .domain-card'));
+  var COLS = ['Strategy','Delivery','Automation &amp; AI','Analytics','Libraries','Governance'];
+  var ROWS = [
+    {c:'p-director', n:'Director', d:[0,1,2,5], svg:'<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/>'},
+    {c:'p-architect', n:'Project Architect', d:[1,2,4,5], svg:'<path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/>'},
+    {c:'p-designer', n:'Designer', d:[2,3,4], svg:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/>'},
+    {c:'p-techarch', n:'Technical Architect', d:[1,2,3,4,5], svg:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17h6M17 14v6"/>'},
+    {c:'p-sustain', n:'Sustainability Expert', d:[2,3], svg:'<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>'}
+  ];
+  var html = '<div class="pmx-corner">// Persona × Domain</div>' + COLS.map(function(c, i){
+    return '<div class="pmx-ch" data-col="' + i + '">' + c + '</div>';
+  }).join('');
+  ROWS.forEach(function(r, ri){
+    html += '<div class="pmx-rh ' + r.c + '" data-row="' + ri + '"><svg viewBox="0 0 24 24">' + r.svg + '</svg>' + r.n + '</div>';
+    for(var ci = 0; ci < 6; ci++){
+      html += '<div class="pmx-c ' + r.c + (r.d.indexOf(ci) > -1 ? ' on' : '') + '" data-row="' + ri + '" data-col="' + ci + '"><i></i></div>';
+    }
+  });
+  mx.innerHTML = html;
+
+  var cells = Array.prototype.slice.call(mx.querySelectorAll('.pmx-c'));
+  var heads = Array.prototype.slice.call(mx.querySelectorAll('.pmx-ch,.pmx-rh'));
+  function clear(){
+    mx.classList.remove('act');
+    cells.concat(heads).forEach(function(e){ e.classList.remove('hl'); });
+    cards.forEach(function(c){ c.classList.remove('lit'); });
+    cap.innerHTML = '// Hover a domain or a persona to trace the overlap';
+  }
+  function highlight(row, col){
+    mx.classList.add('act');
+    cells.forEach(function(e){
+      e.classList.toggle('hl', (row != null && +e.dataset.row === row) || (col != null && +e.dataset.col === col));
+    });
+    heads.forEach(function(h){
+      h.classList.toggle('hl', (h.dataset.row != null && row != null && +h.dataset.row === row) || (h.dataset.col != null && col != null && +h.dataset.col === col));
+    });
+    cards.forEach(function(c, i){ c.classList.toggle('lit', col != null && i === col); });
+    if(row != null && col == null){
+      var r = ROWS[row];
+      cap.innerHTML = '// ' + r.n + ' — active across ' + r.d.length + ' of 6 domains: ' + r.d.map(function(i){ return COLS[i]; }).join(', ');
+    } else if(col != null){
+      var who = ROWS.filter(function(r){ return r.d.indexOf(col) > -1; }).map(function(r){ return r.n; });
+      cap.innerHTML = '// ' + COLS[col] + ' — serves ' + who.length + ' personas: ' + who.join(', ');
+    }
+  }
+  cells.forEach(function(e){
+    e.addEventListener('mouseenter', function(){ highlight(+e.dataset.row, +e.dataset.col); });
+  });
+  mx.querySelectorAll('.pmx-rh').forEach(function(h){
+    h.addEventListener('mouseenter', function(){ highlight(+h.dataset.row, null); });
+  });
+  mx.querySelectorAll('.pmx-ch').forEach(function(h){
+    h.addEventListener('mouseenter', function(){ highlight(null, +h.dataset.col); });
+  });
+  cards.forEach(function(c, i){
+    c.addEventListener('mouseenter', function(){ highlight(null, i); });
+    c.addEventListener('mouseleave', clear);
+  });
+  mx.addEventListener('mouseleave', clear);
 })();
 })();
 </script>

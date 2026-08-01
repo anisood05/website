@@ -112,6 +112,31 @@ h1.big .outline{-webkit-text-stroke:2px var(--ink);color:transparent}
 .work-cap .go{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper);white-space:nowrap;margin-top:0}
 .work-cap .go:hover{color:var(--signal-dark-bg);border-bottom-color:var(--signal-dark-bg)}
 
+/* work persona filter */
+.wf-row{display:flex;flex-wrap:wrap;align-items:center;gap:1px;margin-top:40px;background:var(--line-dark);border:1px solid var(--line-dark)}
+.wf-lab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--ink-deep);padding:14px 18px;align-self:stretch;display:flex;align-items:center}
+.wf-btn{flex:1 1 130px;display:flex;align-items:center;gap:10px;background:var(--panel);border:none;font:inherit;color:#bdb9b0;padding:14px 16px;cursor:pointer;position:relative;text-align:left;transition:background .2s ease,color .2s ease}
+.wf-btn .icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:stroke .2s ease,transform .2s ease}
+.wf-btn .wl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;line-height:1.2}
+.wf-btn .wc{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.wf-btn::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pc);transform:scaleX(0);transform-origin:left center;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.wf-btn:hover{background:#232323;color:var(--paper)}
+.wf-btn:hover .icon{transform:translateY(-2px)}
+.wf-btn[aria-pressed="true"]{background:#232323;color:var(--paper)}
+.wf-btn[aria-pressed="true"]::after{transform:scaleX(1)}
+.wf-btn[aria-pressed="true"] .icon{stroke:var(--pc)}
+.wf-btn[aria-pressed="true"] .wc{color:var(--pc)}
+.wf-director{--pc:#f4f1ea}.wf-architect{--pc:oklch(70% 0.15 25)}.wf-designer{--pc:oklch(76% 0.14 75)}.wf-techarch{--pc:oklch(72% 0.13 245)}.wf-sustain{--pc:oklch(74% 0.14 150)}
+.work-item{transition:background .18s ease,opacity .28s ease}
+.work-item.off{display:none}
+.work-item .pg{display:flex;gap:5px;margin-top:9px}
+.work-item .pg i{width:6px;height:6px;background:var(--gc);display:block;opacity:.55;transition:opacity .2s ease,transform .2s ease}
+.work-item.on .pg i{opacity:.85}
+.work-item .pg i.hit{opacity:1;transform:scale(1.5)}
+.wf-note{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:14px;display:flex;gap:14px;align-items:center}
+.wf-note button{font:inherit;background:none;border:1px solid var(--line-dark);color:#bdb9b0;padding:4px 10px;cursor:pointer;transition:border-color .18s ease,color .18s ease}
+.wf-note button:hover{border-color:var(--signal);color:var(--signal)}
+
 /* writing */
 .writing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:56px;border:1px solid var(--line)}
 .post-card{background:var(--card);padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:22px;color:var(--ink);transition:background .18s ease,color .18s ease}
@@ -127,6 +152,15 @@ footer{padding:36px 0;display:flex;flex-wrap:wrap;gap:16px;justify-content:space
 .totop{position:fixed;right:28px;bottom:28px;z-index:10;display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px;border:1px solid var(--ink);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s}
 .totop.show{opacity:1;pointer-events:auto}
 .totop:hover{background:var(--signal);border-color:var(--signal)}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.work-preview iframe{opacity:0;transition:opacity .34s ease}
+.work-preview iframe.ready{opacity:1}
+.work-preview::after{content:"";position:absolute;left:0;top:0;height:2px;width:var(--wp,0%);background:var(--signal);transition:width .4s cubic-bezier(.2,.7,.2,1);z-index:2}
+.work-item .n{transition:color .18s ease}
+.metric .mn{font-variant-numeric:tabular-nums}
+.actions .btn{position:relative;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}*,*::before,*::after{transition-duration:.001ms !important;animation-duration:.001ms !important}}
 
 @media (max-width:1080px){
   .writing-grid{grid-template-columns:1fr 1fr}
@@ -210,6 +244,8 @@ footer{padding:36px 0;display:flex;flex-wrap:wrap;gap:16px;justify-content:space
     <div class="sec-marker">03</div>
     <div class="sec-label">WORK</div>
     <div class="sec-title">SELECTED PROJECTS</div>
+    <div class="wf-row" id="workFilter"></div>
+    <div class="wf-note" id="workNote"></div>
     <div class="work-wrap">
       <div class="work-list" id="work-list"></div>
       <div class="work-preview">
@@ -244,12 +280,20 @@ footer{padding:36px 0;display:flex;flex-wrap:wrap;gap:16px;justify-content:space
 <button class="totop mono" id="totop" aria-label="Back to top">↑ TOP</button>
 <script>
 (function(){
+  var PERSONAS = [
+    {k:'director', n:'Director', c:'wf-director', svg:'<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/>'},
+    {k:'architect', n:'Project Architect', c:'wf-architect', svg:'<path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/>'},
+    {k:'designer', n:'Designer', c:'wf-designer', svg:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/>'},
+    {k:'techarch', n:'Technical Architect', c:'wf-techarch', svg:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17h6M17 14v6"/>'},
+    {k:'sustain', n:'Sustainability Expert', c:'wf-sustain', svg:'<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>'}
+  ];
+  var PCOL = {director:'#f4f1ea', architect:'oklch(70% 0.15 25)', designer:'oklch(76% 0.14 75)', techarch:'oklch(72% 0.13 245)', sustain:'oklch(74% 0.14 150)'};
   var PROJECTS = [
-    {src:'portfolio-mockups/as-clientxr-portfolio.html', k:'JS · SUPABASE · PANNELLUM — LIVE', title:'AS_ClientXR', desc:'Password-protected 360° panorama, video & drawing preview portal for architecture clients — shared via a single QR-code link.'},
-    {src:'portfolio-mockups/as-vantage-portfolio.html', k:'PYTHON · VANILLA JS · MAPILLARY API — INTERNAL TOOL', title:'AS_Vantage', desc:'A street-imagery sourcing tool that pulls real Mapillary photography and ranks it by camera-heading and distance match.'},
-    {src:'portfolio-mockups/as-carboncalculator-portfolio.html', k:'REVIT API · PYREVIT · WPF/XAML — INTERNAL TOOL', title:'AS_CarbonCalculator', desc:'A guided, four-step Revit pipeline that turns raw model material data into an EN 15978 whole-life embodied-carbon report.'},
-    {src:'portfolio-mockups/as-toolmap-portfolio.html', k:'PYTHON 3 · D3.JS · VANILLA JS/CSS — PUBLIC (GITHUB PAGES)', title:'AS_ToolMap', desc:'A searchable card catalogue and D3 force-graph of every tool in the AS Tools Revit extension.'},
-    {src:'portfolio-mockups/as-daylightmap-portfolio.html', k:'REVIT API · RAY-CAST · CANVAS JS — INTERNAL TOOL', title:'AS_DaylightMap', desc:"Reads a room's real site location and true north to render a browser heat-map of daylight reach."}
+    {src:'portfolio-mockups/as-clientxr-portfolio.html', p:['director','architect','designer'], k:'JS · SUPABASE · PANNELLUM — LIVE', title:'AS_ClientXR', desc:'Password-protected 360° panorama, video & drawing preview portal for architecture clients — shared via a single QR-code link.'},
+    {src:'portfolio-mockups/as-vantage-portfolio.html', p:['designer','techarch'], k:'PYTHON · VANILLA JS · MAPILLARY API — INTERNAL TOOL', title:'AS_Vantage', desc:'A street-imagery sourcing tool that pulls real Mapillary photography and ranks it by camera-heading and distance match.'},
+    {src:'portfolio-mockups/as-carboncalculator-portfolio.html', p:['sustain','techarch','director'], k:'REVIT API · PYREVIT · WPF/XAML — INTERNAL TOOL', title:'AS_CarbonCalculator', desc:'A guided, four-step Revit pipeline that turns raw model material data into an EN 15978 whole-life embodied-carbon report.'},
+    {src:'portfolio-mockups/as-toolmap-portfolio.html', p:['techarch','director'], k:'PYTHON 3 · D3.JS · VANILLA JS/CSS — PUBLIC (GITHUB PAGES)', title:'AS_ToolMap', desc:'A searchable card catalogue and D3 force-graph of every tool in the AS Tools Revit extension.'},
+    {src:'portfolio-mockups/as-daylightmap-portfolio.html', p:['sustain','techarch'], k:'REVIT API · RAY-CAST · CANVAS JS — INTERNAL TOOL', title:'AS_DaylightMap', desc:"Reads a room's real site location and true north to render a browser heat-map of daylight reach."}
   ];
   var list = document.getElementById('work-list');
   var iframe = document.getElementById('work-iframe');
@@ -260,22 +304,113 @@ footer{padding:36px 0;display:flex;flex-wrap:wrap;gap:16px;justify-content:space
     var s = Math.min(f.clientWidth / 1200, f.clientHeight / 800);
     iframe.style.transform = 'scale(' + s + ')';
   }
+  var current = 0;
   function showProject(i){
+    current = i;
     list.querySelectorAll('.work-item').forEach(function(el, j){ el.classList.toggle('on', j === i); });
+    iframe.classList.remove('ready');
     iframe.src = PROJECTS[i].src;
+    iframe.parentElement.style.setProperty('--wp', ((i + 1) / PROJECTS.length * 100) + '%');
     cap.innerHTML = '<p>' + PROJECTS[i].desc + '</p><a class="go" href="' + PROJECTS[i].src + '" target="_blank">VIEW_CASE_STUDY →</a>';
   }
   PROJECTS.forEach(function(p, i){
     var it = document.createElement('button');
     it.type = 'button';
     it.className = 'work-item';
-    it.innerHTML = '<div class="n mono">0' + (i + 1) + '</div><h4>' + p.title + '</h4><div class="kk mono">' + p.k + '</div>';
+    it.dataset.p = p.p.join(' ');
+    var dots = p.p.map(function(k){ return '<i data-k="' + k + '" style="--gc:' + PCOL[k] + '"></i>'; }).join('');
+    it.innerHTML = '<div class="n mono">0' + (i + 1) + '</div><h4>' + p.title + '</h4><div class="kk mono">' + p.k + '</div><div class="pg">' + dots + '</div>';
     it.addEventListener('click', function(){ showProject(i); });
     list.appendChild(it);
   });
+
+  /* persona filter */
+  var filterEl = document.getElementById('workFilter'), noteEl = document.getElementById('workNote');
+  var activeP = null;
+  filterEl.innerHTML = '<div class="wf-lab">Filter by persona</div>' + PERSONAS.map(function(p){
+    var n = PROJECTS.filter(function(x){ return x.p.indexOf(p.k) > -1; }).length;
+    return '<button type="button" class="wf-btn ' + p.c + '" data-k="' + p.k + '" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24">' + p.svg + '</svg><span class="wl">' + p.n + '</span><span class="wc">' + n + '</span></button>';
+  }).join('');
+
+  function applyPersona(){
+    var items = list.querySelectorAll('.work-item');
+    var firstMatch = -1;
+    PROJECTS.forEach(function(p, i){
+      var hit = !activeP || p.p.indexOf(activeP) > -1;
+      items[i].classList.toggle('off', !hit);
+      items[i].querySelectorAll('.pg i').forEach(function(d){ d.classList.toggle('hit', !!activeP && d.dataset.k === activeP); });
+      if(hit && firstMatch < 0) firstMatch = i;
+    });
+    filterEl.querySelectorAll('.wf-btn').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.k === activeP)); });
+    if(activeP){
+      var nm = PERSONAS.filter(function(p){ return p.k === activeP; })[0].n;
+      var cnt = PROJECTS.filter(function(x){ return x.p.indexOf(activeP) > -1; }).length;
+      noteEl.innerHTML = '<span>// ' + cnt + ' of ' + PROJECTS.length + ' projects tagged ' + nm + '</span><button type="button" id="wfClear">Clear ✕</button>';
+      document.getElementById('wfClear').addEventListener('click', function(){ activeP = null; applyPersona(); });
+    } else {
+      noteEl.innerHTML = '<span>// Showing all ' + PROJECTS.length + ' projects</span>';
+    }
+    if(activeP && PROJECTS[current].p.indexOf(activeP) === -1 && firstMatch > -1) showProject(firstMatch);
+  }
+  filterEl.querySelectorAll('.wf-btn').forEach(function(b){
+    b.addEventListener('click', function(){ activeP = (activeP === b.dataset.k) ? null : b.dataset.k; applyPersona(); });
+  });
+
   showProject(0);
-  iframe.addEventListener('load', scaleWork);
+  applyPersona();
+  list.addEventListener('keydown', function(e){
+    if(e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    var pool = PROJECTS.map(function(p, i){ return i; }).filter(function(i){ return !activeP || PROJECTS[i].p.indexOf(activeP) > -1; });
+    if(!pool.length) return;
+    var d = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : -1;
+    var n = pool[(pool.indexOf(current) + d + pool.length) % pool.length];
+    showProject(n);
+    list.querySelectorAll('.work-item')[n].focus();
+  });
+  iframe.addEventListener('load', function(){ scaleWork(); iframe.classList.add('ready'); });
   window.addEventListener('resize', scaleWork);
+
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll reveal */
+  if(!RM){
+    document.querySelectorAll('.hero,.section').forEach(function(sec){
+      var i = 0;
+      Array.prototype.forEach.call(sec.children, function(kid){
+        if(kid.classList.contains('sec-marker')) return;
+        kid.classList.add('rv');
+        kid.style.setProperty('--d', (i * 70) + 'ms');
+        i++;
+      });
+    });
+    var rio = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(!en.isIntersecting) return;
+        en.target.querySelectorAll('.rv').forEach(function(k){ k.classList.add('in'); });
+        rio.unobserve(en.target);
+      });
+    }, {threshold:.08});
+    document.querySelectorAll('.hero,.section').forEach(function(s){ rio.observe(s); });
+  }
+
+  /* metric count-up */
+  var mio = new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting) return;
+      mio.unobserve(en.target);
+      var m = en.target.textContent.trim().match(/^(\d+)(\D*)$/);
+      if(!m || RM) return;
+      var to = parseInt(m[1], 10), pad = m[1].length, suffix = m[2], t0 = performance.now();
+      (function step(now){
+        var p = Math.min((now - t0) / 900, 1);
+        var v = Math.round(to * (1 - Math.pow(1 - p, 3)));
+        en.target.textContent = String(v).padStart(pad, '0') + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      })(performance.now());
+    });
+  }, {threshold:.6});
+  document.querySelectorAll('.metric .mn').forEach(function(el){ mio.observe(el); });
 
   var totop = document.getElementById('totop');
   window.addEventListener('scroll', function(){
